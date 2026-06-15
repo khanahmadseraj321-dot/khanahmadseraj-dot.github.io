@@ -2,23 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Khan Ahmad Seraj | Cybersecurity Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaid Ahmad Khan | Cyber Security Analyst Portfolio</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 40px; text-align: center; }
-        h1 { color: #38bdf8; }
-        .box { background-color: #1e293b; padding: 20px; border-radius: 8px; max-width: 600px; margin: 20px auto; text-align: left; border: 1px solid #334155; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        body { background-color: #050b14; color: #00ff66; padding: 20px; line-height: 1.6; }
+        header { text-align: center; padding: 40px 20px; border-bottom: 2px dashed #00ff66; margin-bottom: 30px; }
+        header h1 { font-size: 2.5rem; text-shadow: 0 0 10px #00ff66; letter-spacing: 2px; }
+        header p { color: #8892b0; margin-top: 10px; font-size: 1.1rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: #0a192f; border: 1px solid #00ff66; padding: 25px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
+        .card h2 { color: #fff; font-size: 1.4rem; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 5px; text-transform: uppercase; }
+        .card p { color: #a8b2d1; font-size: 0.95rem; margin-bottom: 15px; }
+        .lab-item { margin-bottom: 20px; border-left: 3px solid #00ff66; padding-left: 15px; }
+        .lab-item h3 { color: #38bdf8; font-size: 1.1rem; margin-bottom: 5px; }
+        .lab-item p { margin-bottom: 5px; }
+        ul { list-style-type: '⚡ '; padding-left: 20px; color: #00ff66; }
+        ul li { margin-bottom: 10px; color: #a8b2d1; font-size: 0.95rem; }
+        .badge { background: rgba(0, 255, 102, 0.1); color: #00ff66; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-right: 5px; margin-bottom: 5px; border: 1px solid #00ff66; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed #334155; color: #8892b0; font-size: 0.85rem; }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Cybersecurity Site</h1>
-    <p>Documenting my journey in ethical hacking and digital defense.</p>
-    
-    <div class="box">
-        <h3>My Cybersecurity Lab Projects</h3>
-        <ul>
-            <li>Setting up secure network firewalls</li>
-            <li>Analyzing basic malware and phishing tactics</li>
-        </ul>
+
+    <header>
+        <h1>[ ZAID AHMAD KHAN ]</h1>
+        <p>Cyber Security Analyst & Ethical Hacker in Training</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <!-- Box 1: About Me -->
+            <div class="card">
+                <h2>$ whoami</h2>
+                <p>Hello! I am Zaid Ahmad Khan. I am a highly motivated Cybersecurity Analyst focused on proactive threat detection, defensive architecture, and understanding threat actor methodologies.</p>
+                <p>This secure static platform serves to document my technical labs, environment configurations, and continuous research in cybersecurity defense.</p>
+            </div>
+
+            <!-- Box 2: Technical Domains -->
+            <div class="card">
+                <h2>Core Technical Domains</h2>
+                <p>Practical knowledge and tooling expertise across critical security domains:</p>
+                <div>
+                    <span class="badge">Linux Systems</span>
+                    <span class="badge">Nmap Reconnaissance</span>
+                    <span class="badge">Wireshark Traffic Analysis</span>
+                    <span class="badge">Phishing Header Analysis</span>
+                    <span class="badge">Public Wi-Fi Security</span>
+                    <span class="badge">OSINT Investigation</span>
+                    <span class="badge">Firewall Deployment</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Width Labs Section -->
+        <div class="card" style="margin-bottom: 30px;">
+            <h2>Hands-on Cyber Security Labs & Research</h2>
+            
+            <!-- Lab 1: Phishing Email Investigation -->
+            <div class="lab-item">
+                <h3>1. Advanced Phishing Mail & Header Analysis</h3>
+                <p><strong>Objective:</strong> To identify malicious intent, spoofed addresses, and Indicators of Compromise (IOCs) within suspicious email artifacts.</p>
+                <p><strong>Technical Process:</strong> Extracted raw internet headers from sample phishing emails. Analyzed the SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), and DMARC records to verify sender authenticity. Used OSINT tools like VirusTotal to check the reputation of embedded URLs and malicious attachments.</p>
+            </div>
+
+            <!-- Lab 2: Public Network Security -->
+            <div class="lab-item">
+                <h3>2. Public Network Vulnerability & Wi-Fi Defense</h3>
+                <p><strong>Objective:</strong> Researching Man-in-the-Middle (MITM) attacks on open/public Wi-Fi networks and designing defense strategies.</p>
+                <p><strong>Technical Process:</strong> Analyzed packet capture data in a simulated public hotspot environment using Wireshark. Identified cleartext protocols (HTTP, FTP) vulnerable to sniffing. Implemented a mitigation blueprint enforcing mandatory end-to-end VPN encryption and secure DNS (DNS-over-HTTPS) to neutralize rogue access point tracking.</p>
+            </div>
+
+            <!-- Lab 3: Network Reconnaissance -->
+            <div class="lab-item">
+                <h3>3. Network Reconnaissance & Penetration Testing Basics</h3>
+                <p><strong>Objective:</strong> Mapping local networks, discovering open ports, and identifying running operating systems/services securely.</p>
+                <p><strong>Technical Process:</strong> Executed targeted stealth scans (SYN Scans `-sS`) using Nmap. Conducted service version detection (`-sV`) and OS fingerprinting (`-O`) on target systems to build a precise network topology map while documenting vulnerable open ports for threat surface reduction.</p>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Box 4: Mitigation Blueprint -->
+            <div class="card">
+                <h2>Threat Mitigation Blueprint</h2>
+                <p>Practical security controls designed to harden corporate and personal networks against common attack vectors:</p>
+                <ul>
+                    <li><strong>Identity Protection:</strong> Enforce multi-factor authentication (MFA) across all identity providers.</li>
+                    <li><strong>Network Isolation:</strong> Partition trusted hosts from public segments via strict Access Control Lists (ACLs).</li>
+                    <li><strong>Patch Management:</strong> Automate regular firmware and software patching to close known vulnerabilities (CVEs).</li>
+                </ul>
+            </div>
+
+            <!-- Box 5: Future Goals -->
+            <div class="card">
+                <h2>Certifications & Goals</h2>
+                <p>Currently expanding my domain knowledge and preparing for the following globally recognized security milestones:</p>
+                <ul>
+                    <li>CompTIA Security+ (Core defensive security fundamentals)</li>
+                    <li>Certified Ethical Hacker (CEH practical methodologies)</li>
+                    <li>Setting up an advanced Active Directory Home Lab</li>
+                </ul>
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Zaid Ahmad Khan. Infrastructure Security Status: <span style="color: #00ff66;">ACTIVE_DEFENSE</span></p>
+    </footer>
+
 </body>
 </html>
+
