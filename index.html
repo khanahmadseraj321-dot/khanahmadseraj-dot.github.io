@@ -373,4 +373,133 @@ for anyone pursuing cyber security.
   .info-box p{
 margin-bottom:15px;
 }
+  <script>
+
+function toggleInfo(id){
+
+const box = document.getElementById(id);
+
+if(box.style.display === "block"){
+box.style.display = "none";
+}else{
+box.style.display = "block";
+}
+
+}
+
+</script>
+  <h2 class="section-title" id="roadmap">
+ETHICAL HACKING ROADMAP
+</h2>
+
+<section class="cards">
+
+<div class="card" onclick="toggleInfo('step1')">
+
+<h3>STEP 1 - NETWORKING</h3>
+
+<p>
+Learn the foundation of all cyber security systems.
+</p>
+
+<div id="step1" class="info-box">
+
+<p>
+Networking is the backbone of ethical hacking and cyber security.
+Before learning advanced security concepts, every student should
+understand how computers communicate across networks.
+</p>
+
+<p>
+Learn about IP addresses, routers, switches, DNS servers and
+how information travels through the internet.
+</p>
+
+<p>
+Study TCP/IP, UDP, ports, protocols and packet transmission.
+</p>
+
+<p>
+Understand LAN, WAN, VPN and network segmentation.
+</p>
+
+<p>
+A strong networking foundation makes penetration testing,
+web security and malware analysis significantly easier.
+</p>
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('step2')">
+
+<h3>STEP 2 - LINUX</h3>
+
+<p>
+Master the operating system used heavily in cyber security.
+</p>
+
+<div id="step2" class="info-box">
+
+<p>
+Linux is one of the most important skills for ethical hackers.
+</p>
+
+<p>
+Many servers, cloud systems and security tools run on Linux.
+</p>
+
+<p>
+Learn terminal commands, file permissions, processes,
+networking tools and package management.
+</p>
+
+<p>
+Become comfortable working entirely from the command line.
+</p>
+
+<p>
+Kali Linux is commonly used for security education and
+professional penetration testing.
+</p>
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('step3')">
+
+<h3>STEP 3 - WEB DEVELOPMENT</h3>
+
+<p>
+Understand how websites work before learning web security.
+</p>
+
+<div id="step3" class="info-box">
+
+<p>
+Study HTML, CSS and JavaScript thoroughly.
+</p>
+
+<p>
+Learn how websites are structured and how browsers interact
+with servers.
+</p>
+
+<p>
+Understanding web development helps security professionals
+identify vulnerabilities and security weaknesses.
+</p>
+
+<p>
+Knowledge of web technologies is essential for learning
+modern web application security.
+</p>
+
+</div>
+
+</div>
+
+</section>
   
