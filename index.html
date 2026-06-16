@@ -1,116 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zaid Ahmad Khan | Cyber Security Analyst Portfolio</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
-        body { background-color: #050b14; color: #00ff66; padding: 20px; line-height: 1.6; }
-        header { text-align: center; padding: 40px 20px; border-bottom: 2px dashed #00ff66; margin-bottom: 30px; }
-        header h1 { font-size: 2.5rem; text-shadow: 0 0 10px #00ff66; letter-spacing: 2px; }
-        header p { color: #8892b0; margin-top: 10px; font-size: 1.1rem; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-        .card { background: #0a192f; border: 1px solid #00ff66; padding: 25px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); }
-        .card h2 { color: #fff; font-size: 1.4rem; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 5px; text-transform: uppercase; }
-        .card p { color: #a8b2d1; font-size: 0.95rem; margin-bottom: 15px; }
-        .lab-item { margin-bottom: 20px; border-left: 3px solid #00ff66; padding-left: 15px; }
-        .lab-item h3 { color: #38bdf8; font-size: 1.1rem; margin-bottom: 5px; }
-        .lab-item p { margin-bottom: 5px; }
-        ul { list-style-type: '⚡ '; padding-left: 20px; color: #00ff66; }
-        ul li { margin-bottom: 10px; color: #a8b2d1; font-size: 0.95rem; }
-        .badge { background: rgba(0, 255, 102, 0.1); color: #00ff66; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; display: inline-block; margin-right: 5px; margin-bottom: 5px; border: 1px solid #00ff66; }
-        footer { text-align: center; margin-top: 40px; padding: 20px; border-top: 1px dashed #334155; color: #8892b0; font-size: 0.85rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zaid Ahmad Khan | Cybersecurity Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050505;
+    color:#ffffff;
+    line-height:1.7;
+}
+
+/* Scroll Bar */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#ff2b2b;
+    border-radius:10px;
+}
+
+/* Hero Section */
+
+header{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    background:
+    linear-gradient(
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.95)),
+    url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600');
+    background-size:cover;
+    background-position:center;
+}
+
+.hero{
+    max-width:900px;
+}
+
+.hero h1{
+    font-size:4rem;
+    color:#ff2b2b;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    animation:glow 2s infinite alternate;
+}
+
+.hero p{
+    color:#d1d5db;
+    font-size:1.2rem;
+}
+
+#typing{
+    margin-top:20px;
+    color:#ff5555;
+    font-size:1.1rem;
+    font-weight:600;
+}
+
+@keyframes glow{
+
+    from{
+        text-shadow:0 0 10px #ff0000;
+    }
+
+    to{
+        text-shadow:
+        0 0 20px #ff0000,
+        0 0 40px #ff0000,
+        0 0 60px #ff0000;
+    }
+}
+
+/* Layout */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+section{
+    padding:80px 0;
+}
+
+.section-title{
+    text-align:center;
+    color:#ff2b2b;
+    font-size:2.2rem;
+    margin-bottom:50px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.card{
+    background:#111111;
+    border:1px solid #222;
+    padding:30px;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:#ff2b2b;
+    box-shadow:0 0 30px rgba(255,0,0,.25);
+}
+
+/* About */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.about-text p{
+    color:#cbd5e1;
+    margin-bottom:15px;
+}
+
+.info-box{
+    background:#0f0f0f;
+    padding:25px;
+    border-left:4px solid #ff2b2b;
+    border-radius:10px;
+}
+
+.info-box p{
+    margin-bottom:12px;
+}
+
+.highlight{
+    color:#ff2b2b;
+    font-weight:600;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .hero h1{
+        font-size:2.5rem;
+    }
+
+    .about-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>[ ZAID AHMAD KHAN ]</h1>
-        <p>Cyber Security Analyst & Ethical Hacker in Training</p>
-    </header>
+<header>
 
-    <div class="container">
-        <div class="grid">
-            <!-- Box 1: About Me -->
-            <div class="card">
-                <h2>$ whoami</h2>
-                <p>Hello! I am Zaid Ahmad Khan. I am a highly motivated Cybersecurity Analyst focused on proactive threat detection, defensive architecture, and understanding threat actor methodologies.</p>
-                <p>This secure static platform serves to document my technical labs, environment configurations, and continuous research in cybersecurity defense.</p>
-            </div>
+<div class="hero">
 
-            <!-- Box 2: Technical Domains -->
-            <div class="card">
-                <h2>Core Technical Domains</h2>
-                <p>Practical knowledge and tooling expertise across critical security domains:</p>
-                <div>
-                    <span class="badge">Linux Systems</span>
-                    <span class="badge">Nmap Reconnaissance</span>
-                    <span class="badge">Wireshark Traffic Analysis</span>
-                    <span class="badge">Phishing Header Analysis</span>
-                    <span class="badge">Public Wi-Fi Security</span>
-                    <span class="badge">OSINT Investigation</span>
-                    <span class="badge">Firewall Deployment</span>
-                </div>
-            </div>
-        </div>
+<h1>Zaid Ahmad Khan</h1>
 
-        <!-- Full Width Labs Section -->
-        <div class="card" style="margin-bottom: 30px;">
-            <h2>Hands-on Cyber Security Labs & Research</h2>
-            
-            <!-- Lab 1: Phishing Email Investigation -->
-            <div class="lab-item">
-                <h3>1. Advanced Phishing Mail & Header Analysis</h3>
-                <p><strong>Objective:</strong> To identify malicious intent, spoofed addresses, and Indicators of Compromise (IOCs) within suspicious email artifacts.</p>
-                <p><strong>Technical Process:</strong> Extracted raw internet headers from sample phishing emails. Analyzed the SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), and DMARC records to verify sender authenticity. Used OSINT tools like VirusTotal to check the reputation of embedded URLs and malicious attachments.</p>
-            </div>
+<p>Cybersecurity Enthusiast • Web Developer • Student</p>
 
-            <!-- Lab 2: Public Network Security -->
-            <div class="lab-item">
-                <h3>2. Public Network Vulnerability & Wi-Fi Defense</h3>
-                <p><strong>Objective:</strong> Researching Man-in-the-Middle (MITM) attacks on open/public Wi-Fi networks and designing defense strategies.</p>
-                <p><strong>Technical Process:</strong> Analyzed packet capture data in a simulated public hotspot environment using Wireshark. Identified cleartext protocols (HTTP, FTP) vulnerable to sniffing. Implemented a mitigation blueprint enforcing mandatory end-to-end VPN encryption and secure DNS (DNS-over-HTTPS) to neutralize rogue access point tracking.</p>
-            </div>
+<p id="typing"></p>
 
-            <!-- Lab 3: Network Reconnaissance -->
-            <div class="lab-item">
-                <h3>3. Network Reconnaissance & Penetration Testing Basics</h3>
-                <p><strong>Objective:</strong> Mapping local networks, discovering open ports, and identifying running operating systems/services securely.</p>
-                <p><strong>Technical Process:</strong> Executed targeted stealth scans (SYN Scans `-sS`) using Nmap. Conducted service version detection (`-sV`) and OS fingerprinting (`-O`) on target systems to build a precise network topology map while documenting vulnerable open ports for threat surface reduction.</p>
-            </div>
-        </div>
+</div>
 
-        <div class="grid">
-            <!-- Box 4: Mitigation Blueprint -->
-            <div class="card">
-                <h2>Threat Mitigation Blueprint</h2>
-                <p>Practical security controls designed to harden corporate and personal networks against common attack vectors:</p>
-                <ul>
-                    <li><strong>Identity Protection:</strong> Enforce multi-factor authentication (MFA) across all identity providers.</li>
-                    <li><strong>Network Isolation:</strong> Partition trusted hosts from public segments via strict Access Control Lists (ACLs).</li>
-                    <li><strong>Patch Management:</strong> Automate regular firmware and software patching to close known vulnerabilities (CVEs).</li>
-                </ul>
-            </div>
+</header>
 
-            <!-- Box 5: Future Goals -->
-            <div class="card">
-                <h2>Certifications & Goals</h2>
-                <p>Currently expanding my domain knowledge and preparing for the following globally recognized security milestones:</p>
-                <ul>
-                    <li>CompTIA Security+ (Core defensive security fundamentals)</li>
-                    <li>Certified Ethical Hacker (CEH practical methodologies)</li>
-                    <li>Setting up an advanced Active Directory Home Lab</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<section id="about">
 
-    <footer>
-        <p>&copy; 2026 Zaid Ahmad Khan. Infrastructure Security Status: <span style="color: #00ff66;">ACTIVE_DEFENSE</span></p>
-    </footer>
+<div class="container">
+
+<h2 class="section-title">About Me</h2>
+
+<div class="about-grid">
+
+<div class="card about-text">
+
+<p>
+Hello! I'm Zaid Ahmad Khan, a student passionate about
+Cybersecurity, Ethical Hacking, Web Development,
+and technology.
+</p>
+
+<p>
+My interest in cybersecurity started with a simple
+question: how do websites, networks, and online systems
+actually work behind the scenes?
+</p>
+
+<p>
+Since then, I've been learning Linux, networking,
+traffic analysis, OSINT techniques, and web development
+through self-study and hands-on projects.
+</p>
+
+<p>
+Alongside technology, I am also learning German and
+working toward my long-term goal of pursuing higher
+education and a career in Germany.
+</p>
+
+</div>
+
+<div class="card info-box">
+
+<p><span class="highlight">Name:</span> Zaid Ahmad Khan</p>
+
+<p><span class="highlight">Education:</span> Class 12 Student</p>
+
+<p><span class="highlight">Institution:</span> Aligarh Muslim University</p>
+
+<p><span class="highlight">Interests:</span> Cybersecurity, Linux, Networking, Web Development</p>
+
+<p><span class="highlight">Languages:</span> English, Hindi, Urdu, German (Learning)</p>
+
+<p><span class="highlight">Goal:</span> Build a career in Cybersecurity and Technology</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const text =
+"Learning Cybersecurity • Building Projects • Growing Every Day";
+
+let i = 0;
+
+function typeWriter(){
+
+if(i < text.length){
+
+document.getElementById("typing").innerHTML += text.charAt(i);
+
+i++;
+
+setTimeout(typeWriter,60);
+
+}
+
+}
+
+typeWriter();
+
+</script>
+    <!-- SKILLS SECTION -->
+
+<section id="skills">
+
+<div class="container">
+
+<h2 class="section-title">Technical Skills</h2>
+
+<div class="about-grid">
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;margin-bottom:20px;">Cybersecurity</h3>
+
+<p>Linux Systems</p>
+<p>Network Security Fundamentals</p>
+<p>OSINT Research</p>
+<p>Security Awareness</p>
+<p>Email Security Analysis</p>
+<p>Threat Analysis Basics</p>
+
+</div>
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;margin-bottom:20px;">Tools & Technologies</h3>
+
+<p>Nmap</p>
+<p>Wireshark</p>
+<p>Git & GitHub</p>
+<p>Virtual Machines</p>
+<p>HTML</p>
+<p>CSS</p>
+<p>JavaScript</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LABS SECTION -->
+
+<section id="labs">
+
+<div class="container">
+
+<h2 class="section-title">Cybersecurity Labs</h2>
+
+<div class="about-grid">
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;">Phishing Email Analysis</h3>
+
+<br>
+
+<p>
+Studied suspicious email samples and learned how
+email authentication mechanisms such as SPF, DKIM,
+and DMARC help identify phishing attempts.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;">Network Traffic Analysis</h3>
+
+<br>
+
+<p>
+Used Wireshark to inspect packets, understand
+network communication, and identify insecure traffic.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;">Network Reconnaissance</h3>
+
+<br>
+
+<p>
+Explored network discovery techniques using Nmap,
+including host discovery, service detection,
+and understanding open ports.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3 style="color:#ff2b2b;">Linux Practice Environment</h3>
+
+<br>
+
+<p>
+Built personal Linux environments to learn command
+line operations, system administration basics,
+and security-related workflows.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- GOALS SECTION -->
+
+<section id="goals">
+
+<div class="container">
+
+<h2 class="section-title">Current Goals</h2>
+
+<div class="card">
+
+<ul style="padding-left:20px;line-height:2;">
+
+<li>Strengthen Networking Fundamentals</li>
+
+<li>Improve Linux Administration Skills</li>
+
+<li>Build Advanced Cybersecurity Home Labs</li>
+
+<li>Prepare for CompTIA Security+</li>
+
+<li>Learn Modern JavaScript Development</li>
+
+<li>Reach Advanced German Language Proficiency</li>
+
+<li>Pursue Higher Education Opportunities Abroad</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACT SECTION -->
+
+<section id="contact">
+
+<div class="container">
+
+<h2 class="section-title">Contact</h2>
+
+<div class="card" style="text-align:center;">
+
+<h3 style="margin-bottom:20px;color:#ff2b2b;">
+Let's Connect
+</h3>
+
+<p style="margin-bottom:15px;">
+📧 Email:
+<br>
+khanahmadseraj321@gmail.com
+</p>
+
+<p style="margin-bottom:15px;">
+📱 Phone:
+<br>
++91 9616401302
+</p>
+
+<p style="margin-bottom:15px;">
+🌐 Portfolio:
+<br>
+<a
+href="https://khanahmadseraj321-dot.github.io/khanahmadseraj-dot.github.io/"
+target="_blank"
+style="color:#ff5555;text-decoration:none;"
+>
+Visit Website
+</a>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer style="
+padding:40px;
+text-align:center;
+border-top:1px solid #222;
+color:#888;
+">
+
+<p>
+© 2026 Zaid Ahmad Khan
+</p>
+
+<br>
+
+<p>
+Cybersecurity Enthusiast • Web Developer • Student
+</p>
+
+</footer>
 
 </body>
 </html>
