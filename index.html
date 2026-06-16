@@ -4,176 +4,279 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Zaid Ahmad Khan | Cybersecurity Portfolio</title>
+<title>Cyber Security Learning Hub</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-html{
-    scroll-behavior:smooth;
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
 }
 
 body{
-    background:#050505;
-    color:#ffffff;
-    line-height:1.7;
+background:#000;
+color:#00ff41;
+font-family:'Share Tech Mono', monospace;
+overflow-x:hidden;
 }
 
-/* Scroll Bar */
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+background:black;
+}
+
+body::before{
+content:'';
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+linear-gradient(
+rgba(0,255,65,0.03),
+rgba(0,0,0,0.15)
+);
+z-index:-1;
+}
 
 ::-webkit-scrollbar{
-    width:10px;
+width:10px;
 }
 
 ::-webkit-scrollbar-track{
-    background:#111;
+background:black;
 }
 
 ::-webkit-scrollbar-thumb{
-    background:#ff2b2b;
-    border-radius:10px;
+background:#00ff41;
+border-radius:10px;
 }
 
-/* Hero Section */
+.navbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,0.8);
+backdrop-filter:blur(10px);
+border-bottom:1px solid #00ff41;
+z-index:1000;
+}
 
-header{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-    background:
-    linear-gradient(
-    rgba(0,0,0,.85),
-    rgba(0,0,0,.95)),
-    url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600');
-    background-size:cover;
-    background-position:center;
+.logo{
+font-size:28px;
+font-weight:bold;
+font-family:'Orbitron', sans-serif;
+text-shadow:0 0 20px #00ff41;
+}
+
+.nav-links{
+display:flex;
+gap:25px;
+}
+
+.nav-links a{
+color:#00ff41;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+.nav-links a:hover{
+text-shadow:0 0 15px #00ff41;
+transform:translateY(-2px);
 }
 
 .hero{
-    max-width:900px;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 20px;
+}
+
+.hero-content{
+max-width:900px;
 }
 
 .hero h1{
-    font-size:4rem;
-    color:#ff2b2b;
-    margin-bottom:10px;
-    text-transform:uppercase;
-    letter-spacing:3px;
-    animation:glow 2s infinite alternate;
+font-size:70px;
+font-family:'Orbitron', sans-serif;
+text-shadow:
+0 0 10px #00ff41,
+0 0 20px #00ff41,
+0 0 40px #00ff41;
+margin-bottom:20px;
 }
 
 .hero p{
-    color:#d1d5db;
-    font-size:1.2rem;
+font-size:20px;
+line-height:1.8;
+color:#b7ffcb;
+margin-bottom:35px;
 }
 
-#typing{
-    margin-top:20px;
-    color:#ff5555;
-    font-size:1.1rem;
-    font-weight:600;
+.hero-btn{
+padding:15px 40px;
+background:#00ff41;
+color:black;
+border:none;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+border-radius:8px;
+transition:0.4s;
 }
 
-@keyframes glow{
-
-    from{
-        text-shadow:0 0 10px #ff0000;
-    }
-
-    to{
-        text-shadow:
-        0 0 20px #ff0000,
-        0 0 40px #ff0000,
-        0 0 60px #ff0000;
-    }
+.hero-btn:hover{
+transform:translateY(-5px);
+box-shadow:0 0 30px #00ff41;
 }
 
-/* Layout */
-
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:auto;
+.terminal{
+width:90%;
+max-width:900px;
+margin:80px auto;
+border:1px solid #00ff41;
+background:#050505;
+box-shadow:0 0 25px rgba(0,255,65,.3);
 }
 
-section{
-    padding:80px 0;
+.terminal-header{
+padding:10px;
+background:#00ff41;
+color:black;
+font-weight:bold;
+}
+
+.terminal-body{
+padding:25px;
+font-size:18px;
+line-height:1.8;
+}
+
+.typing{
+border-right:3px solid #00ff41;
+white-space:nowrap;
+overflow:hidden;
+animation:typing 5s steps(40,end),
+blink .7s infinite;
+}
+
+@keyframes typing{
+from{width:0}
+to{width:100%}
+}
+
+@keyframes blink{
+50%{border-color:transparent}
 }
 
 .section-title{
-    text-align:center;
-    color:#ff2b2b;
-    font-size:2.2rem;
-    margin-bottom:50px;
-    text-transform:uppercase;
-    letter-spacing:2px;
+text-align:center;
+font-size:50px;
+font-family:'Orbitron',sans-serif;
+margin-top:100px;
+margin-bottom:60px;
+text-shadow:0 0 20px #00ff41;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:30px;
+padding:0 8% 100px;
 }
 
 .card{
-    background:#111111;
-    border:1px solid #222;
-    padding:30px;
-    border-radius:15px;
-    transition:.3s;
+background:#050505;
+border:1px solid #00ff41;
+padding:30px;
+border-radius:15px;
+transition:0.4s;
+cursor:pointer;
+position:relative;
+overflow:hidden;
 }
 
 .card:hover{
-    transform:translateY(-8px);
-    border-color:#ff2b2b;
-    box-shadow:0 0 30px rgba(255,0,0,.25);
+transform:translateY(-10px);
+box-shadow:0 0 35px rgba(0,255,65,.5);
 }
 
-/* About */
-
-.about-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
+.card h3{
+font-size:28px;
+margin-bottom:15px;
+font-family:'Orbitron',sans-serif;
 }
 
-.about-text p{
-    color:#cbd5e1;
-    margin-bottom:15px;
+.card p{
+color:#c8ffd6;
+line-height:1.7;
+}
+
+.card::before{
+content:'';
+position:absolute;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle,#00ff4120,transparent);
+top:-50%;
+left:-50%;
+opacity:0;
+transition:.5s;
+}
+
+.card:hover::before{
+opacity:1;
 }
 
 .info-box{
-    background:#0f0f0f;
-    padding:25px;
-    border-left:4px solid #ff2b2b;
-    border-radius:10px;
+display:none;
+margin-top:20px;
+padding:15px;
+border-top:1px solid #00ff41;
+color:#fff;
+line-height:1.8;
 }
 
-.info-box p{
-    margin-bottom:12px;
+footer{
+padding:40px;
+text-align:center;
+border-top:1px solid #00ff41;
+margin-top:80px;
+font-size:14px;
 }
-
-.highlight{
-    color:#ff2b2b;
-    font-weight:600;
-}
-
-/* Responsive */
 
 @media(max-width:768px){
 
-    .hero h1{
-        font-size:2.5rem;
-    }
+.hero h1{
+font-size:45px;
+}
 
-    .about-grid{
-        grid-template-columns:1fr;
-    }
+.nav-links{
+display:none;
+}
+
+.section-title{
+font-size:35px;
+}
 
 }
 
@@ -182,71 +285,244 @@ section{
 
 <body>
 
-<header>
+<canvas id="matrix"></canvas>
 
-<div class="hero">
+<nav class="navbar">
 
-<h1>Zaid Ahmad Khan</h1>
+<div class="logo">
+CYBER HUB
+</div>
 
-<p>Cybersecurity Enthusiast • Web Developer • Student</p>
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Topics</a>
+<a href="#">Learning</a>
+<a href="#">Security</a>
+<a href="#">Contact</a>
+</div>
 
-<p id="typing"></p>
+</nav>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>CYBER SECURITY LEARNING HUB</h1>
+
+<p>
+Learn Ethical Hacking, Cyber Security Awareness,
+Digital Safety, Network Security and Web Security
+through an immersive hacker-style learning platform.
+</p>
+
+<button class="hero-btn">
+ENTER THE SYSTEM
+</button>
 
 </div>
 
-</header>
+</section>
 
-<section id="about">
+<div class="terminal">
 
-<div class="container">
+<div class="terminal-header">
+root@cyberhub:~
+</div>
 
-<h2 class="section-title">About Me</h2>
+<div class="terminal-body">
 
-<div class="about-grid">
-
-<div class="card about-text">
-
-<p>
-Hello! I'm Zaid Ahmad Khan, a student passionate about
-Cybersecurity, Ethical Hacking, Web Development,
-and technology.
-</p>
-
-<p>
-My interest in cybersecurity started with a simple
-question: how do websites, networks, and online systems
-actually work behind the scenes?
-</p>
-
-<p>
-Since then, I've been learning Linux, networking,
-traffic analysis, OSINT techniques, and web development
-through self-study and hands-on projects.
-</p>
-
-<p>
-Alongside technology, I am also learning German and
-working toward my long-term goal of pursuing higher
-education and a career in Germany.
-</p>
+<div class="typing">
+Initializing Cyber Security Learning Environment...
+Access Granted...
+Loading Modules...
+</div>
 
 </div>
 
-<div class="card info-box">
+</div>
 
-<p><span class="highlight">Name:</span> Zaid Ahmad Khan</p>
+<h2 class="section-title">
+TOP CYBER TOPICS
+</h2>
 
-<p><span class="highlight">Education:</span> Class 12 Student</p>
+<section class="cards">
 
-<p><span class="highlight">Institution:</span> Aligarh Muslim University</p>
+<div class="card" onclick="toggleInfo('phishing')">
 
-<p><span class="highlight">Interests:</span> Cybersecurity, Linux, Networking, Web Development</p>
+<h3>PHISHING</h3>
 
-<p><span class="highlight">Languages:</span> English, Hindi, Urdu, German (Learning)</p>
+<p>
+Learn how phishing attacks trick users and how
+to recognize suspicious emails and websites.
+</p>
 
-<p><span class="highlight">Goal:</span> Build a career in Cybersecurity and Technology</p>
+<div id="phishing" class="info-box">
+
+Phishing is a social engineering attack where attackers
+pretend to be trusted entities to steal information.
+Always verify website URLs, avoid suspicious links,
+and enable multi-factor authentication.
 
 </div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('trojan')">
+
+<h3>TROJAN</h3>
+
+<p>
+Understand how trojans disguise themselves as
+legitimate software and the risks they create.
+</p>
+
+<div id="trojan" class="info-box">
+
+A Trojan is malicious software disguised as a normal
+program. It can allow unauthorized access, steal data,
+or damage systems. Download software only from trusted
+sources and keep security software updated.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('backdoor')">
+
+<h3>BACKDOOR</h3>
+
+<p>
+Explore how hidden access mechanisms can affect
+system security.
+</p>
+
+<div id="backdoor" class="info-box">
+
+A backdoor is a method that bypasses normal
+authentication. Attackers may attempt to create
+backdoors after compromising systems. Regular
+updates, monitoring and security audits help
+reduce risk.
+
+</div>
+
+</div>
+
+</section>
+<!-- ========================= -->
+<!-- ADVANCED LEARNING SECTION -->
+<!-- ========================= -->
+
+<h2 class="section-title">
+ADVANCED SECURITY TOPICS
+</h2>
+
+<section class="cards">
+
+<div class="card" onclick="toggleInfo('sql')">
+
+<h3>SQL INJECTION</h3>
+
+<p>
+Learn how attackers exploit poorly protected databases.
+</p>
+
+<div id="sql" class="info-box">
+
+SQL Injection occurs when user input is not properly
+validated and database queries can be manipulated.
+Developers prevent this using parameterized queries,
+prepared statements and proper input validation.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('xss')">
+
+<h3>XSS</h3>
+
+<p>
+Understand Cross Site Scripting and browser security.
+</p>
+
+<div id="xss" class="info-box">
+
+XSS allows malicious scripts to run inside a user's
+browser through vulnerable web applications.
+Output encoding and input sanitization are common
+defenses.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('ransomware')">
+
+<h3>RANSOMWARE</h3>
+
+<p>
+Learn how ransomware impacts organizations.
+</p>
+
+<div id="ransomware" class="info-box">
+
+Ransomware encrypts files and demands payment.
+Regular backups, patching and security awareness
+help reduce the risk.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('password')">
+
+<h3>PASSWORD SECURITY</h3>
+
+<p>
+Strong authentication protects online accounts.
+</p>
+
+<div id="password" class="info-box">
+
+Use long unique passwords, enable MFA,
+avoid password reuse and consider trusted
+password managers.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('network')">
+
+<h3>NETWORK SECURITY</h3>
+
+<p>
+Understand firewalls, segmentation and monitoring.
+</p>
+
+<div id="network" class="info-box">
+
+Network security focuses on protecting systems,
+devices and communications through layered defenses.
+
+</div>
+
+</div>
+
+<div class="card" onclick="toggleInfo('owasp')">
+
+<h3>OWASP TOP 10</h3>
+
+<p>
+Explore the most important web application risks.
+</p>
+
+<div id="owasp" class="info-box">
+
+OWASP Top 10 highlights major web security risks
+including broken access control, cryptographic
+failures and injection vulnerabilities.
 
 </div>
 
@@ -254,243 +530,308 @@ education and a career in Germany.
 
 </section>
 
+<!-- ========================= -->
+<!-- STATS SECTION -->
+<!-- ========================= -->
+
+<section style="padding:100px 8%;">
+
+<h2 class="section-title">
+CYBER SECURITY FACTS
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>95%</h3>
+<p>
+Many successful cyber incidents begin with
+human error or social engineering.
+</p>
+</div>
+
+<div class="card">
+<h3>24/7</h3>
+<p>
+Security monitoring is important because
+threats can occur at any time.
+</p>
+</div>
+
+<div class="card">
+<h3>MFA</h3>
+<p>
+Multi-factor authentication significantly
+improves account security.
+</p>
+</div>
+
+</div>
+
+</section>
 <script>
 
-const text =
-"Learning Cybersecurity • Building Projects • Growing Every Day";
+function toggleInfo(id){
 
-let i = 0;
+let box = document.getElementById(id);
 
-function typeWriter(){
+if(box.style.display === "block"){
+box.style.display = "none";
+}else{
+box.style.display = "block";
+}
 
-if(i < text.length){
+}
 
-document.getElementById("typing").innerHTML += text.charAt(i);
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-i++;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-setTimeout(typeWriter,60);
+const letters =
+"01ABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]<>#$%^&*";
+
+const fontSize = 14;
+
+const columns = canvas.width / fontSize;
+
+const drops = [];
+
+for(let x=0;x<columns;x++){
+drops[x]=1;
+}
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ff41";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text=
+letters.charAt(
+Math.floor(Math.random()*letters.length)
+);
+
+ctx.fillText(
+text,
+i*fontSize,
+drops[i]*fontSize
+);
+
+if(
+drops[i]*fontSize > canvas.height &&
+Math.random()>0.975
+){
+drops[i]=0;
+}
+
+drops[i]++;
 
 }
 
 }
 
-typeWriter();
+setInterval(draw,35);
+
+window.addEventListener("resize",()=>{
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+});
 
 </script>
-    <!-- SKILLS SECTION -->
-
-<section id="skills">
-
-<div class="container">
-
-<h2 class="section-title">Technical Skills</h2>
-
-<div class="about-grid">
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;margin-bottom:20px;">Cybersecurity</h3>
-
-<p>Linux Systems</p>
-<p>Network Security Fundamentals</p>
-<p>OSINT Research</p>
-<p>Security Awareness</p>
-<p>Email Security Analysis</p>
-<p>Threat Analysis Basics</p>
-
-</div>
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;margin-bottom:20px;">Tools & Technologies</h3>
-
-<p>Nmap</p>
-<p>Wireshark</p>
-<p>Git & GitHub</p>
-<p>Virtual Machines</p>
-<p>HTML</p>
-<p>CSS</p>
-<p>JavaScript</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- LABS SECTION -->
-
-<section id="labs">
-
-<div class="container">
-
-<h2 class="section-title">Cybersecurity Labs</h2>
-
-<div class="about-grid">
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;">Phishing Email Analysis</h3>
-
-<br>
+<footer>
 
 <p>
-Studied suspicious email samples and learned how
-email authentication mechanisms such as SPF, DKIM,
-and DMARC help identify phishing attempts.
+Cyber Security Learning Hub © 2026
 </p>
-
-</div>
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;">Network Traffic Analysis</h3>
-
-<br>
 
 <p>
-Used Wireshark to inspect packets, understand
-network communication, and identify insecure traffic.
+Educational Purpose Only
 </p>
-
-</div>
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;">Network Reconnaissance</h3>
-
-<br>
 
 <p>
-Explored network discovery techniques using Nmap,
-including host discovery, service detection,
-and understanding open ports.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3 style="color:#ff2b2b;">Linux Practice Environment</h3>
-
-<br>
-
-<p>
-Built personal Linux environments to learn command
-line operations, system administration basics,
-and security-related workflows.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- GOALS SECTION -->
-
-<section id="goals">
-
-<div class="container">
-
-<h2 class="section-title">Current Goals</h2>
-
-<div class="card">
-
-<ul style="padding-left:20px;line-height:2;">
-
-<li>Strengthen Networking Fundamentals</li>
-
-<li>Improve Linux Administration Skills</li>
-
-<li>Build Advanced Cybersecurity Home Labs</li>
-
-<li>Prepare for CompTIA Security+</li>
-
-<li>Learn Modern JavaScript Development</li>
-
-<li>Reach Advanced German Language Proficiency</li>
-
-<li>Pursue Higher Education Opportunities Abroad</li>
-
-</ul>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- CONTACT SECTION -->
-
-<section id="contact">
-
-<div class="container">
-
-<h2 class="section-title">Contact</h2>
-
-<div class="card" style="text-align:center;">
-
-<h3 style="margin-bottom:20px;color:#ff2b2b;">
-Let's Connect
-</h3>
-
-<p style="margin-bottom:15px;">
-📧 Email:
-<br>
-khanahmadseraj321@gmail.com
-</p>
-
-<p style="margin-bottom:15px;">
-📱 Phone:
-<br>
-+91 9616401302
-</p>
-
-<p style="margin-bottom:15px;">
-🌐 Portfolio:
-<br>
-<a
-href="https://khanahmadseraj321-dot.github.io/khanahmadseraj-dot.github.io/"
-target="_blank"
-style="color:#ff5555;text-decoration:none;"
->
-Visit Website
-</a>
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer style="
-padding:40px;
-text-align:center;
-border-top:1px solid #222;
-color:#888;
-">
-
-<p>
-© 2026 Zaid Ahmad Khan
-</p>
-
-<br>
-
-<p>
-Cybersecurity Enthusiast • Web Developer • Student
+Learn • Practice • Protect
 </p>
 
 </footer>
 
 </body>
 </html>
+<section style="padding:80px 8%;text-align:center;">
 
+<h2 class="section-title">
+SYSTEM TIME
+</h2>
+
+<div id="clock"
+style="
+font-size:50px;
+font-family:Orbitron;
+text-shadow:0 0 20px #00ff41;
+">
+00:00:00
+</div>
+
+</section>
+<section style="padding:100px 8%;">
+
+<h2 class="section-title">
+ETHICAL HACKING ROADMAP
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>STEP 1</h3>
+<p>
+Computer Basics, Networking, Linux Fundamentals
+</p>
+</div>
+
+<div class="card">
+<h3>STEP 2</h3>
+<p>
+HTML, CSS, JavaScript, Web Technologies
+</p>
+</div>
+
+<div class="card">
+<h3>STEP 3</h3>
+<p>
+Python Programming and Automation
+</p>
+</div>
+
+<div class="card">
+<h3>STEP 4</h3>
+<p>
+Cyber Security Fundamentals and OWASP
+</p>
+</div>
+
+<div class="card">
+<h3>STEP 5</h3>
+<p>
+Ethical Hacking Labs and Security Testing
+</p>
+</div>
+
+<div class="card">
+<h3>STEP 6</h3>
+<p>
+Advanced Security Concepts and Certifications
+</p>
+</div>
+
+</div>
+
+</section>
+<section style="padding:100px 8%;">
+
+<h2 class="section-title">
+QUICK QUIZ
+</h2>
+
+<div class="card">
+
+<h3>
+What does MFA stand for?
+</h3>
+
+<button class="hero-btn"
+onclick="checkAnswer(false)">
+Multi File Access
+</button>
+
+<button class="hero-btn"
+onclick="checkAnswer(true)">
+Multi Factor Authentication
+</button>
+
+<button class="hero-btn"
+onclick="checkAnswer(false)">
+Master Firewall Access
+</button>
+
+<p id="quizResult"
+style="margin-top:20px;"></p>
+
+</div>
+
+</section>
+<section style="padding:100px 8%;">
+
+<h2 class="section-title">
+FAQ
+</h2>
+
+<div class="card">
+<h3>
+Is Ethical Hacking Legal?
+</h3>
+
+<p>
+Only when performed with proper authorization.
+</p>
+</div>
+
+<div class="card">
+<h3>
+Can beginners learn cyber security?
+</h3>
+
+<p>
+Yes. Start with networking, Linux and web basics.
+</p>
+</div>
+
+<div class="card">
+<h3>
+Why is MFA important?
+</h3>
+
+<p>
+It adds an extra layer of protection.
+</p>
+</div>
+
+</section>
+function checkAnswer(correct){
+
+let result =
+document.getElementById("quizResult");
+
+if(correct){
+
+result.innerHTML =
+"✅ Correct Answer";
+
+}else{
+
+result.innerHTML =
+"❌ Try Again";
+
+}
+
+}
+
+function updateClock(){
+
+const now = new Date();
+
+document.getElementById("clock")
+.innerHTML =
+now.toLocaleTimeString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
