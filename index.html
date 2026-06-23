@@ -20,7 +20,7 @@
       overflow-x: hidden;
     }
 
-    /* ---- MATRIX CANVAS (background) ---- */
+    /* ---- MATRIX CANVAS (background) - UNCHANGED ---- */
     #matrix-canvas {
       position: fixed;
       top: 0;
@@ -32,7 +32,6 @@
       display: block;
     }
 
-    /* subtle overlay */
     body::before {
       content: '';
       position: fixed;
@@ -45,19 +44,11 @@
       pointer-events: none;
     }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #000;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #00ff41;
-      border-radius: 20px;
-      box-shadow: 0 0 15px #00ff41;
-    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 20px; box-shadow: 0 0 15px #00ff41; }
 
-    /* ---- NAVBAR ---- */
+    /* ---- NAVBAR (with hamburger) ---- */
     .navbar {
       position: fixed;
       top: 0;
@@ -82,26 +73,306 @@
       text-shadow: 0 0 12px #00ff41, 0 0 30px #00ff41;
     }
 
-    .nav-links {
+    .nav-right {
       display: flex;
-      gap: 30px;
-    }
-    .nav-links a {
-      color: #00ff41;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      letter-spacing: 1px;
-      font-size: 16px;
-      padding: 6px 0;
-      border-bottom: 2px solid transparent;
-    }
-    .nav-links a:hover {
-      text-shadow: 0 0 18px #00ff41;
-      border-bottom-color: #00ff41;
+      align-items: center;
+      gap: 20px;
     }
 
-    /* ---- HERO ---- */
+    /* ---- HAMBURGER MENU (3 horizontal lines) ---- */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+    }
+    .hamburger:hover {
+      background: rgba(0, 255, 65, 0.15);
+      border-color: #00ff41;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: #00ff41;
+      border-radius: 4px;
+      transition: 0.3s;
+      box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* ---- DROPDOWN MENU ---- */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 75px;
+      right: 8%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid #00ff41;
+      border-radius: 20px;
+      padding: 20px 10px;
+      min-width: 260px;
+      box-shadow: 0 0 60px rgba(0, 255, 65, 0.15);
+      z-index: 10001;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .dropdown-menu.active {
+      display: flex;
+    }
+    .dropdown-menu a, .dropdown-menu .menu-item {
+      color: #00ff41;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      transition: 0.3s;
+      font-size: 15px;
+      letter-spacing: 1px;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      text-align: left;
+      font-family: 'Share Tech Mono', monospace;
+      width: 100%;
+    }
+    .dropdown-menu a:hover, .dropdown-menu .menu-item:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-left-color: #00ff41;
+      text-shadow: 0 0 20px #00ff41;
+    }
+    .dropdown-menu .menu-divider {
+      border-top: 1px solid rgba(0, 255, 65, 0.2);
+      margin: 6px 0;
+    }
+    .dropdown-menu .contact-info {
+      padding: 12px 20px;
+      color: #b0ffc0;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .dropdown-menu .contact-info a {
+      color: #00ff41;
+      text-decoration: none;
+      border-bottom: 1px dotted #00ff41;
+      padding: 0;
+      display: inline;
+      background: transparent;
+      border-left: none;
+    }
+    .dropdown-menu .contact-info a:hover {
+      text-shadow: 0 0 20px #00ff41;
+      border-bottom: 1px solid #00ff41;
+      background: transparent;
+    }
+
+    /* ---- AUTH BUTTONS ---- */
+    .auth-btn {
+      background: transparent;
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 255, 65, 0.05);
+      white-space: nowrap;
+    }
+    .auth-btn:hover {
+      background: #00ff41;
+      color: #000;
+      box-shadow: 0 0 30px #00ff41;
+      transform: scale(1.03);
+    }
+    .auth-btn.logout-btn {
+      border-color: #ff3b3b;
+      color: #ff3b3b;
+    }
+    .auth-btn.logout-btn:hover {
+      background: #ff3b3b;
+      color: #000;
+      box-shadow: 0 0 30px #ff3b3b;
+    }
+
+    #userGreeting {
+      color: #9dffb7;
+      font-size: 14px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      background: rgba(0, 255, 65, 0.08);
+      padding: 6px 16px;
+      border-radius: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      white-space: nowrap;
+    }
+
+    /* ---- MODAL (login) ---- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: #0a0f0a;
+      border: 2px solid #00ff41;
+      border-radius: 30px;
+      padding: 45px 40px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+      text-align: center;
+    }
+    .modal-box h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px #00ff41;
+    }
+    .modal-box .sub {
+      color: #b0ffc0;
+      margin-bottom: 30px;
+      font-size: 15px;
+    }
+    .modal-box input {
+      width: 100%;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      background: #111;
+      border: 1px solid #00ff41;
+      border-radius: 50px;
+      color: #00ff41;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+    .modal-box input:focus {
+      box-shadow: 0 0 25px rgba(0, 255, 65, 0.4);
+      border-color: #9dffb7;
+    }
+    .modal-box .login-submit {
+      width: 100%;
+      padding: 14px;
+      background: #00ff41;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+    .modal-box .login-submit:hover {
+      box-shadow: 0 0 40px #00ff41;
+      transform: scale(1.02);
+    }
+    .modal-box .close-modal {
+      margin-top: 20px;
+      background: transparent;
+      border: none;
+      color: #5a8a5a;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .modal-box .close-modal:hover { color: #00ff41; }
+
+    /* ---- VIDEO MODAL ---- */
+    .video-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 10002;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .video-modal-overlay.active { display: flex; }
+
+    .video-modal-box {
+      background: #0a0f0a;
+      border: 2px solid #00ff41;
+      border-radius: 30px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+      position: relative;
+    }
+    .video-modal-box h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 0 20px #00ff41;
+    }
+    .video-modal-box .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid #00ff41;
+    }
+    .video-modal-box .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-modal-box .close-video {
+      margin-top: 20px;
+      background: transparent;
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      padding: 10px 30px;
+      border-radius: 40px;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: 0.3s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .video-modal-box .close-video:hover {
+      background: #00ff41;
+      color: #000;
+      box-shadow: 0 0 30px #00ff41;
+    }
+
+    /* ---- HERO (unchanged) ---- */
     .hero {
       height: 100vh;
       display: flex;
@@ -109,7 +380,6 @@
       align-items: center;
       text-align: center;
       padding: 0 20px;
-      position: relative;
     }
     .hero-content {
       max-width: 1000px;
@@ -125,16 +395,13 @@
       font-family: 'Orbitron', sans-serif;
       margin-bottom: 20px;
       text-shadow: 0 0 12px #00ff41, 0 0 35px #00ff41, 0 0 70px #00ff41;
-      line-height: 1.1;
     }
     .hero p {
       font-size: 22px;
       line-height: 2;
       color: #c8ffd6;
       margin-bottom: 40px;
-      letter-spacing: 0.5px;
     }
-
     .hero-btn {
       padding: 18px 50px;
       background: #00ff41;
@@ -163,11 +430,9 @@
       margin-top: 100px;
       margin-bottom: 60px;
       text-shadow: 0 0 20px #00ff41;
-      letter-spacing: 2px;
-      word-break: break-word;
     }
 
-    /* ---- CARDS GRID ---- */
+    /* ---- CARDS ---- */
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -181,11 +446,8 @@
       border-radius: 20px;
       padding: 30px 28px;
       transition: 0.3s;
-      backdrop-filter: blur(2px);
       cursor: pointer;
       box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
-      display: flex;
-      flex-direction: column;
     }
     .card:hover {
       transform: translateY(-8px);
@@ -193,12 +455,10 @@
       background: #0a0f0a;
       border-color: #9dffb7;
     }
-
     .card h3 {
       font-family: 'Orbitron', sans-serif;
       font-size: 26px;
       margin-bottom: 14px;
-      letter-spacing: 1px;
     }
     .card p {
       line-height: 1.9;
@@ -219,11 +479,9 @@
       padding-left: 6px;
       padding-right: 6px;
     }
-    .info-box p {
-      margin-bottom: 8px;
-    }
+    .info-box p { margin-bottom: 8px; }
 
-    /* ---- CONTACT SECTION (custom) ---- */
+    /* ---- CONTACT SECTION ---- */
     .contact-section {
       margin: 80px 8% 40px;
       padding: 40px 30px;
@@ -243,11 +501,6 @@
       align-items: center;
       gap: 16px;
       font-size: 20px;
-    }
-    .contact-item i {
-      font-size: 30px;
-      color: #00ff41;
-      text-shadow: 0 0 20px #00ff41;
     }
     .contact-item a {
       color: #00ff41;
@@ -272,52 +525,81 @@
 
     /* ---- RESPONSIVE ---- */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 38px;
-      }
-      .hero-content {
-        padding: 30px 20px;
-      }
-      .nav-links {
-        display: none;
-      }
-      .section-title {
-        font-size: 32px;
-        margin-top: 70px;
-        margin-bottom: 40px;
-      }
-      .cards {
-        grid-template-columns: 1fr;
-        padding: 0 5%;
-      }
-      .contact-section {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .logo {
-        font-size: 22px;
-      }
-      .hero p {
-        font-size: 18px;
-      }
+      .hero h1 { font-size: 38px; }
+      .hero-content { padding: 30px 20px; }
+      .section-title { font-size: 32px; margin-top: 70px; margin-bottom: 40px; }
+      .cards { grid-template-columns: 1fr; padding: 0 5%; }
+      .contact-section { flex-direction: column; align-items: flex-start; }
+      .logo { font-size: 20px; }
+      .hero p { font-size: 18px; }
+      .auth-btn { padding: 6px 14px; font-size: 12px; }
+      #userGreeting { font-size: 12px; padding: 4px 12px; }
+      .dropdown-menu { right: 5%; min-width: 220px; }
+      .nav-right { gap: 10px; }
+      .hamburger span { width: 24px; height: 2.5px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- MATRIX CANVAS (animated) -->
+  <!-- MATRIX CANVAS -->
   <canvas id="matrix-canvas"></canvas>
 
-  <!-- NAVBAR -->
+  <!-- NAVBAR with HAMBURGER -->
   <nav class="navbar">
     <div class="logo">⟡ CYBER HUB</div>
-    <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#topics">Topics</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-right">
+      <span id="userGreeting" style="display:none;"></span>
+      <button id="loginBtn" class="auth-btn" onclick="openModal()">🔐 LOGIN</button>
+      <button id="logoutBtn" class="auth-btn logout-btn" style="display:none;" onclick="logout()">⛔ LOGOUT</button>
+      <!-- 3 horizontal lines (hamburger) -->
+      <div class="hamburger" id="hamburger" onclick="toggleDropdown()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </nav>
+
+  <!-- DROPDOWN MENU -->
+  <div class="dropdown-menu" id="dropdownMenu">
+    <a href="#home" onclick="closeDropdown()">🏠 Home</a>
+    <a href="#topics" onclick="closeDropdown()">📚 Topics</a>
+    <a href="#roadmap" onclick="closeDropdown()">🧭 Roadmap</a>
+    <div class="menu-divider"></div>
+    <button class="menu-item" onclick="openVideo('phishing')">🎥 Phishing Explained</button>
+    <button class="menu-item" onclick="openVideo('trojan')">🎥 Trojan Attacks</button>
+    <button class="menu-item" onclick="openVideo('ransomware')">🎥 Ransomware</button>
+    <div class="menu-divider"></div>
+    <div class="contact-info">
+      <strong>📞 Free Guidance</strong><br>
+      <a href="tel:+919616401302">+91 96164 01302</a><br>
+      <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <h2>⛓️ ACCESS</h2>
+      <div class="sub">enter credentials to unlock full system</div>
+      <input type="text" id="usernameInput" placeholder="username" value="admin">
+      <input type="password" id="passwordInput" placeholder="password" value="1234">
+      <button class="login-submit" onclick="handleLogin()">⬢ LOGIN</button>
+      <button class="close-modal" onclick="closeModal()">↺ cancel</button>
+    </div>
+  </div>
+
+  <!-- VIDEO MODAL -->
+  <div class="video-modal-overlay" id="videoModal">
+    <div class="video-modal-box">
+      <h3 id="videoTitle">🎬 Security Awareness</h3>
+      <div class="video-wrapper">
+        <iframe id="videoFrame" src="" allowfullscreen></iframe>
+      </div>
+      <button class="close-video" onclick="closeVideo()">✕ Close</button>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero" id="home">
@@ -336,7 +618,6 @@
   <!-- TOPICS -->
   <h2 class="section-title" id="topics">⛓️ TOP CYBER TOPICS</h2>
   <section class="cards">
-
     <div class="card" onclick="toggleInfo('phishing')">
       <h3>PHISHING ATTACKS</h3>
       <p>Fake emails, messages &amp; websites that steal credentials.</p>
@@ -371,13 +652,11 @@
         <p>🌐 Learn about LAN, WAN, DNS, and routing.</p>
       </div>
     </div>
-
   </section>
 
   <!-- ROADMAP -->
   <h2 class="section-title" id="roadmap">🧭 ETHICAL HACKING ROADMAP</h2>
   <section class="cards">
-
     <div class="card" onclick="toggleInfo('step1')">
       <h3>STEP 1 · NETWORKING</h3>
       <p>Foundation of all security systems.</p>
@@ -408,13 +687,11 @@
         <p>Web dev knowledge is crucial for web app security.</p>
       </div>
     </div>
-
   </section>
 
   <!-- ADVANCED ROADMAP -->
   <h2 class="section-title">⚙️ ADVANCED ROADMAP</h2>
   <section class="cards">
-
     <div class="card" onclick="toggleInfo('step4')">
       <h3>STEP 4 · PYTHON</h3>
       <p>Automation &amp; security tooling.</p>
@@ -447,10 +724,9 @@
         <p>📝 Responsible disclosure is key.</p>
       </div>
     </div>
-
   </section>
 
-  <!-- CYBER FACTS (static) -->
+  <!-- CYBER FACTS -->
   <h2 class="section-title">🔍 CYBER FACTS</h2>
   <section class="cards">
     <div class="card" style="cursor:default;">
@@ -467,101 +743,119 @@
     </div>
   </section>
 
-  <!-- CONTACT + FOOTER -->
+  <!-- CONTACT -->
   <div id="contact" class="contact-section">
-    <div class="contact-item">
-      <span style="font-size:28px;">📞</span>
-      <a href="tel:+919616401302">+91 96164 01302</a>
-    </div>
-    <div class="contact-item">
-      <span style="font-size:28px;">✉️</span>
-      <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
-    </div>
-    <div class="contact-item">
-      <span style="font-size:28px;">💬</span>
-      <span>24/7 for security help</span>
-    </div>
+    <div class="contact-item"><span style="font-size:28px;">📞</span><a href="tel:+919616401302">+91 96164 01302</a></div>
+    <div class="contact-item"><span style="font-size:28px;">✉️</span><a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a></div>
+    <div class="contact-item"><span style="font-size:28px;">💬</span><span>24/7 for security help</span></div>
   </div>
 
-  <div class="footer-note">
-    ⚡ CYBER SECURITY HUB · always learning · always defending ⚡
-  </div>
+  <div class="footer-note">⚡ CYBER SECURITY HUB · always learning · always defending ⚡</div>
 
-  <!-- SCRIPT: toggle info boxes -->
   <script>
+    // ---- TOGGLE INFO ----
     function toggleInfo(id) {
       const box = document.getElementById(id);
-      if (box) {
-        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
-      }
+      if (box) box.style.display = (box.style.display === 'block') ? 'none' : 'block';
     }
 
-    // ---- MATRIX ANIMATION (hacker green rain) ----
+    // ---- MATRIX RAIN (unchanged) ----
     (function matrixRain() {
       const canvas = document.getElementById('matrix-canvas');
       const ctx = canvas.getContext('2d');
-
       let width = canvas.width = window.innerWidth;
       let height = canvas.height = window.innerHeight;
-
-      const cols = Math.floor(width / 18);          // column width
+      const cols = Math.floor(width / 18);
       const drops = Array(cols).fill(1);
-
-      // characters: katakana + numbers + symbols
       const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~";
 
       function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';      // trail effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
         ctx.fillRect(0, 0, width, height);
-
         ctx.fillStyle = '#00ff41';
         ctx.font = '18px "Share Tech Mono", monospace';
         ctx.shadowColor = '#00ff41';
         ctx.shadowBlur = 8;
-
         for (let i = 0; i < drops.length; i++) {
           const text = chars[Math.floor(Math.random() * chars.length)];
           const x = i * 18;
           const y = drops[i] * 18;
-
-          // random brightness variation
           ctx.fillStyle = `rgba(0, 255, 65, ${0.8 + Math.random() * 0.4})`;
           ctx.fillText(text, x, y);
-
-          // reset drop to top randomly
-          if (y > height && Math.random() > 0.975) {
-            drops[i] = 0;
-          }
-          drops[i] += 0.5 + Math.random() * 0.6;    // speed variation
+          if (y > height && Math.random() > 0.975) drops[i] = 0;
+          drops[i] += 0.5 + Math.random() * 0.6;
         }
         requestAnimationFrame(draw);
       }
-
-      // resize handler
       window.addEventListener('resize', () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
-        // adjust drops count
         const newCols = Math.floor(width / 18);
-        if (newCols > drops.length) {
-          for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20);
-        } else {
-          drops.length = newCols;
-        }
+        if (newCols > drops.length) { for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20); }
+        else { drops.length = newCols; }
       });
-
       draw();
     })();
 
-    // smooth scroll for contact click (optional)
-    document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
+    // ---- DROPDOWN MENU ----
+    function toggleDropdown() {
+      const menu = document.getElementById('dropdownMenu');
+      const hamburger = document.getElementById('hamburger');
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('active');
+    }
 
-</body>
-</html>
+    function closeDropdown() {
+      document.getElementById('dropdownMenu').classList.remove('active');
+      document.getElementById('hamburger').classList.remove('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('dropdownMenu');
+      const hamburger = document.getElementById('hamburger');
+      if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('active');
+        hamburger.classList.remove('active');
+      }
+    });
+
+    // ---- VIDEO MODAL ----
+    function openVideo(type) {
+      const modal = document.getElementById('videoModal');
+      const frame = document.getElementById('videoFrame');
+      const title = document.getElementById('videoTitle');
+      const videos = {
+        phishing: {
+          url: 'https://www.youtube.com/embed/mc4ctFmGu_w?autoplay=1',
+          title: '🎣 Phishing Attacks Explained'
+        },
+        trojan: {
+          url: 'https://www.youtube.com/embed/T8QrMcWJ9FU?autoplay=1',
+          title: '🐴 Trojan Horse Malware'
+        },
+        ransomware: {
+          url: 'https://www.youtube.com/embed/lg3dBA9Mf7s?autoplay=1',
+          title: '💀 Ransomware & How to Prevent'
+        }
+      };
+      const selected = videos[type] || videos.phishing;
+      frame.src = selected.url;
+      title.textContent = selected.title;
+      modal.classList.add('active');
+      closeDropdown();
+    }
+
+    function closeVideo() {
+      document.getElementById('videoModal').classList.remove('active');
+      document.getElementById('videoFrame').src = '';
+    }
+
+    // close video on overlay click
+    document.getElementById('videoModal').addEventListener('click', function(e) {
+      if (e.target === this) closeVideo();
+    });
+
+    // ---- AUTH SYSTEM ----
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
