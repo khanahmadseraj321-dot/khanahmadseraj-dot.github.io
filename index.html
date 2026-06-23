@@ -1455,11 +1455,8 @@
         if (e.target === this) closeModal();
     });
 
-    // =============================================================
-    // 5. VIDEO MODAL (Working)
-    // =============================================================
         // =============================================================
-    // 5. VIDEO MODAL (FIXED - ALL LINKS WORKING)
+    // 5. VIDEO MODAL (100% WORKING - NO AUTOPLAY)
     // =============================================================
     function openVideo(type) {
         const modal = document.getElementById('videoModal');
@@ -1468,39 +1465,39 @@
         
         const videos = {
             phishing: {
-                url: 'https://www.youtube.com/embed/mc4ctFmGu_w?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/mc4ctFmGu_w',
                 title: '🎣 Phishing Attacks - How Hackers Trick You'
             },
             trojan: {
-                url: 'https://www.youtube.com/embed/T8QrMcWJ9FU?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/T8QrMcWJ9FU',
                 title: '🐴 Trojan Horse Malware - Complete Guide'
             },
             ransomware: {
-                url: 'https://www.youtube.com/embed/lg3dBA9Mf7s?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/lg3dBA9Mf7s',
                 title: '💀 Ransomware - How to Prevent and Recover'
             },
             bruteforce: {
-                url: 'https://www.youtube.com/embed/7U-RbOKanYQ?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/7U-RbOKanYQ',
                 title: '🔑 Brute Force Attacks - Password Security'
             },
             malware: {
-                url: 'https://www.youtube.com/embed/6OxxmskCqFE?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/6OxxmskCqFE',
                 title: '🦠 Malware & RATs - Complete Protection Guide'
             },
             social: {
-                url: 'https://www.youtube.com/embed/RVzQjWk5aXw?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/RVzQjWk5aXw',
                 title: '🎭 Social Engineering - Psychological Hacks'
             },
             mitm: {
-                url: 'https://www.youtube.com/embed/2bOw-zIGl6U?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/2bOw-zIGl6U',
                 title: '🌐 Man-in-the-Middle Attacks Explained'
             },
             ddos: {
-                url: 'https://www.youtube.com/embed/9gOD6l0KbFA?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/9gOD6l0KbFA',
                 title: '💥 DDoS Attacks - How They Work'
             },
             zero: {
-                url: 'https://www.youtube.com/embed/sJtVv_7cSME?autoplay=1&rel=0',
+                url: 'https://www.youtube.com/embed/sJtVv_7cSME',
                 title: '🔓 Zero-Day Exploits - The Most Dangerous Attacks'
             }
         };
@@ -1511,7 +1508,7 @@
         modal.classList.add('active');
         closeDropdown();
     }
-
+   
     function closeVideo() {
         document.getElementById('videoModal').classList.remove('active');
         document.getElementById('videoFrame').src = '';
