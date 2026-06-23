@@ -656,6 +656,183 @@
             .cards { gap: 20px; }
             .card { padding: 20px; }
             .card h3 { font-size: 20px; }
+                    /* ===== ANIMATED ATTACK EXPLANATIONS ===== */
+        .attack-animation-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff41;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .attack-animation-container .scene {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .character {
+            font-size: 60px;
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+        }
+        .character.hacker {
+            animation-delay: 0s;
+            color: #ff3b3b;
+            filter: drop-shadow(0 0 20px rgba(255, 59, 59, 0.5));
+        }
+        .character.victim {
+            animation-delay: 1s;
+            color: #00ff41;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.3));
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+        .animated-arrow {
+            font-size: 40px;
+            color: #ff6b35;
+            animation: arrowPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0px); opacity: 1; }
+            50% { transform: translateX(20px); opacity: 0.5; }
+        }
+        .attack-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .step-item {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        .step-item:nth-child(1) { animation-delay: 0.1s; }
+        .step-item:nth-child(2) { animation-delay: 0.3s; }
+        .step-item:nth-child(3) { animation-delay: 0.5s; }
+        .step-item:nth-child(4) { animation-delay: 0.7s; }
+        .step-item:nth-child(5) { animation-delay: 0.9s; }
+        .step-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
+        }
+        .step-item .step-number {
+            display: inline-block;
+            background: #00ff41;
+            color: #000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .step-item .step-icon {
+            font-size: 30px;
+            display: block;
+            margin: 5px 0;
+        }
+        .step-item .step-text {
+            font-size: 13px;
+            color: #b0ffc0;
+            line-height: 1.4;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .protection-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .protection-tip {
+            background: rgba(0, 255, 65, 0.03);
+            border-left: 3px solid #00ff41;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #b0ffc0;
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        .protection-tip:nth-child(1) { animation-delay: 0.1s; }
+        .protection-tip:nth-child(2) { animation-delay: 0.3s; }
+        .protection-tip:nth-child(3) { animation-delay: 0.5s; }
+        .protection-tip:nth-child(4) { animation-delay: 0.7s; }
+        .protection-tip:nth-child(5) { animation-delay: 0.9s; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .attack-description {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 255, 65, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            margin: 15px 0;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.05); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 65, 0.15); }
+        }
+        .stat-bar {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        .stat-bar .stat-label {
+            color: #b0ffc0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .stat-bar .stat-fill {
+            height: 8px;
+            background: linear-gradient(90deg, #00ff41, #00cc33);
+            border-radius: 10px;
+            animation: fillBar 1.5s ease-out forwards;
+            width: 0;
+        }
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: var(--fill-width); }
+        }
+        @media (max-width: 768px) {
+            .attack-animation-container .scene {
+                gap: 15px;
+                height: 250px;
+            }
+            .character { font-size: 40px; }
+            .animated-arrow { font-size: 25px; }
+            .attack-steps { grid-template-columns: 1fr 1fr; }
+            .protection-tips { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .attack-steps { grid-template-columns: 1fr; }
+            .character { font-size: 30px; }
+            .attack-animation-container .scene { height: 200px; }
+        }
         }
     </style>
 </head>
