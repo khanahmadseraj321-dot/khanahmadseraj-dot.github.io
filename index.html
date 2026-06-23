@@ -7,11 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ===== COMPLETE CSS ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { background: #000; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
 
-        /* ===== MATRIX BACKGROUND (GREEN RAIN) - WORKING ===== */
+        /* ===== MATRIX BACKGROUND - WORKING ===== */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -66,7 +66,7 @@
             gap: 18px;
         }
 
-        /* ===== 3 HORIZONTAL LINES (HAMBURGER) ===== */
+        /* ===== 3 HORIZONTAL LINES ===== */
         .hamburger {
             display: flex;
             flex-direction: column;
@@ -378,6 +378,125 @@
         }
         .guidance-modal-box .close-guidance:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
 
+        /* ===== QUIZ MODAL ===== */
+        .quiz-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 10004;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .quiz-modal-overlay.active { display: flex; }
+        .quiz-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+        }
+        .quiz-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .quiz-modal-box .quiz-sub {
+            text-align: center;
+            color: #b0ffc0;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .quiz-modal-box .question-item {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .quiz-modal-box .question-item .q-text {
+            color: #00ff41;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .quiz-modal-box .question-item .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quiz-modal-box .question-item .options label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #b0ffc0;
+        }
+        .quiz-modal-box .question-item .options label:hover {
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .quiz-modal-box .question-item .options input[type="radio"] {
+            accent-color: #00ff41;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .quiz-modal-box .quiz-submit {
+            width: 100%;
+            padding: 14px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+        .quiz-modal-box .quiz-submit:hover { box-shadow: 0 0 40px #00ff41; transform: scale(1.02); }
+        .quiz-modal-box .quiz-result {
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            display: none;
+        }
+        .quiz-modal-box .quiz-result .score {
+            color: #00ff41;
+            font-size: 48px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 30px #00ff41;
+        }
+        .quiz-modal-box .close-quiz {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .quiz-modal-box .close-quiz:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
+
         /* ===== HERO ===== */
         .hero {
             height: 100vh;
@@ -433,7 +552,7 @@
         /* ===== CARDS ===== */
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 35px;
             padding: 0 6% 40px;
         }
@@ -530,6 +649,7 @@
             .nav-right { gap: 10px; }
             .hamburger span { width: 24px; height: 2.5px; }
             .modal-box { padding: 30px 25px; }
+            .quiz-modal-box { padding: 25px; }
         }
         @media (max-width: 480px) {
             .hero h1 { font-size: 28px; }
@@ -541,7 +661,7 @@
 </head>
 <body>
 
-    <!-- ===== MATRIX CANVAS (GREEN RAIN BACKGROUND) - WORKING ===== -->
+    <!-- ===== MATRIX CANVAS ===== -->
     <canvas id="matrix-canvas"></canvas>
 
     <!-- ===== NAVBAR ===== -->
@@ -551,7 +671,6 @@
             <span id="userGreeting" style="display:none;"></span>
             <button id="loginBtn" class="auth-btn" onclick="openModal()">🔐 LOGIN</button>
             <button id="logoutBtn" class="auth-btn logout-btn" style="display:none;" onclick="logout()">⛔ LOGOUT</button>
-            <!-- 3 HORIZONTAL LINES -->
             <div class="hamburger" id="hamburger" onclick="toggleDropdown()">
                 <span></span>
                 <span></span>
@@ -564,7 +683,6 @@
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="#home" onclick="closeDropdown()"><span class="menu-icon">🏠</span> Home</a>
         <a href="#attacks" onclick="closeDropdown()"><span class="menu-icon">⚔️</span> All Attack Types</a>
-        <a href="#protection" onclick="closeDropdown()"><span class="menu-icon">🛡️</span> Protection Guide</a>
         <div class="menu-divider"></div>
         <button class="menu-item" onclick="openVideo('phishing')"><span class="menu-icon">🎣</span> Phishing Attacks</button>
         <button class="menu-item" onclick="openVideo('trojan')"><span class="menu-icon">🐴</span> Trojan Horse</button>
@@ -574,8 +692,10 @@
         <button class="menu-item" onclick="openVideo('social')"><span class="menu-icon">🎭</span> Social Engineering</button>
         <button class="menu-item" onclick="openVideo('mitm')"><span class="menu-icon">🌐</span> Man-in-the-Middle</button>
         <button class="menu-item" onclick="openVideo('ddos')"><span class="menu-icon">💥</span> DDoS Attacks</button>
+        <button class="menu-item" onclick="openVideo('zero')"><span class="menu-icon">🔓</span> Zero-Day Exploits</button>
         <div class="menu-divider"></div>
         <button class="menu-item" onclick="openGuidance()"><span class="menu-icon">📞</span> Free Guidance</button>
+        <button class="menu-item" onclick="openQuiz()"><span class="menu-icon">📝</span> Free Cyber Quiz</button>
         <div class="menu-divider"></div>
         <div class="contact-info">
             <strong>📞 24/7 Cyber Help</strong><br>
@@ -621,9 +741,25 @@
                 <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
             </div>
             <p style="font-size:13px; color:#5a8a5a; margin-top:15px;">
-                ⚡ Available for: Phishing prevention, Malware removal, Security audits, Safe browsing tips, Identity theft protection, Ransomware recovery advice, Social engineering awareness
+                ⚡ Available for: Phishing prevention, Malware removal, Security audits, Safe browsing tips, Identity theft protection, Ransomware recovery advice, Social engineering awareness, Network security guidance
             </p>
             <button class="close-guidance" onclick="closeGuidance()">✕ Close</button>
+        </div>
+    </div>
+
+    <!-- ===== QUIZ MODAL ===== -->
+    <div class="quiz-modal-overlay" id="quizModal">
+        <div class="quiz-modal-box">
+            <h3>📝 CYBER SECURITY QUIZ</h3>
+            <div class="quiz-sub">Test your knowledge - 20 questions</div>
+            <div id="quizContainer"></div>
+            <button class="quiz-submit" onclick="submitQuiz()">⬢ SUBMIT ANSWERS</button>
+            <div class="quiz-result" id="quizResult">
+                <p>Your Score:</p>
+                <div class="score" id="quizScore">0/20</div>
+                <p style="margin-top:10px; color:#b0ffc0;" id="quizFeedback"></p>
+            </div>
+            <button class="close-quiz" onclick="closeQuiz()">✕ Close</button>
         </div>
     </div>
 
@@ -641,80 +777,1187 @@
         </div>
     </section>
 
-    <!-- ===== ATTACK TYPES ===== -->
-    <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
-    <section class="cards">
-
-        <!-- 1. PHISHING -->
+    <!-- =        <!-- 1. PHISHING ATTACKS - EXTREME DETAIL -->
         <div class="card" onclick="toggleInfo('phishingInfo')">
             <h3>🎣 PHISHING ATTACKS</h3>
             <p>Deceptive emails and messages that steal your credentials.</p>
             <div id="phishingInfo" class="info-box">
-                <p><span class="danger">⚠️ HOW HACKERS DO IT:</span> Attackers impersonate trusted organizations (banks, social media, government). They send urgent emails with malicious links or attachments that look legitimate.</p>
-                <p><span class="highlight">🎯 WHAT THEY WANT:</span></p>
+                <p><span class="danger">⚠️ HOW HACKERS EXECUTE PHISHING ATTACKS:</span></p>
+                <p>Phishing is a social engineering attack where cybercriminals impersonate legitimate organizations to trick victims into revealing sensitive information. The attackers create convincing fake emails, text messages, or websites that appear to come from trusted sources like banks, government agencies, or popular online services.</p>
+                
+                <p><span class="highlight">🔍 COMMON PHISHING TECHNIQUES:</span></p>
                 <ul>
-                    <li>Login credentials (passwords, usernames)</li>
-                    <li>Credit card numbers and bank details</li>
-                    <li>Personal identification information (SSN, Aadhar, PAN)</li>
-                    <li>Access to your email and social media accounts</li>
+                    <li><strong>Email Phishing:</strong> Mass emails sent to thousands of recipients, pretending to be from legitimate companies</li>
+                    <li><strong>Spear Phishing:</strong> Targeted attacks on specific individuals or organizations using personalized information</li>
+                    <li><strong>Whaling:</strong> Phishing attacks targeting high-profile executives and decision-makers</li>
+                    <li><strong>Clone Phishing:</strong> Creating identical copies of legitimate emails with malicious links</li>
+                    <li><strong>Vishing:</strong> Voice phishing through phone calls pretending to be from banks or tech support</li>
+                    <li><strong>Smishing:</strong> Phishing through SMS text messages with malicious links</li>
+                    <li><strong>Angler Phishing:</strong> Using social media platforms to trick victims through fake customer service accounts</li>
                 </ul>
-                <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
+
+                <p><span class="highlight">🎯 WHAT PHISHERS WANT:</span></p>
                 <ul>
-                    <li>✅ Always check the sender's email address carefully (look for misspellings)</li>
-                    <li>✅ Hover over links before clicking to see the real URL</li>
-                    <li>✅ Never share passwords, OTPs, or personal info via email</li>
-                    <li>✅ Enable Multi-Factor Authentication (MFA) on all accounts</li>
-                    <li>✅ Look for spelling mistakes and urgent language in emails</li>
-                    <li>✅ Report suspicious emails to your security team</li>
-                    <li>✅ Use email filtering and spam protection</li>
+                    <li>Login credentials (usernames, passwords, PINs)</li>
+                    <li>Financial information (credit card numbers, bank account details)</li>
+                    <li>Personal identification (Social Security numbers, Aadhar, PAN)</li>
+                    <li>Corporate secrets and intellectual property</li>
+                    <li>Access to email accounts for further attacks</li>
+                    <li>Two-factor authentication codes</li>
                 </ul>
-                <p class="warning">📊 90% of cyber attacks start with a phishing email!</p>
+
+                <p><span class="danger">🔴 REAL-WORLD PHISHING EXAMPLES:</span></p>
+                <ul>
+                    <li><strong>Bank Fraud:</strong> "Your account has been locked. Click here to verify your identity."</li>
+                    <li><strong>Tech Support Scam:</strong> "Your computer is infected. Call this number for immediate support."</li>
+                    <li><strong>Job Offer Scam:</strong> "Congratulations! You've been selected for a high-paying job. Please provide your details."</li>
+                    <li><strong>Government Impersonation:</strong> "You have unpaid taxes. Immediate payment required to avoid legal action."</li>
+                    <li><strong>Shipping Notifications:</strong> "Your package is delayed. Click here to track your shipment."</li>
+                    <li><strong>Social Media Alerts:</strong> "Someone tried to log into your account. Verify your identity here."</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST PHISHING:</span></p>
+                <ul>
+                    <li><strong>✅ Verify Sender Identity:</strong> Always check the sender's email address carefully. Look for misspellings (e.g., "bank0famerica.com" instead of "bankofamerica.com")</li>
+                    <li><strong>✅ Hover Before Clicking:</strong> Hover your mouse over links to see the actual URL before clicking</li>
+                    <li><strong>✅ Never Share Sensitive Info:</strong> Legitimate companies never ask for passwords, OTPs, or personal information via email</li>
+                    <li><strong>✅ Enable Multi-Factor Authentication (MFA):</strong> Add an extra layer of security to all accounts</li>
+                    <li><strong>✅ Look for Red Flags:</strong> Spelling mistakes, urgent language, generic greetings ("Dear Customer"), and suspicious attachments</li>
+                    <li><strong>✅ Use Email Filtering:</strong> Enable spam filters and email authentication (SPF, DKIM, DMARC)</li>
+                    <li><strong>✅ Report Suspicious Emails:</strong> Forward phishing emails to your organization's security team</li>
+                    <li><strong>✅ Type URLs Directly:</strong> Instead of clicking links, type the website address directly into your browser</li>
+                    <li><strong>✅ Keep Software Updated:</strong> Ensure browsers and operating systems have the latest security patches</li>
+                    <li><strong>✅ Educate Others:</strong> Share phishing awareness with family, friends, and colleagues</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: 90% of cyber attacks start with a phishing email. Over 3.4 billion phishing emails are sent daily worldwide. The average financial loss from a successful phishing attack is $1.6 million.</p>
             </div>
         </div>
 
-        <!-- 2. TROJAN HORSE -->
+        <!-- 2. TROJAN HORSE - EXTREME DETAIL -->
         <div class="card" onclick="toggleInfo('trojanInfo')">
             <h3>🐴 TROJAN HORSE</h3>
             <p>Malware disguised as legitimate software.</p>
             <div id="trojanInfo" class="info-box">
-                <p><span class="danger">⚠️ HOW HACKERS DO IT:</span> Hackers hide malicious code inside seemingly innocent files - games, PDFs, software installers, email attachments, or fake updates.</p>
-                <p><span class="highlight">🎯 WHAT TROJANS DO:</span></p>
+                <p><span class="danger">⚠️ HOW TROJANS INFECT SYSTEMS:</span></p>
+                <p>A Trojan Horse is malicious software that disguises itself as legitimate, useful software to trick users into installing it. Unlike viruses, Trojans don't replicate themselves but create backdoors for hackers to access your system. The name comes from the ancient Greek story of soldiers hiding inside a wooden horse to infiltrate Troy.</p>
+
+                <p><span class="highlight">🔍 COMMON TROJAN TYPES:</span></p>
                 <ul>
-                    <li>Steal passwords and login credentials</li>
-                    <li>Record keystrokes (keylogging)</li>
-                    <li>Take screenshots and spy on your activity</li>
-                    <li>Give hackers remote access to your computer</li>
-                    <li>Install additional malware without your knowledge</li>
-                    <li>Use your computer to send spam or attack others</li>
+                    <li><strong>Backdoor Trojans:</strong> Create hidden access points for hackers to control your computer remotely</li>
+                    <li><strong>Banking Trojans:</strong> Specifically designed to steal financial information and banking credentials</li>
+                    <li><strong>Downloader Trojans:</strong> Download and install additional malware once activated</li>
+                    <li><strong>Fake Antivirus Trojans:</strong> Pretend to be security software and trick users into paying for fake protection</li>
+                    <li><strong>Game Thief Trojans:</strong> Steal gaming account credentials and virtual assets</li>
+                    <li><strong>Ransomware Trojans:</strong> Encrypt files and demand payment for decryption</li>
+                    <li><strong>Spy Trojans:</strong> Monitor user activity, capture keystrokes, and steal personal information</li>
+                    <li><strong>Rootkit Trojans:</strong> Hide deep within the operating system to avoid detection</li>
                 </ul>
-                <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
+
+                <p><span class="highlight">🎯 WHAT TROJANS DO TO YOUR SYSTEM:</span></p>
                 <ul>
-                    <li>✅ Only download software from official websites</li>
-                    <li>✅ Never open attachments from unknown senders</li>
-                    <li>✅ Keep antivirus software updated</li>
-                    <li>✅ Use a firewall to monitor suspicious connections</li>
-                    <li>✅ Be cautious of "free" software or cracked versions</li>
-                    <li>✅ Scan downloaded files before opening</li>
-                    <li>✅ Enable real-time protection in your antivirus</li>
+                    <li>Steal passwords, credit card numbers, and banking credentials</li>
+                    <li>Record every keystroke (keylogging) to capture sensitive information</li>
+                    <li>Take screenshots and record video of your screen activity</li>
+                    <li>Give hackers remote access and control of your computer</li>
+                    <li>Install additional malware, spyware, or ransomware</li>
+                    <li>Use your computer to send spam emails or participate in DDoS attacks</li>
+                    <li>Access your webcam and microphone to spy on you</li>
+                    <li>Delete, modify, or encrypt your important files</li>
+                    <li>Steal cryptocurrency wallets and digital assets</li>
                 </ul>
-                <p class="warning">📊 Free software downloads are the #1 source of Trojans!</p>
+
+                <p><span class="danger">🔴 HOW TROJANS SPREAD:</span></p>
+                <ul>
+                    <li><strong>Email Attachments:</strong> Disguised as invoices, receipts, or important documents</li>
+                    <li><strong>Software Downloads:</strong> "Free" or "cracked" versions of popular software</li>
+                    <li><strong>Malicious Websites:</strong> Drive-by downloads from compromised websites</li>
+                    <li><strong>USB Drives:</strong> Infected removable media that auto-execute</li>
+                    <li><strong>Fake Updates:</strong> Posing as Adobe Flash, Java, or Windows updates</li>
+                    <li><strong>P2P Networks:</strong> Torrents and file-sharing platforms</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST TROJANS:</span></p>
+                <ul>
+                    <li><strong>✅ Download Only from Official Sources:</strong> Always get software from the developer's official website</li>
+                    <li><strong>✅ Never Open Attachments from Unknown Senders:</strong> Even if they look legitimate, verify first</li>
+                    <li><strong>✅ Install and Update Antivirus Software:</strong> Use reputable security software with real-time protection</li>
+                    <li><strong>✅ Use a Firewall:</strong> Monitor and block suspicious incoming and outgoing connections</li>
+                    <li><strong>✅ Enable File Extension Visibility:</strong> See file extensions to spot suspicious files (e.g., .exe disguised as .pdf)</li>
+                    <li><strong>✅ Scan All Downloads:</strong> Use antivirus to scan downloaded files before opening</li>
+                    <li><strong>✅ Keep Operating System Updated:</strong> Install security patches regularly</li>
+                    <li><strong>✅ Be Wary of "Free" Offers:</strong> If it seems too good to be true, it probably is</li>
+                    <li><strong>✅ Use Strong Passwords:</strong> Prevent unauthorized access even if a Trojan is installed</li>
+                    <li><strong>✅ Regular System Scans:</strong> Perform full system scans to detect hidden threats</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: 70% of Trojans are delivered through email attachments. Over 1 million new Trojans are discovered daily. Banking Trojans have caused over $1 billion in financial losses.</p>
             </div>
         </div>
 
-        <!-- 3. RANSOMWARE -->
+        <!-- 3. RANSOMWARE - EXTREME DETAIL -->
         <div class="card" onclick="toggleInfo('ransomwareInfo')">
             <h3>💀 RANSOMWARE</h3>
             <p>Malware that encrypts your files and demands payment.</p>
             <div id="ransomwareInfo" class="info-box">
-                <p><span class="danger">⚠️ HOW HACKERS DO IT:</span> Through phishing emails, malicious ads, drive-by downloads, or exploiting outdated software vulnerabilities.</p>
-                <p><span class="highlight">🎯 WHAT RANSOMWARE DOES:</span></p>
+                <p><span class="danger">⚠️ HOW RANSOMWARE ATTACKS WORK:</span></p>
+                <p>Ransomware is one of the most devastating cyber threats. It's a type of malicious software that encrypts a victim's files, making them inaccessible, and demands a ransom payment to restore access. Ransomware attacks have evolved from targeting individuals to large-scale attacks on hospitals, government agencies, and major corporations.</p>
+
+                <p><span class="highlight">🔍 COMMON RANSOMWARE VARIANTS:</span></p>
                 <ul>
-                    <li>Encrypts all your files (photos, documents, videos)</li>
-                    <li>Demands ransom payment in cryptocurrency</li>
-                    <li>Threatens to delete files if not paid</li>
-                    <li>Can spread across networks to infect others</li>
-                    <li>Often targets businesses and hospitals</li>
+                    <li><strong>Crypto Ransomware:</strong> Encrypts files using strong encryption algorithms</li>
+                    <li><strong>Locker Ransomware:</strong> Locks users out of their entire system</li>
+                    <li><strong>Scareware:</strong> Claims to have found viruses and demands payment for removal</li>
+                    <li><strong>Leakware/Doxware:</strong> Threatens to leak sensitive information if not paid</li>
+                    <li><strong>Ransomware-as-a-Service (RaaS):</strong> Cybercriminals selling ransomware kits to other hackers</li>
+                    <li><strong>Double Extortion Ransomware:</strong> Encrypts files AND steals data, threatening to leak it</li>
+                    <li><strong>Mobile Ransomware:</strong> Targets smartphones and mobile devices</li>
                 </ul>
+
+                <p><span class="highlight">🎯 HOW RANSOMWARE SPREADS:</span></p>
+                <ul>
+                    <li><strong>Phishing Emails:</strong> Malicious attachments or links disguised as legitimate documents</li>
+                    <li><strong>Remote Desktop Protocol (RDP):</strong> Exploiting weak passwords on remote access systems</li>
+                    <li><strong>Software Vulnerabilities:</strong> Exploiting unpatched security flaws in operating systems</li>
+                    <li><strong>Malicious Advertising:</strong> Drive-by downloads from compromised ad networks</li>
+                    <li><strong>Software Bundling:</strong> Included in seemingly harmless software installations</li>
+                    <li><strong>Network Propagation:</strong> Spreading across connected systems automatically</li>
+                    <li><strong>USB Drives:</strong> Infected removable media placed in strategic locations</li>
+                </ul>
+
+                <p><span class="danger">🔴 REAL-WORLD RANSOMWARE ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Hospitals:</strong> Patient records locked, surgeries canceled, lives endangered</li>
+                    <li><strong>Government Agencies:</strong> Critical systems disrupted, citizens' data at risk</li>
+                    <li><strong>Schools:</strong> Student records encrypted, classes disrupted</li>
+                    <li><strong>Businesses:</strong> Operations halted, revenue lost, reputations damaged</li>
+                    <li><strong>Manufacturing:</strong> Production lines stopped, supply chains disrupted</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST RANSOMWARE:</span></p>
+                <ul>
+                    <li><strong>✅ Regular Backups:</strong> Maintain multiple backups on external drives and cloud services</li>
+                    <li><strong>✅ Keep Systems Updated:</strong> Install all security patches and updates immediately</li>
+                    <li><strong>✅ Use Strong Antivirus:</strong> Implement advanced threat protection and endpoint security</li>
+                    <li><strong>✅ NEVER Pay the Ransom:</strong> There's no guarantee you'll get your files back</li>
+                    <li><strong>✅ Email Filtering:</strong> Use advanced email filtering to block malicious attachments</li>
+                    <li><strong>✅ Disable Macros:</strong> Turn off macros in Office documents from unknown sources</li>
+                    <li><strong>✅ Least Privilege Access:</strong> Give users only the access they need</li>
+                    <li><strong>✅ Network Segmentation:</strong> Isolate critical systems to prevent spread</li>
+                    <li><strong>✅ Employee Training:</strong> Educate all staff about ransomware risks</li>
+                    <li><strong>✅ Incident Response Plan:</strong> Have a clear plan in case of ransomware attack</li>
+                    <li><strong>✅ Backup Verification:</strong> Regularly test that you can restore from backups</li>
+                    <li><strong>✅ Enable "Show File Extensions":</strong> Spot suspicious hidden extensions</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: Ransomware attacks occur every 11 seconds. The average ransom payment is $200,000. Ransomware damage is estimated to reach $265 billion by 2031. 60% of organizations that pay ransoms experience another attack within months.</p>
+            </div>
+        </div>
+
+        <!-- 4. BRUTE FORCE - EXTREME DETAIL -->
+        <div class="card" onclick="toggleInfo('bruteforceInfo')">
+            <h3>🔑 BRUTE FORCE ATTACKS</h3>
+            <p>Guessing passwords through automated trial and error.</p>
+            <div id="bruteforceInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW BRUTE FORCE ATTACKS WORK:</span></p>
+                <p>A brute force attack is a trial-and-error method used by hackers to crack passwords, login credentials, and encryption keys. Attackers use automated software that rapidly tries millions of password combinations per second until the correct one is found. This method is effective against weak passwords and poorly secured systems.</p>
+
+                <p><span class="highlight">🔍 TYPES OF BRUTE FORCE ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Simple Brute Force:</strong> Trying every possible character combination (very slow for complex passwords)</li>
+                    <li><strong>Dictionary Attack:</strong> Using a list of common passwords and dictionary words</li>
+                    <li><strong>Hybrid Attack:</strong> Combining dictionary words with numbers and special characters</li>
+                    <li><strong>Reverse Brute Force:</strong> Starting with a known password and testing it against many usernames</li>
+                    <li><strong>Credential Stuffing:</strong> Using credentials stolen from other data breaches</li>
+                    <li><strong>Rainbow Table Attack:</strong> Using pre-computed hash tables to crack passwords quickly</li>
+                    <li><strong>Password Spraying:</strong> Trying the same common password against many accounts</li>
+                </ul>
+
+                <p><span class="highlight">🎯 WHAT HACKERS TARGET:</span></p>
+                <ul>
+                    <li>Email accounts (Gmail, Outlook, Yahoo)</li>
+                    <li>Social media profiles (Facebook, Instagram, Twitter)</li>
+                    <li>Banking and financial accounts</li>
+                    <li>Corporate login portals</li>
+                    <li>Cloud services (AWS, Azure, Google Cloud)</li>
+                    <li>VPN and remote access systems</li>
+                    <li>Administrator accounts on servers</li>
+                    <li>WiFi networks and routers</li>
+                </ul>
+
+                <p><span class="danger">🔴 HOW HACKERS ENHANCE BRUTE FORCE:</span></p>
+                <ul>
+                    <li><strong>Botnets:</strong> Using thousands of compromised computers to distribute attacks</li>
+                    <li><strong>GPU Acceleration:</strong> Using powerful graphics cards to try millions of passwords per second</li>
+                    <li><strong>Dictionary Building:</strong> Creating custom dictionaries based on target information</li>
+                    <li><strong>Leaked Password Databases:</strong> Using real leaked passwords from data breaches</li>
+                    <li><strong>Social Media Research:</strong> Gathering personal information for targeted password guessing</li>
+                    <li><strong>Multi-threading:</strong> Trying multiple combinations simultaneously</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST BRUTE FORCE:</span></p>
+                <ul>
+                    <li><strong>✅ Use Strong Passwords:</strong> 12+ characters with uppercase, lowercase, numbers, and symbols</li>
+                    <li><strong>✅ Enable Multi-Factor Authentication (MFA):</strong> Even if passwords are cracked, MFA stops access</li>
+                    <li><strong>✅ Implement Account Lockout:</strong> Lock accounts after a few failed attempts</li>
+                    <li><strong>✅ Use CAPTCHA:</strong> Prevent automated login attempts</li>
+                    <li><strong>✅ IP Blocking:</strong> Block IPs that show suspicious activity</li>
+                    <li><strong>✅ Use Unique Passwords:</strong> Different password for every account</li>
+                    <li><strong>✅ Password Managers:</strong> Use a password manager to generate and store strong passwords</li>
+                    <li><strong>✅ Monitor Login Attempts:</strong> Alert administrators to multiple failed attempts</li>
+                    <li><strong>✅ Disable Default Accounts:</strong> Remove or secure default usernames and passwords</li>
+                    <li><strong>✅ Rate Limiting:</strong> Limit the number of login attempts per IP</li>
+                    <li><strong>✅ Honeypot Accounts:</strong> Create fake accounts to detect brute force attempts</li>
+                    <li><strong>✅ Biometric Authentication:</strong> Use fingerprint or facial recognition where possible</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: The average user has 100 passwords. 53% of people use the same password for multiple accounts. A weak password can be cracked in under 1 second. Passwords with 12+ characters take centuries to crack.</p>
+            </div>
+        </div>
+
+        <!-- 5. MALWARE & RATS - EXTREME DETAIL -->
+        <div class="card" onclick="toggleInfo('malwareInfo')">
+            <h3>🦠 MALWARE & RATs</h3>
+            <p>Viruses, worms, spyware, and Remote Access Trojans.</p>
+            <div id="malwareInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING MALWARE AND RATs:</span></p>
+                <p>Malware (Malicious Software) is any software designed to cause harm to computer systems, networks, or users. RATs (Remote Access Trojans) are a specific type of malware that gives hackers complete remote control over infected devices. These attacks are among the most dangerous because they can persist undetected for extended periods.</p>
+
+                <p><span class="highlight">🔍 TYPES OF MALWARE:</span></p>
+                <ul>
+                    <li><strong>Viruses:</strong> Self-replicating programs that attach to clean files</li>
+                    <li><strong>Worms:</strong> Self-replicating malware that spreads across networks</li>
+                    <li><strong>Spyware:</strong> Secretly monitors user activity and steals information</li>
+                    <li><strong>Adware:</strong> Displays unwanted advertisements and tracks browsing</li>
+                    <li><strong>RATs (Remote Access Trojans):</strong> Complete remote control of infected systems</li>
+                    <li><strong>Keyloggers:</strong> Record every keystroke typed on the keyboard</li>
+                    <li><strong>Botnet Malware:</strong> Turns devices into "zombies" for coordinated attacks</li>
+                    <li><strong>Rootkits:</strong> Hide deep within the system to avoid detection</li>
+                    <li><strong>Fileless Malware:</strong> Runs in memory without leaving traces on the hard drive</li>
+                    <li><strong>Bootkits:</strong> Infect the system boot process to load before the OS</li>
+                </ul>
+
+                <p><span class="highlight">🎯 WHAT RATs CAN DO:</span></p>
+                <ul>
+                    <li>Complete remote control of your computer</li>
+                    <li>Access webcam, microphone, and screen</li>
+                    <li>Record keystrokes and steal passwords</li>
+                    <li>Download, upload, and delete files</li>
+                    <li>Install additional malware</li>
+                    <li>Use your system for illegal activities</li>
+                    <li>Monitor your activity in real-time</li>
+                    <li>Disable security software</li>
+                    <li>Steal cryptocurrency wallets</li>
+                    <li>Access saved passwords in browsers</li>
+                </ul>
+
+                <p><span class="danger">🔴 HOW MALWARE SPREADS:</span></p>
+                <ul>
+                    <li>Email attachments and phishing campaigns</li>
+                    <li>Malicious websites and drive-by downloads</li>
+                    <li>USB drives and removable media</li>
+                    <li>Software vulnerabilities and unpatched systems</li>
+                    <li>Fake software updates and pop-ups</li>
+                    <li>P2P networks and torrents</li>
+                    <li>Malicious advertising (malvertising)</li>
+                    <li>Social media links and messages</li>
+                    <li>Infected documents and PDFs</li>
+                    <li>Third-party app stores</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST MALWARE & RATs:</span></p>
+                <ul>
+                    <li><strong>✅ Install Reputable Antivirus:</strong> Use comprehensive security software with real-time scanning</li>
+                    <li><strong>✅ Keep Everything Updated:</strong> OS, browsers, plugins, and all software</li>
+                    <li><strong>✅ Use a Firewall:</strong> Monitor network traffic and block suspicious connections</li>
+                    <li><strong>✅ Be Careful with Downloads:</strong> Only download from trusted sources</li>
+                    <li><strong>✅ Enable Application Control:</strong> Restrict what applications can run</li>
+                    <li><strong>✅ Regular System Scans:</strong> Perform full system scans regularly</li>
+                    <li><strong>✅ Use Standard Accounts:</strong> Don't use administrator accounts for daily activities</li>
+                    <li><strong>✅ Disable Auto-Run:</strong> Prevent automatic execution of files on USB drives</li>
+                    <li><strong>✅ Use Browser Extensions:</strong> Install ad-blockers and script blockers</li>
+                    <li><strong>✅ Network Monitoring:</strong> Watch for unusual network activity</li>
+                    <li><strong>✅ Regular Backups:</strong> In case of infection, restore from clean backups</li>
+                    <li><strong>✅ Monitor Processes:</strong> Check task manager for unfamiliar processes</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: Over 500,000 new malware variants are discovered daily. 73% of organizations have experienced at least one RAT infection. Malware attacks increased by 85% in 2025.</p>
+            </div>
+        </div>
+
+        <!-- 6. SOCIAL ENGINEERING - EXTREME DETAIL -->
+        <div class="card" onclick="toggleInfo('socialInfo')">
+            <h3>🎭 SOCIAL ENGINEERING</h3>
+            <p>Psychological manipulation to gain confidential information.</p>
+            <div id="socialInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING SOCIAL ENGINEERING:</span></p>
+                <p>Social engineering is one of the most dangerous forms of cyber attacks because it targets the human element, not technology. Attackers manipulate people into breaking normal security procedures, revealing confidential information, or performing actions that compromise security. Social engineering exploits human psychology, trust, and emotional reactions.</p>
+
+                <p><span class="highlight">🔍 COMMON SOCIAL ENGINEERING TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>Pretexting:</strong> Creating a fabricated scenario to get information (e.g., pretending to be IT support)</li>
+                    <li><strong>Baiting:</strong> Offering something enticing (free music, software) to trick users into infecting their systems</li>
+                    <li><strong>Tailgating:</strong> Following authorized personnel into restricted areas</li>
+                    <li><strong>Phishing:</strong> Fraudulent emails or messages designed to steal information</li>
+                    <li><strong>Vishing:</strong> Voice phishing using phone calls to trick victims</li>
+                    <li><strong>Smishing:</strong> Phishing through SMS text messages</li>
+                    <li><strong>Quid Pro Quo:</strong> Offering a service in exchange for information</li>
+                    <li><strong>Impersonation:</strong> Pretending to be someone else (CEO, colleague, police)</li>
+                    <li><strong>Shoulder Surfing:</strong> Looking over shoulders to capture login credentials</li>
+                    <li><strong>Dumpster Diving:</strong> Searching through trash for sensitive documents</li>
+                    <li><strong>Watering Hole Attacks:</strong> Compromising websites frequently visited by the target</li>
+                    <li><strong>Trust Exploitation:</strong> Taking advantage of established relationships</li>
+                </ul>
+
+                <p><span class="highlight">🎯 WHAT SOCIAL ENGINEERS WANT:</span></p>
+                <ul>
+                    <li>Login credentials and passwords</li>
+                    <li>Personal identification information</li>
+                    <li>Financial information and credit card numbers</li>
+                    <li>Corporate secrets and intellectual property</li>
+                    <li>Access to secure areas or systems</li>
+                    <li>Employee schedules and security procedures</li>
+                    <li>Network information and system access</li>
+                </ul>
+
+                <p><span class="danger">🔴 REAL SOCIAL ENGINEERING SCENARIOS:</span></p>
+                <ul>
+                    <li><strong>Tech Support Impersonation:</strong> "I'm from Microsoft Support. Your computer has a virus. Let me connect to fix it."</li>
+                    <li><strong>CEO Fraud:</strong> "I'm the CEO. I need you to transfer $50,000 immediately for a confidential acquisition."</li>
+                    <li><strong>Credential Harvesting:</strong> "We've noticed suspicious activity on your account. Please verify your identity here."</li>
+                    <li><strong>Physical Security Breach:</strong> "I forgot my ID card. Can you let me in?"</li>
+                    <li><strong>Fake Charity Scams:</strong> "We're collecting donations for disaster relief. Please provide your credit card details."</li>
+                    <li><strong>Romance Scams:</strong> Building fake online relationships to steal money and information</li>
+                </ul>
+
+                <p><span class="success">🛡️ COMPLETE PROTECTION GUIDE AGAINST SOCIAL ENGINEERING:</span></p>
+                <ul>
+                    <li><strong>✅ Verify Identity:</strong> Always confirm the identity of people requesting information</li>
+                    <li><strong>✅ Trust Your Instincts:</strong> If something feels wrong, it probably is</li>
+                    <li><strong>✅ Never Share Passwords:</strong> No legitimate company will ask for your password</li>
+                    <li><strong>✅ Question Urgent Requests:</strong> Attackers create urgency to bypass your judgment</li>
+                    <li><strong>✅ Use Official Channels:</strong> Verify requests through official communication channels</li>
+                    <li><strong>✅ Implement Security Policies:</strong> Develop clear procedures for handling sensitive requests</li>
+                    <li><strong>✅ Employee Training:</strong> Regular security awareness training for all staff</li>
+                    <li><strong>✅ Report Suspicious Activity:</strong> Encourage reporting of unusual requests</li>
+                    <li><strong>✅ Physical Security Awareness:</strong> Don't allow unknown individuals into secure areas</li>
+                    <li><strong>✅ Limit Information Sharing:</strong> Only share necessary information</li>
+                    <li><strong>✅ Use Multi-Step Verification:</strong> Multiple approval processes for sensitive actions</li>
+                    <li><strong>✅ Stay Updated:</strong> Learn about common social engineering tactics</li>
+                </ul>
+
+                <p class="warning">📊 STATISTICS: 70% of all cyber attacks involve social engineering. Over 80% of successful attacks start with a social engineering component. The average cost of a social engineering attack is $200,000.</p>
+            </div>
+        </div>
+
+        <!-- 7. MAN-IN-THE-MIDDLE -->
+        <div class="card" onclick="toggleInfo('mitmInfo')">
+            <h3>🌐 MAN-IN-THE-MIDDLE (MITM)</h3>
+            <p>Attacker intercepts communication between two parties.</p>
+            <div id="mitmInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW MITM ATTACKS WORK:</span></p>
+                <p>In a Man-in-the-Middle (MITM) attack, the attacker secretly intercepts and possibly alters the communication between two parties. The victims believe they are communicating directly with each other, but the attacker is secretly relaying, reading, and potentially modifying the messages. This can happen through various methods including Wi-Fi eavesdropping, DNS spoofing, and SSL stripping.</p>
+
+                <p><span class="highlight">🔍 COMMON MITM TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>Wi-Fi Eavesdropping:</strong> Intercepting traffic on unsecured Wi-Fi networks</li>
+                    <li><strong>DNS Spoofing:</strong> Redirecting traffic to malicious websites</li>
+                    <li><strong>SSL/TLS Stripping:</strong> Downgrading HTTPS connections to HTTP</li>
+                    <li><strong>ARP Spoofing:</strong> Associating attacker's MAC with legitimate IP</li>
+                    <li><strong>Session Hijacking:</strong> Stealing session tokens to impersonate users</li>
+                    <li><strong>Email Interception:</strong> Reading and modifying email communications</li>
+                    <li><strong>Browser Exploits:</strong> Using browser vulnerabilities to intercept traffic</li>
+                </ul>
+
                 <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
                 <ul>
-                    <li>✅ Regularly backup important files to external drives or cloud</li>
+                    <li>✅ Always use HTTPS websites (look for the padlock icon)</li>
+                    <li>✅ Avoid using public Wi-Fi without a VPN</li>
+                    <li>✅ Use encrypted messaging apps (Signal, WhatsApp, Telegram)</li>
+                    <li>✅ Verify SSL certificates and look for warnings</li>
+                    <li>✅ Keep browsers and software updated</li>
+                    <li>✅ Use HTTPS Everywhere browser extension</li>
+                    <li>✅ Be wary of unusual certificate warnings</li>
+                </ul>
+                <p class="warning">📊 85% of MITM attacks target financial institutions and cloud services.</p>
+            </div>
+        </div>
+
+        <!-- 8. DDoS ATTACKS -->
+        <div class="card" onclick="toggleInfo('ddosInfo')">
+            <h3>💥 DDoS ATTACKS</h3>
+            <p>Overwhelming servers with traffic to make them unavailable.</p>
+            <div id="ddosInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING DDoS ATTACKS:</span></p>
+                <p>Distributed Denial of Service (DDoS) attacks aim to make a service, website, or network unavailable by overwhelming it with massive amounts of traffic from multiple sources. Attackers use botnets (networks of compromised computers) to generate this traffic, exhausting server resources and causing legitimate users to be unable to access the service.</p>
+
+                <p><span class="highlight">🔍 TYPES OF DDoS ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Volume-based Attacks:</strong> Flooding with massive amounts of traffic (UDP floods, ICMP floods)</li>
+                    <li><strong>Protocol Attacks:</strong> Exploiting protocol weaknesses (SYN floods, Ping of Death)</li>
+                    <li><strong>Application Layer Attacks:</strong> Targeting specific applications (HTTP floods)</li>
+                    <li><strong>Multi-vector Attacks:</strong> Combining multiple attack types</li>
+                    <li><strong>Reflection Attacks:</strong> Using third-party servers to amplify traffic</li>
+                    <li><strong>Amplification Attacks:</strong> Magnifying traffic using vulnerable services</li>
+                </ul>
+
+                <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
+                <ul>
+                    <li>✅ Use DDoS protection services (Cloudflare, AWS Shield)</li>
+                    <li>✅ Implement traffic filtering and rate limiting</li>
+                    <li>✅ Use load balancers to distribute traffic</li>
+                    <li>✅ Configure firewalls to block suspicious IPs</li>
+                    <li>✅ Monitor network traffic for anomalies</li>
+                    <li>✅ Have a DDoS response plan ready</li>
+                    <li>✅ Use a content delivery network (CDN)</li>
+                </ul>
+                <p class="warning">📊 DDoS attacks increased by 85% in 2025. Average DDoS attack size is 10 Gbps.</p>
+            </div>
+        </div>
+
+        <!-- 9. ZERO-DAY EXPLOITS -->
+        <div class="card" onclick="toggleInfo('zeroInfo')">
+            <h3>🔓 ZERO-DAY EXPLOITS</h3>
+            <p>Attacks on unknown vulnerabilities with no patch available.</p>
+            <div id="zeroInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING ZERO-DAY EXPLOITS:</span></p>
+                <p>A zero-day exploit targets previously unknown vulnerabilities in software or hardware. "Zero-day" means developers have zero days to fix the vulnerability before it's exploited. These are among the most dangerous attacks because there are no patches or defenses available when they first appear.</p>
+
+                <p><span class="highlight">🔍 HOW ZERO-DAY EXPLOITS WORK:</span></p>
+                <ul>
+                    <li>Hackers discover a vulnerability before the developer knows about it</==== ATTACK TYPES SECTION ===== -->
+                               <!-- 9. ZERO-DAY EXPLOITS (continued) -->
+                <li>Hackers sell the exploit on the dark web for millions of dollars</li>
+                <li>Attackers use the exploit before developers can patch it</li>
+                <li>May take weeks or months for the vendor to release a fix</li>
+                <li>Stuxnet worm used four zero-day exploits against Iranian nuclear facilities</li>
+            </ul>
+
+            <p><span class="highlight">🎯 WHO USES ZERO-DAY EXPLOITS:</span></p>
+            <ul>
+                <li><strong>Nation-state Actors:</strong> Government-sponsored cyber espionage</li>
+                <li><strong>Cybercriminal Groups:</strong> For ransomware and data theft</li>
+                <li><strong>Hacktivists:</strong> For political or social causes</li>
+                <li><strong>Corporate Espionage:</strong> Stealing trade secrets from competitors</li>
+                <li><strong>Security Researchers:</strong> Finding vulnerabilities responsibly</li>
+            </ul>
+
+            <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
+            <ul>
+                <li>✅ Keep all software and systems updated</li>
+                <li>✅ Use antivirus with exploit protection</li>
+                <li>✅ Implement defense-in-depth strategy</li>
+                <li>✅ Monitor for unusual system behavior</li>
+                <li>✅ Use application whitelisting</li>
+                <li>✅ Implement network segmentation</li>
+                <li>✅ Regular security audits</li>
+                <li>✅ Use intrusion detection systems</li>
+                <li>✅ Follow security advisories from vendors</li>
+                <li>✅ Have an incident response plan ready</li>
+            </ul>
+            <p class="warning">📊 Zero-day exploits are sold for $50,000 to $2.5 million. Over 60 new zero-day vulnerabilities are discovered daily.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section" id="contact">
+    <div class="contact-item">
+        <span style="font-size:28px;">📞</span>
+        <a href="tel:+919616401302">+91 96164 01302</a>
+    </div>
+    <div class="contact-item">
+        <span style="font-size:28px;">✉️</span>
+        <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
+    </div>
+    <div class="contact-item">
+        <span style="font-size:28px;">💬</span>
+        <span>Available 24/7 for Security Help</span>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer-note">
+    ⚡ CYBER SECURITY HUB · Always Learning · Always Defending ⚡<br>
+    <span style="font-size:12px; color:#0a3a0a;">© 2026 Cyber Security Hub · All Rights Reserved</span>
+</div>
+
+<!-- ============================================================ -->
+<!-- ===== ALL JAVASCRIPT - COMPLETE WORKING CODE ===== -->
+<!-- ============================================================ -->
+<script>
+    // =============================================================
+    // 1. MATRIX ANIMATION (GREEN CODE RAIN) - WORKING
+    // =============================================================
+    (function matrixRain() {
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        const cols = Math.floor(width / 18);
+        const drops = Array(cols).fill(1);
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~";
+        
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.fillStyle = '#00ff41';
+            ctx.font = '18px "Share Tech Mono", monospace';
+            ctx.shadowColor = '#00ff41';
+            ctx.shadowBlur = 8;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const x = i * 18;
+                const y = drops[i] * 18;
+                ctx.fillStyle = `rgba(0, 255, 65, ${0.8 + Math.random() * 0.4})`;
+                ctx.fillText(text, x, y);
+                
+                if (y > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i] += 0.5 + Math.random() * 0.6;
+            }
+            requestAnimationFrame(draw);
+        }
+        
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            const newCols = Math.floor(width / 18);
+            if (newCols > drops.length) {
+                for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20);
+            } else {
+                drops.length = newCols;
+            }
+        });
+        
+        draw();
+    })();
+
+    // =============================================================
+    // 2. TOGGLE INFO BOXES (Click on cards)
+    // =============================================================
+    function toggleInfo(id) {
+        const box = document.getElementById(id);
+        if (box) {
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+            } else {
+                // Close all other info boxes first
+                document.querySelectorAll('.info-box').forEach(b => {
+                    if (b.id !== id) b.style.display = 'none';
+                });
+                box.style.display = 'block';
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    }
+
+    // =============================================================
+    // 3. DROPDOWN MENU (Hamburger - 3 lines)
+    // =============================================================
+    function toggleDropdown() {
+        const menu = document.getElementById('dropdownMenu');
+        const hamburger = document.getElementById('hamburger');
+        menu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    }
+
+    function closeDropdown() {
+        document.getElementById('dropdownMenu').classList.remove('active');
+        document.getElementById('hamburger').classList.remove('active');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('dropdownMenu');
+        const hamburger = document.getElementById('hamburger');
+        if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+    });
+
+    // =============================================================
+    // 4. LOGIN SYSTEM (Working)
+    // =============================================================
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userGreeting = document.getElementById('userGreeting');
+
+    // Check session on load
+    (function checkSession() {
+        const user = sessionStorage.getItem('cyberUser');
+        if (user) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            userGreeting.style.display = 'inline-block';
+            userGreeting.textContent = `👤 ${user}`;
+        } else {
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+            userGreeting.style.display = 'none';
+        }
+    })();
+
+    function openModal() {
+        document.getElementById('loginModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('loginModal').classList.remove('active');
+    }
+
+    function handleLogin() {
+        const username = document.getElementById('usernameInput').value.trim();
+        const password = document.getElementById('passwordInput').value.trim();
+        
+        if (username === 'admin' && password === '1234') {
+            sessionStorage.setItem('cyberUser', username);
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            userGreeting.style.display = 'inline-block';
+            userGreeting.textContent = `👤 ${username}`;
+            closeModal();
+            alert('✅ Access granted. Welcome, Operator.');
+        } else {
+            alert('❌ Access denied. Invalid credentials.\n\nHint: Username: admin | Password: 1234');
+        }
+    }
+
+    function logout() {
+        sessionStorage.removeItem('cyberUser');
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        userGreeting.style.display = 'none';
+        alert('⛔ Logged out successfully.');
+    }
+
+    // Login modal: Enter key and Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && document.getElementById('loginModal').classList.contains('active')) {
+            handleLogin();
+        }
+        if (e.key === 'Escape') {
+            if (document.getElementById('loginModal').classList.contains('active')) closeModal();
+            if (document.getElementById('videoModal').classList.contains('active')) closeVideo();
+            if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
+            if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
+        }
+    });
+
+    // Click outside modal to close
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    // =============================================================
+    // 5. VIDEO MODAL (Working)
+    // =============================================================
+    function openVideo(type) {
+        const modal = document.getElementById('videoModal');
+        const frame = document.getElementById('videoFrame');
+        const title = document.getElementById('videoTitle');
+        
+        const videos = {
+            phishing: {
+                url: 'https://www.youtube.com/embed/mc4ctFmGu_w?autoplay=1',
+                title: '🎣 Phishing Attacks - How Hackers Trick You'
+            },
+            trojan: {
+                url: 'https://www.youtube.com/embed/T8QrMcWJ9FU?autoplay=1',
+                title: '🐴 Trojan Horse Malware - Complete Guide'
+            },
+            ransomware: {
+                url: 'https://www.youtube.com/embed/lg3dBA9Mf7s?autoplay=1',
+                title: '💀 Ransomware - How to Prevent and Recover'
+            },
+            bruteforce: {
+                url: 'https://www.youtube.com/embed/7U-RbOKanYQ?autoplay=1',
+                title: '🔑 Brute Force Attacks - Password Security'
+            },
+            malware: {
+                url: 'https://www.youtube.com/embed/6OxxmskCqFE?autoplay=1',
+                title: '🦠 Malware & RATs - Complete Protection Guide'
+            },
+            social: {
+                url: 'https://www.youtube.com/embed/RVzQjWk5aXw?autoplay=1',
+                title: '🎭 Social Engineering - Psychological Hacks'
+            },
+            mitm: {
+                url: 'https://www.youtube.com/embed/2bOw-zIGl6U?autoplay=1',
+                title: '🌐 Man-in-the-Middle Attacks Explained'
+            },
+            ddos: {
+                url: 'https://www.youtube.com/embed/9gOD6l0KbFA?autoplay=1',
+                title: '💥 DDoS Attacks - How They Work'
+            },
+            zero: {
+                url: 'https://www.youtube.com/embed/sJtVv_7cSME?autoplay=1',
+                title: '🔓 Zero-Day Exploits - The Most Dangerous Attacks'
+            }
+        };
+        
+        const selected = videos[type] || videos.phishing;
+        frame.src = selected.url;
+        title.textContent = selected.title;
+        modal.classList.add('active');
+        closeDropdown();
+    }
+
+    function closeVideo() {
+        document.getElementById('videoModal').classList.remove('active');
+        document.getElementById('videoFrame').src = '';
+    }
+
+    document.getElementById('videoModal').addEventListener('click', function(e) {
+        if (e.target === this) closeVideo();
+    });
+
+    // =============================================================
+    // 6. GUIDANCE MODAL (Working with your contact)
+    // =============================================================
+    function openGuidance() {
+        document.getElementById('guidanceModal').classList.add('active');
+        closeDropdown();
+    }
+
+    function closeGuidance() {
+        document.getElementById('guidanceModal').classList.remove('active');
+    }
+
+    document.getElementById('guidanceModal').addEventListener('click', function(e) {
+        if (e.target === this) closeGuidance();
+    });
+
+    // =============================================================
+    // 7. QUIZ SYSTEM (20 Questions - Fully Working)
+    // =============================================================
+    const quizQuestions = [
+        {
+            question: "What is phishing?",
+            options: [
+                "A type of computer virus",
+                "A fraudulent attempt to obtain sensitive information",
+                "A hacking tool for Wi-Fi networks",
+                "A type of firewall"
+            ],
+            correct: 1
+        },
+        {
+            question: "What does MFA stand for in cyber security?",
+            options: [
+                "Main Frame Access",
+                "Multi-Factor Authentication",
+                "Master File Administrator",
+                "Malware File Analysis"
+            ],
+            correct: 1
+        },
+        {
+            question: "Which type of malware disguises itself as legitimate software?",
+            options: [
+                "Virus",
+                "Worm",
+                "Trojan Horse",
+                "Ransomware"
+            ],
+            correct: 2
+        },
+        {
+            question: "What is a brute force attack?",
+            options: [
+                "Attacking a server with multiple computers",
+                "Using force to break into a building",
+                "Trying many password combinations to gain access",
+                "Attacking a website with DDoS"
+            ],
+            correct: 2
+        },
+        {
+            question: "What should you do if you receive a suspicious email with a link?",
+            options: [
+                "Click the link to check if it's real",
+                "Reply asking if it's legitimate",
+                "Hover over the link to check the URL, don't click",
+                "Forward it to all your contacts"
+            ],
+            correct: 2
+        },
+        {
+            question: "What is a RAT in cyber security?",
+            options: [
+                "Remote Access Trojan",
+                "Random Access Tool",
+                "Reverse Attack Technology",
+                "Rapid Antivirus Test"
+            ],
+            correct: 0
+        },
+        {
+            question: "What is social engineering?",
+            options: [
+                "Building social networks",
+                "Creating fake social media profiles",
+                "Psychological manipulation to gain information",
+                "Engineering social media platforms"
+            ],
+            correct: 2
+        },
+        {
+            question: "What is a zero-day vulnerability?",
+            options: [
+                "A vulnerability that exists for one day",
+                "A vulnerability with no patch available",
+                "A vulnerability in day-old software",
+                "A vulnerability discovered by beginners"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is ransomware?",
+            options: [
+                "Software that fixes computer problems",
+                "Malware that encrypts files and demands payment",
+                "A type of antivirus software",
+                "A tool for managing networks"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is the safest practice for creating passwords?",
+            options: [
+                "Using the same password for all accounts",
+                "Using your birthday as password",
+                "Using a unique, complex password for each account",
+                "Using the word 'password'"
+            ],
+            correct: 2
+        },
+        {
+            question: "What does HTTPS provide for website security?",
+            options: [
+                "Speed improvement",
+                "Encrypted communication between browser and server",
+                "Better color display",
+                "Automatic backup"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is a DDoS attack?",
+            options: [
+                "Distributed Denial of Service - overwhelming a server with traffic",
+                "Direct Database of Security",
+                "Digital Defense Operating System",
+                "Data Destruction Software"
+            ],
+            correct: 0
+        },
+        {
+            question: "What should you do immediately if your account is hacked?",
+            options: [
+                "Do nothing, it might fix itself",
+                "Change your password and report the incident",
+                "Delete your browser history",
+                "Send an angry email to the hacker"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is a man-in-the-middle attack?",
+            options: [
+                "Attack on people in the middle of a city",
+                "Intercepting communication between two parties",
+                "Using middle management for access",
+                "A type of social engineering"
+            ],
+            correct: 1
+        },
+        {
+            question: "Why should you use two-factor authentication?",
+            options: [
+                "It makes logging in slower",
+                "It adds an extra layer of security",
+                "It's required by law",
+                "It makes your password stronger"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is spear phishing?",
+            options: [
+                "Fishing with a spear",
+                "Targeted phishing attacks on specific individuals",
+                "Phishing that uses images",
+                "A type of fishing equipment"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is the best defense against ransomware?",
+            options: [
+                "Buying the most expensive antivirus",
+                "Regular offline backups of important data",
+                "Using a strong password",
+                "Installing all software available"
+            ],
+            correct: 1
+        },
+        {
+            question: "What is a botnet?",
+            options: [
+                "A network of compromised computers used for attacks",
+                "A tool for building robots",
+                "A type of security software",
+                "A network of security cameras"
+            ],
+            correct: 0
+        },
+        {
+            question: "What is the importance of software updates?",
+            options: [
+                "It slows down the computer",
+                "It patches security vulnerabilities",
+                "It changes the software color",
+                "It deletes all files"
+            ],
+            correct: 1
+        },
+        {
+            question: "What should you do if you suspect you've been phished?",
+            options: [
+                "Ignore it, it's probably nothing",
+                "Change your passwords immediately and report the incident",
+                "Reply to the phishing email asking for more information",
+                "Share the email with your friends"
+            ],
+            correct: 1
+        }
+    ];
+
+    let quizStarted = false;
+
+    function openQuiz() {
+        const modal = document.getElementById('quizModal');
+        const container = document.getElementById('quizContainer');
+        const resultDiv = document.getElementById('quizResult');
+        const submitBtn = document.querySelector('.quiz-submit');
+        
+        // Reset
+        resultDiv.style.display = 'none';
+        submitBtn.style.display = 'block';
+        quizStarted = true;
+        
+        // Build quiz
+        let html = '';
+        quizQuestions.forEach((q, index) => {
+            html += `
+                <div class="question-item">
+                    <div class="q-text">${index + 1}. ${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, optIndex) => `
+                            <label>
+                                <input type="radio" name="q${index}" value="${optIndex}">
+                                ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        modal.classList.add('active');
+        closeDropdown();
+    }
+
+    function submitQuiz() {
+        if (!quizStarted) return;
+        
+        let score = 0;
+        let allAnswered = true;
+        
+        quizQuestions.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selected) {
+                if (parseInt(selected.value) === q.correct) {
+                    score++;
+                }
+            } else {
+                allAnswered = false;
+            }
+        });
+        
+        if (!allAnswered) {
+            alert('⚠️ Please answer all 20 questions before submitting.');
+            return;
+        }
+        
+        const resultDiv = document.getElementById('quizResult');
+        const scoreDisplay = document.getElementById('quizScore');
+        const feedback = document.getElementById('quizFeedback');
+        const submitBtn = document.querySelector('.quiz-submit');
+        
+        // Show results
+        submitBtn.style.display = 'none';
+        resultDiv.style.display = 'block';
+        scoreDisplay.textContent = `${score}/${quizQuestions.length}`;
+        
+        // Feedback
+        const percentage = (score / quizQuestions.length) * 100;
+        if (percentage >= 90) {
+            feedback.innerHTML = '🏆 EXCELLENT! You have expert-level cyber security knowledge!';
+        } else if (percentage >= 70) {
+            feedback.innerHTML = '✅ Great job! You understand most cyber security concepts. Keep learning!';
+        } else if (percentage >= 50) {
+            feedback.innerHTML = '📚 Good effort! Review the topics above to improve your knowledge.';
+        } else {
+            feedback.innerHTML = '📖 Keep learning! Go through the cyber attacks and protection guides above.';
+        }
+        
+        // Scroll to results
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function closeQuiz() {
+        document.getElementById('quizModal').classList.remove('active');
+        document.getElementById('quizContainer').innerHTML = '';
+        document.getElementById('quizResult').style.display = 'none';
+        document.querySelector('.quiz-submit').style.display = 'block';
+        quizStarted = false;
+    }
+
+    document.getElementById('quizModal').addEventListener('click', function(e) {
+        if (e.target === this) closeQuiz();
+    });
+
+    // =============================================================
+    // 8. SMOOTH SCROLLING for nav links
+    // =============================================================
+    document.querySelectorAll('.dropdown-menu a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+                closeDropdown();
+            }
+        });
+    });
+
+    // =============================================================
+    // 9. CONSOLE WELCOME MESSAGE (Hacker style)
+    // =============================================================
+    console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
+    console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
+    console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
+    console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
+    console.log('%c🛡️ Remember: Security is a process, not a product.', 'font-size: 14px; color: #5a8a5a;');
+
+    // =============================================================
+    // 10. KEYBOARD SHORTCUTS
+    // =============================================================
+    document.addEventListener('keydown', function(e) {
+        // Ctrl + L = Login (if not logged in)
+        if (e.ctrlKey && e.key === 'l') {
+            e.preventDefault();
+            if (sessionStorage.getItem('cyberUser')) {
+                alert('You are already logged in!');
+            } else {
+                openModal();
+            }
+        }
+        // Ctrl + Q = Open Quiz
+        if (e.ctrlKey && e.key === 'q') {
+            e.preventDefault();
+            openQuiz();
+        }
+        // Ctrl + G = Open Guidance
+        if (e.ctrlKey && e.key === 'g') {
+            e.preventDefault();
+            openGuidance();
+        }
+        // Ctrl + H = Go Home
+        if (e.ctrlKey && e.key === 'h') {
+            e.preventDefault();
+            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+
+    // =============================================================
+    // 11. PAGE LOAD ANIMATION
+    // =============================================================
+    window.addEventListener('load', function() {
+        console.log('%c✅ Cyber Security Hub loaded successfully!', 'color: #00ff41; font-size: 16px;');
+        console.log('%c🟢 Matrix Rain active - Background animation running', 'color: #00ff41;');
+        console.log('%c🟡 All systems operational. Stay secure!', 'color: #b0ffc0;');
+    });
+
+    // =============================================================
+    // 12. PREVENT RIGHT CLICK (Basic security)
+    // =============================================================
+    // Uncomment the line below if you want to prevent right-click
+    // document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // =============================================================
+    // 13. TIME-BASED SECURITY TIPS (Changes based on time of day)
+    // =============================================================
+    function showTimeBasedTips() {
+        const hour = new Date().getHours();
+        let tip = '';
+        if (hour >= 23 || hour < 5) {
+            tip = '🌙 Night tip: Avoid late-night online transactions and be extra cautious of emails.';
+        } else if (hour >= 5 && hour < 12) {
+            tip = '🌅 Morning tip: Check your accounts for any suspicious activity from overnight.';
+        } else if (hour >= 12 && hour < 17) {
+            tip = '☀️ Afternoon tip: Be wary of lunchtime phishing emails - attackers know you might be distracted.';
+        } else {
+            tip = '🌆 Evening tip: Update your passwords and review your security settings.';
+        }
+        console.log(`%c${tip}`, 'color: #00ff41; font-size: 14px;');
+    }
+    showTimeBasedTips();
+
+    console.log('%c' + '='.repeat(60), 'color: #0a5a1f;');
+    console.log('%c🛡️ Remember: Your security is our priority. Stay cyber safe! 🛡️', 'color: #00ff41; font-size: 16px; font-weight: bold;');
+    console.log('%c' + '='.repeat(60), 'color: #0a5a1f;');
+
+    // =============================================================
+    // 14. DROPDOWN CLOSE ON SCROLL
+    // =============================================================
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+            if (document.getElementById('dropdownMenu').classList.contains('active')) {
+                // Only close if the dropdown is open and we're not clicking the hamburger
+                // This prevents unwanted closes
+            }
+        }, 100);
+    });
+
+    // =============================================================
+    // 15. MOBILE MENU IMPROVEMENTS
+    // =============================================================
+    // Detect if mobile and adjust dropdown position
+    function checkMobile() {
+        if (window.innerWidth <= 768) {
+            document.querySelector('.dropdown-menu').style.right = '4%';
+            document.querySelector('.dropdown-menu').style.minWidth = '280px';
+        } else {
+            document.querySelector('.dropdown-menu').style.right = '6%';
+            document.querySelector('.dropdown-menu').style.minWidth = '320px';
+        }
+    }
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
+</script>
+</body>
+</html> 
+   
