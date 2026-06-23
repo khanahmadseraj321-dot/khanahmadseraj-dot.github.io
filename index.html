@@ -1,640 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER SECURITY · HUB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {
+      background: #000;
+      color: #00ff41;
+      font-family: 'Share Tech Mono', monospace;
+      overflow-x: hidden;
+    }
 
-<title>Cyber Security Learning Hub</title>
+    /* ---- MATRIX CANVAS (background) ---- */
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: #000;
+      display: block;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    /* subtle overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 255, 65, 0.03), rgba(0, 0, 0, 0.25));
+      z-index: -1;
+      pointer-events: none;
+    }
 
-<style>
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00ff41;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #00ff41;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-}
+    /* ---- NAVBAR ---- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 18px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #00ff41;
+      z-index: 9999;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+    }
 
-body{
-background:#000;
-color:#00ff41;
-font-family:'Share Tech Mono',monospace;
-overflow-x:hidden;
-}
+    .logo {
+      font-size: 28px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px #00ff41, 0 0 30px #00ff41;
+    }
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-2;
-background:#000;
-}
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #00ff41;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      letter-spacing: 1px;
+      font-size: 16px;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover {
+      text-shadow: 0 0 18px #00ff41;
+      border-bottom-color: #00ff41;
+    }
 
-body::before{
-content:'';
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-linear-gradient(
-rgba(0,255,65,.03),
-rgba(0,0,0,.15)
-);
-z-index:-1;
-}
+    /* ---- HERO ---- */
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    .hero-content {
+      max-width: 1000px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 40px 50px;
+      border-radius: 30px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      box-shadow: 0 0 70px rgba(0, 255, 65, 0.15);
+    }
+    .hero h1 {
+      font-size: 76px;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 20px;
+      text-shadow: 0 0 12px #00ff41, 0 0 35px #00ff41, 0 0 70px #00ff41;
+      line-height: 1.1;
+    }
+    .hero p {
+      font-size: 22px;
+      line-height: 2;
+      color: #c8ffd6;
+      margin-bottom: 40px;
+      letter-spacing: 0.5px;
+    }
 
-::-webkit-scrollbar{
-width:10px;
-}
+    .hero-btn {
+      padding: 18px 50px;
+      background: #00ff41;
+      color: #000;
+      border: none;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: 0.3s;
+      box-shadow: 0 0 25px #00ff41;
+      letter-spacing: 2px;
+    }
+    .hero-btn:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 0 50px #00ff41, 0 0 90px #00ff41;
+      background: #9dffb7;
+    }
 
-::-webkit-scrollbar-track{
-background:#000;
-}
+    /* ---- SECTION TITLE ---- */
+    .section-title {
+      text-align: center;
+      font-size: 52px;
+      font-family: 'Orbitron', sans-serif;
+      margin-top: 100px;
+      margin-bottom: 60px;
+      text-shadow: 0 0 20px #00ff41;
+      letter-spacing: 2px;
+      word-break: break-word;
+    }
 
-::-webkit-scrollbar-thumb{
-background:#00ff41;
-border-radius:20px;
-}
+    /* ---- CARDS GRID ---- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 35px;
+      padding: 0 8% 40px;
+    }
 
-.navbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,.85);
-backdrop-filter:blur(12px);
-border-bottom:1px solid #00ff41;
-z-index:9999;
-}
+    .card {
+      background: #050505;
+      border: 1px solid #00ff41;
+      border-radius: 20px;
+      padding: 30px 28px;
+      transition: 0.3s;
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 45px rgba(0, 255, 65, 0.4);
+      background: #0a0f0a;
+      border-color: #9dffb7;
+    }
 
-.logo{
-font-size:30px;
-font-family:'Orbitron',sans-serif;
-font-weight:800;
-text-shadow:
-0 0 10px #00ff41,
-0 0 25px #00ff41;
-}
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+    .card p {
+      line-height: 1.9;
+      color: #d4ffe0;
+      font-size: 16px;
+    }
 
-.nav-links{
-display:flex;
-gap:25px;
-}
+    .info-box {
+      display: none;
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid #00ff41;
+      line-height: 2;
+      color: #e2ffe8;
+      font-size: 15px;
+      background: rgba(0, 255, 65, 0.02);
+      border-radius: 8px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .info-box p {
+      margin-bottom: 8px;
+    }
 
-.nav-links a{
-color:#00ff41;
-text-decoration:none;
-transition:.3s;
-}
+    /* ---- CONTACT SECTION (custom) ---- */
+    .contact-section {
+      margin: 80px 8% 40px;
+      padding: 40px 30px;
+      border: 1px solid #00ff41;
+      border-radius: 30px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      box-shadow: 0 0 40px rgba(0, 255, 65, 0.08);
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 20px;
+    }
+    .contact-item i {
+      font-size: 30px;
+      color: #00ff41;
+      text-shadow: 0 0 20px #00ff41;
+    }
+    .contact-item a {
+      color: #00ff41;
+      text-decoration: none;
+      border-bottom: 1px dotted #00ff41;
+      transition: 0.3s;
+    }
+    .contact-item a:hover {
+      text-shadow: 0 0 20px #00ff41;
+      border-bottom: 1px solid #00ff41;
+    }
 
-.nav-links a:hover{
-text-shadow:0 0 15px #00ff41;
-}
+    .footer-note {
+      text-align: center;
+      padding: 30px 0 20px;
+      color: #0a5a1f;
+      font-size: 15px;
+      letter-spacing: 2px;
+      border-top: 1px solid rgba(0, 255, 65, 0.1);
+      margin: 20px 8% 0;
+    }
 
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:0 20px;
-}
-
-.hero-content{
-max-width:1000px;
-}
-
-.hero h1{
-font-size:80px;
-font-family:'Orbitron',sans-serif;
-margin-bottom:25px;
-text-shadow:
-0 0 10px #00ff41,
-0 0 30px #00ff41,
-0 0 60px #00ff41;
-}
-
-.hero p{
-font-size:22px;
-line-height:2;
-color:#b8ffca;
-margin-bottom:40px;
-}
-
-.hero-btn{
-padding:18px 40px;
-background:#00ff41;
-color:#000;
-border:none;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-border-radius:8px;
-transition:.4s;
-}
-
-.hero-btn:hover{
-transform:translateY(-5px);
-box-shadow:0 0 30px #00ff41;
-}
-
-.section-title{
-text-align:center;
-font-size:55px;
-font-family:'Orbitron',sans-serif;
-margin-top:100px;
-margin-bottom:60px;
-text-shadow:0 0 20px #00ff41;
-}
-
-.cards{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(340px,1fr));
-gap:30px;
-padding:0 8%;
-}
-
-.card{
-background:#050505;
-border:1px solid #00ff41;
-border-radius:15px;
-padding:30px;
-transition:.4s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 30px rgba(0,255,65,.5);
-}
-
-.card h3{
-font-family:'Orbitron',sans-serif;
-font-size:28px;
-margin-bottom:15px;
-}
-
-.card p{
-line-height:1.9;
-color:#d4ffe0;
-}
-
-.info-box{
-display:none;
-margin-top:20px;
-padding-top:20px;
-border-top:1px solid #00ff41;
-line-height:2;
-color:#fff;
-}
-
-@media(max-width:768px){
-
-.hero h1{
-font-size:45px;
-}
-
-.nav-links{
-display:none;
-}
-
-.section-title{
-font-size:35px;
-}
-
-}
-
-</style>
-
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 38px;
+      }
+      .hero-content {
+        padding: 30px 20px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .section-title {
+        font-size: 32px;
+        margin-top: 70px;
+        margin-bottom: 40px;
+      }
+      .cards {
+        grid-template-columns: 1fr;
+        padding: 0 5%;
+      }
+      .contact-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .logo {
+        font-size: 22px;
+      }
+      .hero p {
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<canvas id="matrix"></canvas>
+  <!-- MATRIX CANVAS (animated) -->
+  <canvas id="matrix-canvas"></canvas>
 
-<nav class="navbar">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">⟡ CYBER HUB</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#topics">Topics</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-<div class="logo">
-CYBER HUB
-</div>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>CYBER SECURITY<br>LEARNING HUB</h1>
+      <p>
+        Master Ethical Hacking, Network Security, Web Defense &amp; Digital Awareness<br>
+        through an immersive hacker‑styled platform.
+      </p>
+      <button class="hero-btn" onclick="document.getElementById('topics').scrollIntoView({behavior:'smooth'})">
+        ⚡ ENTER THE SYSTEM
+      </button>
+    </div>
+  </section>
 
-<div class="nav-links">
-<a href="#home">Home</a>
-<a href="#topics">Topics</a>
-<a href="#roadmap">Roadmap</a>
-<a href="#faq">FAQ</a>
-</div>
+  <!-- TOPICS -->
+  <h2 class="section-title" id="topics">⛓️ TOP CYBER TOPICS</h2>
+  <section class="cards">
 
-</nav>
+    <div class="card" onclick="toggleInfo('phishing')">
+      <h3>PHISHING ATTACKS</h3>
+      <p>Fake emails, messages &amp; websites that steal credentials.</p>
+      <div id="phishing" class="info-box">
+        <p>Phishing is a top cyber threat. Attackers impersonate banks, social media, or government.</p>
+        <p>Goal: steal passwords, personal info, financial data.</p>
+        <p>Modern phishing looks extremely convincing — always verify sender &amp; URL.</p>
+        <p>Enable multi‑factor authentication (MFA) for extra protection.</p>
+        <p>📌 Report suspicious emails to your security team.</p>
+      </div>
+    </div>
 
-<section class="hero" id="home">
+    <div class="card" onclick="toggleInfo('malware')">
+      <h3>MALWARE</h3>
+      <p>Viruses, worms, trojans, ransomware, spyware.</p>
+      <div id="malware" class="info-box">
+        <p>Malware is designed to damage, steal, or spy.</p>
+        <p>Ransomware encrypts files and demands payment.</p>
+        <p>Spyware monitors activity without consent.</p>
+        <p>Keep software updated, use antivirus, and backup regularly.</p>
+        <p>🔐 Download only from trusted sources.</p>
+      </div>
+    </div>
 
-<div class="hero-content">
+    <div class="card" onclick="toggleInfo('networksecurity')">
+      <h3>NETWORK SECURITY</h3>
+      <p>Protect systems, communications &amp; data.</p>
+      <div id="networksecurity" class="info-box">
+        <p>Firewalls, IDS/IPS, VPNs, segmentation are key defenses.</p>
+        <p>Understanding TCP/IP, ports, and protocols is essential.</p>
+        <p>Network security is the foundation of any cybersecurity career.</p>
+        <p>🌐 Learn about LAN, WAN, DNS, and routing.</p>
+      </div>
+    </div>
 
-<h1>CYBER SECURITY LEARNING HUB</h1>
+  </section>
 
-<p>
-Master Cyber Security, Ethical Hacking, Network Security,
-Web Security, Digital Defense and Modern Cyber Awareness
-through an immersive hacker styled learning platform.
-</p>
+  <!-- ROADMAP -->
+  <h2 class="section-title" id="roadmap">🧭 ETHICAL HACKING ROADMAP</h2>
+  <section class="cards">
 
-<button class="hero-btn">
-  
-ENTER THE SYSTEM
-</button>
+    <div class="card" onclick="toggleInfo('step1')">
+      <h3>STEP 1 · NETWORKING</h3>
+      <p>Foundation of all security systems.</p>
+      <div id="step1" class="info-box">
+        <p>Understand IP, routers, switches, DNS, TCP/IP, UDP, ports.</p>
+        <p>Learn LAN, WAN, VPN, and network segmentation.</p>
+        <p>Networking is critical for penetration testing &amp; defense.</p>
+      </div>
+    </div>
 
-</div>
+    <div class="card" onclick="toggleInfo('step2')">
+      <h3>STEP 2 · LINUX</h3>
+      <p>Master the OS of security pros.</p>
+      <div id="step2" class="info-box">
+        <p>Linux powers most servers and security tools.</p>
+        <p>Learn terminal, file permissions, processes, networking tools.</p>
+        <p>Kali Linux is the standard for ethical hacking.</p>
+        <p>🐧 Become comfortable with the command line.</p>
+      </div>
+    </div>
 
-</section>
- <h2 class="section-title" id="topics">
-TOP CYBER SECURITY TOPICS
-</h2>
+    <div class="card" onclick="toggleInfo('step3')">
+      <h3>STEP 3 · WEB DEV</h3>
+      <p>Know how websites work before attacking them.</p>
+      <div id="step3" class="info-box">
+        <p>HTML, CSS, JavaScript — understand structure &amp; interaction.</p>
+        <p>Learn how browsers talk to servers (HTTP/HTTPS).</p>
+        <p>Web dev knowledge is crucial for web app security.</p>
+      </div>
+    </div>
 
-<section class="cards">
+  </section>
 
-<div class="card" onclick="toggleInfo('phishing')">
+  <!-- ADVANCED ROADMAP -->
+  <h2 class="section-title">⚙️ ADVANCED ROADMAP</h2>
+  <section class="cards">
 
-<h3>PHISHING ATTACKS</h3>
+    <div class="card" onclick="toggleInfo('step4')">
+      <h3>STEP 4 · PYTHON</h3>
+      <p>Automation &amp; security tooling.</p>
+      <div id="step4" class="info-box">
+        <p>Python is versatile and beginner‑friendly.</p>
+        <p>Automate log analysis, audits, and repetitive tasks.</p>
+        <p>Learn variables, loops, functions, file handling.</p>
+        <p>📦 Use libraries for networking and data extraction.</p>
+      </div>
+    </div>
 
-<p>
-Learn how attackers trick users through fake emails,
-messages and websites.
-</p>
+    <div class="card" onclick="toggleInfo('step5')">
+      <h3>STEP 5 · SECURITY FUNDAMENTALS</h3>
+      <p>Core concepts: CIA, risk, access control.</p>
+      <div id="step5" class="info-box">
+        <p>Confidentiality, Integrity, Availability.</p>
+        <p>Risk management, authentication, encryption, hashing.</p>
+        <p>Incident response &amp; threat intelligence.</p>
+        <p>🧠 Build a strong security mindset.</p>
+      </div>
+    </div>
 
-<div id="phishing" class="info-box">
+    <div class="card" onclick="toggleInfo('step6')">
+      <h3>STEP 6 · ETHICAL HACKING</h3>
+      <p>Authorized testing &amp; vulnerability assessment.</p>
+      <div id="step6" class="info-box">
+        <p>Always obtain permission before testing.</p>
+        <p>Learn recon, web app security, reporting.</p>
+        <p>Practice in legal labs (HackTheBox, TryHackMe).</p>
+        <p>📝 Responsible disclosure is key.</p>
+      </div>
+    </div>
 
-<p>
-Phishing is one of the most common cyber threats in the world.
-Attackers pretend to be trusted organizations such as banks,
-social media companies or government agencies.
-</p>
+  </section>
 
-<p>
-The goal is usually to steal passwords, personal information,
-financial data or login credentials.
-</p>
+  <!-- CYBER FACTS (static) -->
+  <h2 class="section-title">🔍 CYBER FACTS</h2>
+  <section class="cards">
+    <div class="card" style="cursor:default;">
+      <h3>24/7</h3>
+      <p>Cyber threats operate around the clock — continuous monitoring &amp; awareness are critical.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <h3>MFA</h3>
+      <p>Multi‑factor authentication stops over 99% of account attacks.</p>
+    </div>
+    <div class="card" style="cursor:default;">
+      <h3>DEFENSE</h3>
+      <p>Strong passwords, updates, and security awareness remain your first line of defense.</p>
+    </div>
+  </section>
 
-<p>
-Modern phishing attacks often look extremely convincing and
-can fool even experienced users.
-</p>
+  <!-- CONTACT + FOOTER -->
+  <div id="contact" class="contact-section">
+    <div class="contact-item">
+      <span style="font-size:28px;">📞</span>
+      <a href="tel:+919616401302">+91 96164 01302</a>
+    </div>
+    <div class="contact-item">
+      <span style="font-size:28px;">✉️</span>
+      <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <span style="font-size:28px;">💬</span>
+      <span>24/7 for security help</span>
+    </div>
+  </div>
 
-<p>
-Always check the sender's address, verify URLs carefully and
-avoid clicking suspicious links.
-</p>
+  <div class="footer-note">
+    ⚡ CYBER SECURITY HUB · always learning · always defending ⚡
+  </div>
 
-<p>
-Multi-factor authentication provides an additional layer of
-security against credential theft.
-</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('malware')">
-
-<h3>MALWARE</h3>
-
-<p>
-Understand malicious software and how it impacts systems.
-</p>
-
-<div id="malware" class="info-box">
-
-<p>
-Malware is a broad term that includes viruses, worms,
-trojans, ransomware and spyware.
-</p>
-
-<p>
-These programs are designed to damage systems, steal data,
-monitor activity or provide unauthorized access.
-</p>
-
-<p>
-Keeping software updated and downloading files only from
-trusted sources reduces risk significantly.
-</p>
-
-<p>
-Security software and regular backups are also important
-defensive measures.
-</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('networksecurity')">
-
-<h3>NETWORK SECURITY</h3>
-
-<p>
-Protecting systems and communications from threats.
-</p>
-
-<div id="networksecurity" class="info-box">
-
-<p>
-Network security focuses on protecting devices,
-applications and communications.
-</p>
-
-<p>
-Firewalls, intrusion detection systems, VPNs and
-network segmentation are common defenses.
-</p>
-
-<p>
-Understanding networking fundamentals is essential
-for anyone pursuing cyber security.
-</p>
-
-</div>
-
-</div>
-
-
+  <!-- SCRIPT: toggle info boxes -->
   <script>
-
-function toggleInfo(id){
-
-const box = document.getElementById(id);
-
-if(box.style.display === "block"){
-box.style.display = "none";
-}else{
-box.style.display = "block";
-}
-
-}
-
-</script>
-  <h2 class="section-title" id="roadmap">
-ETHICAL HACKING ROADMAP
-</h2>
-
-<section class="cards">
-
-<div class="card" onclick="toggleInfo('step1')">
-
-<h3>STEP 1 - NETWORKING</h3>
-
-<p>
-Learn the foundation of all cyber security systems.
-</p>
-
-<div id="step1" class="info-box">
-
-<p>
-Networking is the backbone of ethical hacking and cyber security.
-Before learning advanced security concepts, every student should
-understand how computers communicate across networks.
-</p>
-
-<p>
-Learn about IP addresses, routers, switches, DNS servers and
-how information travels through the internet.
-</p>
-
-<p>
-Study TCP/IP, UDP, ports, protocols and packet transmission.
-</p>
-
-<p>
-Understand LAN, WAN, VPN and network segmentation.
-</p>
-
-<p>
-A strong networking foundation makes penetration testing,
-web security and malware analysis significantly easier.
-</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('step2')">
-
-<h3>STEP 2 - LINUX</h3>
-
-<p>
-Master the operating system used heavily in cyber security.
-</p>
-
-<div id="step2" class="info-box">
-
-<p>
-Linux is one of the most important skills for ethical hackers.
-</p>
-
-<p>
-Many servers, cloud systems and security tools run on Linux.
-</p>
-
-<p>
-Learn terminal commands, file permissions, processes,
-networking tools and package management.
-</p>
-
-<p>
-Become comfortable working entirely from the command line.
-</p>
-
-<p>
-Kali Linux is commonly used for security education and
-professional penetration testing.
-</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('step3')">
-
-<h3>STEP 3 - WEB DEVELOPMENT</h3>
-
-<p>
-Understand how websites work before learning web security.
-</p>
-
-<div id="step3" class="info-box">
-
-<p>
-Study HTML, CSS and JavaScript thoroughly.
-</p>
-
-<p>
-Learn how websites are structured and how browsers interact
-with servers.
-</p>
-
-<p>
-Understanding web development helps security professionals
-identify vulnerabilities and security weaknesses.
-</p>
-
-<p>
-Knowledge of web technologies is essential for learning
-modern web application security.
-</p>
-
-</div>
-
-</div>
-
-</section>
-  
-  <h2 class="section-title">
-ADVANCED ROADMAP
-</h2>
-
-<section class="cards">
-
-<div class="card" onclick="toggleInfo('step4')">
-
-<h3>STEP 4 - PYTHON PROGRAMMING</h3>
-
-<p>
-Automation, scripting and security tools development.
-</p>
-
-<div id="step4" class="info-box">
-
-<p>Python is one of the most widely used programming languages in cyber security.</p>
-
-<p>It is beginner friendly, powerful and extremely versatile.</p>
-
-<p>Security professionals use Python to automate repetitive tasks.</p>
-
-<p>Python can be used for log analysis and data processing.</p>
-
-<p>It helps automate security audits and assessments.</p>
-
-<p>Learn variables, loops, functions and modules.</p>
-
-<p>Understand file handling and automation scripts.</p>
-
-<p>Study APIs and data extraction techniques.</p>
-
-<p>Learn networking libraries and automation workflows.</p>
-
-<p>A strong Python foundation will save hundreds of hours later.</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('step5')">
-
-<h3>STEP 5 - CYBER SECURITY FUNDAMENTALS</h3>
-
-<p>
-Core security concepts and defensive practices.
-</p>
-
-<div id="step5" class="info-box">
-
-<p>Understand confidentiality, integrity and availability.</p>
-
-<p>Learn risk management principles.</p>
-
-<p>Study access control systems.</p>
-
-<p>Understand authentication and authorization.</p>
-
-<p>Learn about encryption and hashing.</p>
-
-<p>Study common cyber attack techniques.</p>
-
-<p>Learn incident response basics.</p>
-
-<p>Understand threat intelligence.</p>
-
-<p>Learn defensive security strategies.</p>
-
-<p>Build a strong security mindset.</p>
-
-</div>
-
-</div>
-
-<div class="card" onclick="toggleInfo('step6')">
-
-<h3>STEP 6 - ETHICAL HACKING</h3>
-
-<p>
-Professional security testing and vulnerability assessment.
-</p>
-
-<div id="step6" class="info-box">
-
-<p>Ethical hacking is the authorized testing of systems.</p>
-
-<p>Always obtain permission before performing security testing.</p>
-
-<p>Learn vulnerability assessment methodologies.</p>
-
-<p>Understand web application security concepts.</p>
-
-<p>Study reconnaissance and information gathering.</p>
-
-<p>Learn reporting and documentation skills.</p>
-
-<p>Understand responsible disclosure practices.</p>
-
-<p>Practice in legal lab environments.</p>
-
-<p>Develop professional communication skills.</p>
-
-<p>Continue learning because cyber security changes constantly.</p>
-
-</div>
-
-</div>
-
-</section>
-
-<h2 class="section-title">
-CYBER SECURITY FACTS
-</h2>
-
-<section class="cards">
-
-<div class="card">
-<h3>24/7</h3>
-<p>
-Cyber threats operate around the clock, which is why monitoring and awareness are important.
-</p>
-</div>
-
-<div class="card">
-<h3>MFA</h3>
-<p>
-Multi-factor authentication significantly improves account security.
-</p>
-</div>
-
-<div class="card">
-<h3>SECURITY</h3>
-<p>
-Strong passwords, updates and awareness remain some of the most effective defenses.
-</p>
-</div>
-
-</section>
+    function toggleInfo(id) {
+      const box = document.getElementById(id);
+      if (box) {
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+      }
+    }
+
+    // ---- MATRIX ANIMATION (hacker green rain) ----
+    (function matrixRain() {
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const cols = Math.floor(width / 18);          // column width
+      const drops = Array(cols).fill(1);
+
+      // characters: katakana + numbers + symbols
+      const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~";
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';      // trail effect
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = '#00ff41';
+        ctx.font = '18px "Share Tech Mono", monospace';
+        ctx.shadowColor = '#00ff41';
+        ctx.shadowBlur = 8;
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          const x = i * 18;
+          const y = drops[i] * 18;
+
+          // random brightness variation
+          ctx.fillStyle = `rgba(0, 255, 65, ${0.8 + Math.random() * 0.4})`;
+          ctx.fillText(text, x, y);
+
+          // reset drop to top randomly
+          if (y > height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i] += 0.5 + Math.random() * 0.6;    // speed variation
+        }
+        requestAnimationFrame(draw);
+      }
+
+      // resize handler
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        // adjust drops count
+        const newCols = Math.floor(width / 18);
+        if (newCols > drops.length) {
+          for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20);
+        } else {
+          drops.length = newCols;
+        }
+      });
+
+      draw();
+    })();
+
+    // smooth scroll for contact click (optional)
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
