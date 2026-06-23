@@ -726,7 +726,6 @@
             <button class="close-video" onclick="closeVideo()">✕ Close</button>
         </div>
     </div>
-
     <!-- ===== GUIDANCE MODAL ===== -->
     <div class="guidance-modal-overlay" id="guidanceModal">
         <div class="guidance-modal-box">
@@ -746,6 +745,16 @@
             <button class="close-guidance" onclick="closeGuidance()">✕ Close</button>
         </div>
     </div>
+
+    <!-- ===== ANIMATED INFO MODAL ===== -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-box" style="max-width: 750px; max-height: 85vh; overflow-y: auto; text-align: left; padding: 40px;">
+            <h2 id="infoTitle" style="text-align: center; margin-bottom: 10px; text-shadow: 0 0 20px #00ff41;">Attack Information</h2>
+            <div id="infoContent"></div>
+            <button class="close-modal" onclick="closeInfoModal()" style="margin-top: 20px;">✕ Close</button>
+        </div>
+    </div>
+                
 
     <!-- ===== QUIZ MODAL ===== -->
     <div class="quiz-modal-overlay" id="quizModal">
@@ -1453,55 +1462,275 @@
     // Click outside modal to close
     document.getElementById('loginModal').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
+    });      // =============================================================
+    // 5. ANIMATED ATTACK EXPLANATIONS (NO VIDEOS)
+    // =============================================================
+    
+    const attackData = {
+        phishing: {
+            title: '🎣 PHISHING ATTACKS - Animated Guide',
+            description: 'Phishing is a social engineering attack where criminals impersonate trusted organizations to steal your sensitive information.',
+            steps: [
+                { icon: '📧', text: 'Hacker sends fake email from your bank' },
+                { icon: '😰', text: 'Urgent message creates panic' },
+                { icon: '🔗', text: 'You click malicious link' },
+                { icon: '🌐', text: 'Fake website looks exactly like real bank' },
+                { icon: '💸', text: 'You enter credentials - HACKER WINS!' }
+            ],
+            tips: [
+                '✅ Always check sender email address for misspellings',
+                '✅ Hover over links before clicking to see real URL',
+                '✅ Never share passwords or OTPs via email',
+                '✅ Enable Multi-Factor Authentication (MFA)',
+                '✅ Report suspicious emails to security team'
+            ],
+            stat: '90% of cyber attacks start with phishing email!',
+            statValue: 90,
+            scene: { attacker: '🎣', victim: '👤', arrow: '➡️', shield: '🛡️' }
+        },
+        trojan: {
+            title: '🐴 TROJAN HORSE - Animated Guide',
+            description: 'A Trojan Horse is malicious software disguised as legitimate software. It hides something dangerous inside something that looks harmless.',
+            steps: [
+                { icon: '🎮', text: 'Download "free" game or software' },
+                { icon: '🔓', text: 'Trojan opens hidden backdoor' },
+                { icon: '👾', text: 'Hacker gains remote access' },
+                { icon: '💻', text: 'Hacker controls your computer' },
+                { icon: '💰', text: 'Steals passwords and personal data' }
+            ],
+            tips: [
+                '✅ Only download from official websites',
+                '✅ Never open attachments from unknown senders',
+                '✅ Keep antivirus software updated',
+                '✅ Use firewall to monitor suspicious connections',
+                '✅ Scan downloaded files before opening'
+            ],
+            stat: '70% of Trojans delivered through email attachments!',
+            statValue: 70,
+            scene: { attacker: '🐴', victim: '💻', arrow: '🔓', shield: '🛡️' }
+        },
+        ransomware: {
+            title: '💀 RANSOMWARE - Animated Guide',
+            description: 'Ransomware encrypts your files and demands payment for decryption. It\'s one of the most devastating cyber threats.',
+            steps: [
+                { icon: '📎', text: 'Open infected attachment' },
+                { icon: '🔒', text: 'Files get encrypted silently' },
+                { icon: '💀', text: 'Ransom note appears' },
+                { icon: '💰', text: 'Demands payment in cryptocurrency' },
+                { icon: '😭', text: 'Files lost forever if you don\'t pay' }
+            ],
+            tips: [
+                '✅ Regularly backup files to external drives or cloud',
+                '✅ Keep all software and systems updated',
+                '✅ Use strong antivirus and anti-malware tools',
+                '✅ NEVER pay the ransom - no guarantee you\'ll get files back',
+                '✅ Use email filtering to block malicious attachments'
+            ],
+            stat: 'Ransomware attacks occur every 11 seconds!',
+            statValue: 95,
+            scene: { attacker: '💀', victim: '💻', arrow: '🔒', shield: '🛡️' }
+        },
+        bruteforce: {
+            title: '🔑 BRUTE FORCE ATTACKS - Animated Guide',
+            description: 'Brute force attacks use automated software to try millions of password combinations per second.',
+            steps: [
+                { icon: '🤖', text: 'Automated bot starts trying passwords' },
+                { icon: '🔢', text: 'Tries millions of combinations' },
+                { icon: '⚡', text: 'Uses GPU power for speed' },
+                { icon: '🔓', text: 'Finds weak password' },
+                { icon: '🚪', text: 'Hacker gains unauthorized access' }
+            ],
+            tips: [
+                '✅ Use strong passwords: 12+ characters with mix of letters, numbers, symbols',
+                '✅ Enable Multi-Factor Authentication (MFA)',
+                '✅ Implement account lockout after failed attempts',
+                '✅ Use unique passwords for every account',
+                '✅ Use a password manager'
+            ],
+            stat: 'Weak passwords cracked in under 1 second!',
+            statValue: 85,
+            scene: { attacker: '🔑', victim: '🔐', arrow: '💥', shield: '🛡️' }
+        },
+        malware: {
+            title: '🦠 MALWARE & RATs - Animated Guide',
+            description: 'Malware is any malicious software designed to harm systems. RATs give hackers complete remote control.',
+            steps: [
+                { icon: '📥', text: 'Malware downloads on your system' },
+                { icon: '👁️', text: 'Spyware monitors your activity' },
+                { icon: '⌨️', text: 'Keyloggers record your keystrokes' },
+                { icon: '🎥', text: 'Hackers access webcam & microphone' },
+                { icon: '💀', text: 'Complete remote control of your PC' }
+            ],
+            tips: [
+                '✅ Install reputable antivirus with real-time scanning',
+                '✅ Keep everything updated - OS, browsers, all software',
+                '✅ Use a firewall to monitor network traffic',
+                '✅ Only download from trusted sources',
+                '✅ Perform regular full system scans'
+            ],
+            stat: '500,000+ new malware variants discovered daily!',
+            statValue: 80,
+            scene: { attacker: '🦠', victim: '💻', arrow: '⚡', shield: '🛡️' }
+        },
+        social: {
+            title: '🎭 SOCIAL ENGINEERING - Animated Guide',
+            description: 'Social engineering targets the human element. Attackers manipulate people into revealing confidential information.',
+            steps: [
+                { icon: '📞', text: 'Pretends to be IT support or bank' },
+                { icon: '😰', text: 'Creates urgency and panic' },
+                { icon: '🤝', text: 'Builds false trust' },
+                { icon: '📝', text: 'Extracts sensitive information' },
+                { icon: '💸', text: 'Steals money or data' }
+            ],
+            tips: [
+                '✅ Always verify identity of people requesting information',
+                '✅ Trust your instincts - if it feels wrong, it probably is',
+                '✅ Never share passwords over phone or email',
+                '✅ Question urgent requests - attackers create urgency',
+                '✅ Use official channels to verify requests'
+            ],
+            stat: '70% of cyber attacks involve social engineering!',
+            statValue: 70,
+            scene: { attacker: '🎭', victim: '👤', arrow: '🎯', shield: '🛡️' }
+        },
+        mitm: {
+            title: '🌐 MAN-IN-THE-MIDDLE - Animated Guide',
+            description: 'In a Man-in-the-Middle attack, the attacker secretly intercepts and alters communication between two parties.',
+            steps: [
+                { icon: '🌐', text: 'You connect to unsecured Wi-Fi' },
+                { icon: '👤', text: 'Hacker intercepts your connection' },
+                { icon: '📡', text: 'Hacker reads all your data' },
+                { icon: '✏️', text: 'Hacker can modify messages' },
+                { icon: '💀', text: 'Your sensitive info is stolen' }
+            ],
+            tips: [
+                '✅ Always use HTTPS websites (look for padlock icon)',
+                '✅ Avoid public Wi-Fi without a VPN',
+                '✅ Use encrypted messaging apps',
+                '✅ Verify SSL certificates',
+                '✅ Keep browsers and software updated'
+            ],
+            stat: '85% of MITM attacks target financial institutions!',
+            statValue: 85,
+            scene: { attacker: '👾', victim: '📶', arrow: '🔀', shield: '🛡️' }
+        },
+        ddos: {
+            title: '💥 DDoS ATTACKS - Animated Guide',
+            description: 'Distributed Denial of Service (DDoS) attacks overwhelm servers with massive traffic from multiple sources.',
+            steps: [
+                { icon: '🧟', text: 'Botnet of infected computers ready' },
+                { icon: '🚀', text: 'Massive traffic launched at target' },
+                { icon: '💥', text: 'Server becomes overwhelmed' },
+                { icon: '⛔', text: 'Website crashes' },
+                { icon: '😤', text: 'Legitimate users can\'t access' }
+            ],
+            tips: [
+                '✅ Use DDoS protection services (Cloudflare, AWS Shield)',
+                '✅ Implement traffic filtering and rate limiting',
+                '✅ Use load balancers to distribute traffic',
+                '✅ Configure firewalls to block suspicious IPs',
+                '✅ Monitor network traffic for anomalies'
+            ],
+            stat: 'DDoS attacks increased by 85% in 2025!',
+            statValue: 85,
+            scene: { attacker: '💥', victim: '🖥️', arrow: '📡', shield: '🛡️' }
+        },
+        zero: {
+            title: '🔓 ZERO-DAY EXPLOITS - Animated Guide',
+            description: 'Zero-day exploits target unknown vulnerabilities that developers haven\'t patched yet. The most dangerous attacks.',
+            steps: [
+                { icon: '🔍', text: 'Hacker finds unknown vulnerability' },
+                { icon: '💰', text: 'Sold on dark web for millions' },
+                { icon: '🔓', text: 'Exploit used before patch exists' },
+                { icon: '💻', text: 'Systems compromised' },
+                { icon: '⏰', text: 'Takes weeks/months to fix' }
+            ],
+            tips: [
+                '✅ Keep all software and systems updated',
+                '✅ Use antivirus with exploit protection',
+                '✅ Implement defense-in-depth strategy',
+                '✅ Monitor for unusual system behavior',
+                '✅ Follow security advisories from vendors'
+            ],
+            stat: 'Zero-day exploits sold for $50,000 - $2.5 million!',
+            statValue: 95,
+            scene: { attacker: '🔓', victim: '🖥️', arrow: '⚡', shield: '🛡️' }
+        }
+    };
+
+    function openVideo(type) {
+        const modal = document.getElementById('infoModal');
+        const title = document.getElementById('infoTitle');
+        const content = document.getElementById('infoContent');
+        
+        const data = attackData[type] || attackData.phishing;
+        
+        title.textContent = data.title;
+        
+        content.innerHTML = `
+            <div class="attack-animation-container attack-${type}">
+                <div class="scene">
+                    <div class="character hacker">${data.scene.attacker}</div>
+                    <div class="animated-arrow">${data.scene.arrow}</div>
+                    <div class="character victim">${data.scene.victim}</div>
+                    <div style="color:#5a8a5a; font-size:14px; margin-top:10px; width:100%; text-align:center;">
+                        <span style="color:#ff3b3b;">${data.scene.attacker}</span> → 
+                        <span style="color:#00ff41;">${data.scene.victim}</span>
+                        &nbsp;🛡️ <span style="color:#00ff41;">Protected</span>
+                    </div>
+                </div>
+                
+                <div class="attack-description">
+                    <p style="color:#e2ffe8; font-size:16px;">${data.description}</p>
+                </div>
+                
+                <h4 style="color:#00ff41; margin:20px 0 15px 0;">⚡ How It Works:</h4>
+                <div class="attack-steps">
+                    ${data.steps.map((step, index) => `
+                        <div class="step-item">
+                            <div class="step-number">${index + 1}</div>
+                            <div class="step-icon">${step.icon}</div>
+                            <div class="step-text">${step.text}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="stat-bar">
+                    <div class="stat-label">
+                        <span>⚠️ ${data.stat}</span>
+                        <span style="color:#00ff41; font-weight:bold;">${data.statValue}%</span>
+                    </div>
+                    <div class="stat-fill" style="--fill-width: ${data.statValue}%;"></div>
+                </div>
+                
+                <h4 style="color:#00ff41; margin:20px 0 15px 0;">🛡️ How to Protect Yourself:</h4>
+                <div class="protection-tips">
+                    ${data.tips.map(tip => `
+                        <div class="protection-tip">${tip}</div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        
+        modal.classList.add('active');
+        closeDropdown();
+    }
+
+    function closeInfoModal() {
+        document.getElementById('infoModal').classList.remove('active');
+    }
+
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+        if (e.target === this) closeInfoModal();
     });
 
-        // =============================================================
-    // 5. VIDEO MODAL (100% WORKING - NO AUTOPLAY)
-    // =============================================================
-    function openVideo(type) {
-        const modal = document.getElementById('videoModal');
-        const frame = document.getElementById('videoFrame');
-        const title = document.getElementById('videoTitle');
-        
-        const videos = {
-            phishing: {
-                url: 'https://www.youtube.com/embed/mc4ctFmGu_w',
-                title: '🎣 Phishing Attacks - How Hackers Trick You'
-            },
-            trojan: {
-                url: 'https://www.youtube.com/embed/T8QrMcWJ9FU',
-                title: '🐴 Trojan Horse Malware - Complete Guide'
-            },
-            ransomware: {
-                url: 'https://www.youtube.com/embed/lg3dBA9Mf7s',
-                title: '💀 Ransomware - How to Prevent and Recover'
-            },
-            bruteforce: {
-                url: 'https://www.youtube.com/embed/7U-RbOKanYQ',
-                title: '🔑 Brute Force Attacks - Password Security'
-            },
-            malware: {
-                url: 'https://www.youtube.com/embed/6OxxmskCqFE',
-                title: '🦠 Malware & RATs - Complete Protection Guide'
-            },
-            social: {
-                url: 'https://www.youtube.com/embed/RVzQjWk5aXw',
-                title: '🎭 Social Engineering - Psychological Hacks'
-            },
-            mitm: {
-                url: 'https://www.youtube.com/embed/2bOw-zIGl6U',
-                title: '🌐 Man-in-the-Middle Attacks Explained'
-            },
-            ddos: {
-                url: 'https://www.youtube.com/embed/9gOD6l0KbFA',
-                title: '💥 DDoS Attacks - How They Work'
-            },
-            zero: {
-                url: 'https://www.youtube.com/embed/sJtVv_7cSME',
-                title: '🔓 Zero-Day Exploits - The Most Dangerous Attacks'
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (document.getElementById('infoModal').classList.contains('active')) {
+                closeInfoModal();
             }
-        };
-        
+        }
+    });      
         const selected = videos[type] || videos.phishing;
         frame.src = selected.url;
         title.textContent = selected.title;
