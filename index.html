@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CYBER SECURITY · HUB</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -20,7 +21,7 @@
       overflow-x: hidden;
     }
 
-    /* ---- MATRIX CANVAS (background) - UNCHANGED ---- */
+    /* ---- MATRIX CANVAS ---- */
     #matrix-canvas {
       position: fixed;
       top: 0;
@@ -48,17 +49,17 @@
     ::-webkit-scrollbar-track { background: #000; }
     ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 20px; box-shadow: 0 0 15px #00ff41; }
 
-    /* ---- NAVBAR (with hamburger) ---- */
+    /* ---- NAVBAR ---- */
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 18px 8%;
+      padding: 15px 8%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.88);
+      background: rgba(0, 0, 0, 0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid #00ff41;
       z-index: 9999;
@@ -66,7 +67,7 @@
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 26px;
       font-family: 'Orbitron', sans-serif;
       font-weight: 800;
       letter-spacing: 2px;
@@ -79,7 +80,6 @@
       gap: 20px;
     }
 
-    /* ---- HAMBURGER MENU (3 horizontal lines) ---- */
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -104,14 +104,52 @@
       transition: 0.3s;
       box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
     }
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+    .auth-btn {
+      background: transparent;
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 255, 65, 0.05);
+      white-space: nowrap;
     }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
+    .auth-btn:hover {
+      background: #00ff41;
+      color: #000;
+      box-shadow: 0 0 30px #00ff41;
+      transform: scale(1.03);
     }
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
+    .auth-btn.logout-btn {
+      border-color: #ff3b3b;
+      color: #ff3b3b;
+    }
+    .auth-btn.logout-btn:hover {
+      background: #ff3b3b;
+      color: #000;
+      box-shadow: 0 0 30px #ff3b3b;
+    }
+
+    #userGreeting {
+      color: #9dffb7;
+      font-size: 13px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      background: rgba(0, 255, 65, 0.08);
+      padding: 6px 16px;
+      border-radius: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      white-space: nowrap;
     }
 
     /* ---- DROPDOWN MENU ---- */
@@ -125,15 +163,13 @@
       border: 1px solid #00ff41;
       border-radius: 20px;
       padding: 20px 10px;
-      min-width: 260px;
+      min-width: 280px;
       box-shadow: 0 0 60px rgba(0, 255, 65, 0.15);
       z-index: 10001;
       flex-direction: column;
       gap: 8px;
     }
-    .dropdown-menu.active {
-      display: flex;
-    }
+    .dropdown-menu.active { display: flex; }
     .dropdown-menu a, .dropdown-menu .menu-item {
       color: #00ff41;
       text-decoration: none;
@@ -180,57 +216,12 @@
       background: transparent;
     }
 
-    /* ---- AUTH BUTTONS ---- */
-    .auth-btn {
-      background: transparent;
-      border: 1px solid #00ff41;
-      color: #00ff41;
-      padding: 8px 22px;
-      border-radius: 40px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-      letter-spacing: 1px;
-      backdrop-filter: blur(4px);
-      background: rgba(0, 255, 65, 0.05);
-      white-space: nowrap;
-    }
-    .auth-btn:hover {
-      background: #00ff41;
-      color: #000;
-      box-shadow: 0 0 30px #00ff41;
-      transform: scale(1.03);
-    }
-    .auth-btn.logout-btn {
-      border-color: #ff3b3b;
-      color: #ff3b3b;
-    }
-    .auth-btn.logout-btn:hover {
-      background: #ff3b3b;
-      color: #000;
-      box-shadow: 0 0 30px #ff3b3b;
-    }
-
-    #userGreeting {
-      color: #9dffb7;
-      font-size: 14px;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
-      background: rgba(0, 255, 65, 0.08);
-      padding: 6px 16px;
-      border-radius: 40px;
-      border: 1px solid rgba(0, 255, 65, 0.2);
-      white-space: nowrap;
-    }
-
-    /* ---- MODAL (login) ---- */
+    /* ---- MODALS ---- */
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(8px);
       z-index: 10000;
       justify-content: center;
@@ -311,7 +302,7 @@
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(10px);
       z-index: 10002;
       justify-content: center;
@@ -319,7 +310,6 @@
       padding: 20px;
     }
     .video-modal-overlay.active { display: flex; }
-
     .video-modal-box {
       background: #0a0f0a;
       border: 2px solid #00ff41;
@@ -328,7 +318,6 @@
       max-width: 800px;
       width: 100%;
       box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
-      position: relative;
     }
     .video-modal-box h3 {
       font-family: 'Orbitron', sans-serif;
@@ -372,7 +361,7 @@
       box-shadow: 0 0 30px #00ff41;
     }
 
-    /* ---- HERO (unchanged) ---- */
+    /* ---- HERO ---- */
     .hero {
       height: 100vh;
       display: flex;
@@ -432,6 +421,47 @@
       text-shadow: 0 0 20px #00ff41;
     }
 
+    /* ---- STATS DASHBOARD ---- */
+    .stats-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      padding: 0 8% 40px;
+      margin-top: -30px;
+    }
+    .stat-card {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00ff41;
+      border-radius: 20px;
+      padding: 25px 20px;
+      text-align: center;
+      transition: 0.3s;
+      backdrop-filter: blur(4px);
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);
+      border-color: #9dffb7;
+    }
+    .stat-card .stat-number {
+      font-size: 48px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      text-shadow: 0 0 30px #00ff41;
+      color: #00ff41;
+    }
+    .stat-card .stat-label {
+      font-size: 14px;
+      color: #b0ffc0;
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+    .stat-card .stat-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #00ff41;
+    }
+
     /* ---- CARDS ---- */
     .cards {
       display: grid;
@@ -465,6 +495,16 @@
       color: #d4ffe0;
       font-size: 16px;
     }
+    .card .card-tag {
+      display: inline-block;
+      background: rgba(0, 255, 65, 0.1);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #00ff41;
+      margin-top: 12px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+    }
 
     .info-box {
       display: none;
@@ -480,6 +520,153 @@
       padding-right: 6px;
     }
     .info-box p { margin-bottom: 8px; }
+    .info-box .highlight {
+      color: #00ff41;
+      font-weight: bold;
+    }
+
+    /* ---- QUIZ SECTION ---- */
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      padding: 0 8%;
+    }
+    .quiz-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #00ff41;
+      border-radius: 30px;
+      padding: 40px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 50px rgba(0, 255, 65, 0.05);
+    }
+    .quiz-box .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .quiz-box .quiz-header h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      text-shadow: 0 0 20px #00ff41;
+    }
+    .quiz-box .quiz-header .score {
+      color: #b0ffc0;
+      font-size: 18px;
+      background: rgba(0, 255, 65, 0.05);
+      padding: 8px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+    }
+    .quiz-box .question {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #d4ffe0;
+      line-height: 1.6;
+    }
+    .quiz-box .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .quiz-box .options button {
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 16px;
+      color: #b0ffc0;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: left;
+    }
+    .quiz-box .options button:hover {
+      background: rgba(0, 255, 65, 0.05);
+      border-color: #00ff41;
+      transform: translateX(5px);
+    }
+    .quiz-box .options button.correct {
+      background: rgba(0, 255, 65, 0.2);
+      border-color: #00ff41;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+    }
+    .quiz-box .options button.wrong {
+      background: rgba(255, 0, 0, 0.2);
+      border-color: #ff3b3b;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+    }
+    .quiz-box .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .quiz-box .quiz-footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .quiz-box .quiz-footer .progress {
+      color: #5a8a5a;
+      font-size: 14px;
+    }
+    .quiz-box .quiz-footer .next-btn {
+      padding: 12px 35px;
+      background: #00ff41;
+      color: #000;
+      border: none;
+      border-radius: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      letter-spacing: 1px;
+    }
+    .quiz-box .quiz-footer .next-btn:hover {
+      box-shadow: 0 0 40px #00ff41;
+      transform: scale(1.02);
+    }
+    .quiz-box .quiz-footer .next-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ---- NEWS TICKER ---- */
+    .news-ticker {
+      background: rgba(0, 0, 0, 0.6);
+      border-top: 1px solid #00ff41;
+      border-bottom: 1px solid #00ff41;
+      padding: 12px 0;
+      margin: 40px 0;
+      overflow: hidden;
+      position: relative;
+      backdrop-filter: blur(4px);
+    }
+    .news-ticker .ticker-content {
+      display: flex;
+      animation: tickerScroll 30s linear infinite;
+      white-space: nowrap;
+    }
+    .news-ticker .ticker-content span {
+      padding: 0 50px;
+      color: #b0ffc0;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+    .news-ticker .ticker-content .ticker-icon {
+      color: #00ff41;
+      margin-right: 10px;
+    }
+    @keyframes tickerScroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
 
     /* ---- CONTACT SECTION ---- */
     .contact-section {
@@ -513,14 +700,54 @@
       border-bottom: 1px solid #00ff41;
     }
 
-    .footer-note {
-      text-align: center;
-      padding: 30px 0 20px;
-      color: #0a5a1f;
-      font-size: 15px;
-      letter-spacing: 2px;
+    /* ---- FOOTER ---- */
+    .footer {
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 1px solid rgba(0, 255, 65, 0.2);
+      padding: 40px 8% 20px;
+      margin-top: 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+    .footer-grid h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #00ff41;
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    }
+    .footer-grid a {
+      display: block;
+      color: #8a9a8a;
+      text-decoration: none;
+      padding: 5px 0;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    .footer-grid a:hover {
+      color: #00ff41;
+      padding-left: 10px;
+    }
+    .footer-grid .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .footer-grid .social-links a {
+      font-size: 24px;
+      padding: 5px;
+    }
+    .footer-bottom {
       border-top: 1px solid rgba(0, 255, 65, 0.1);
-      margin: 20px 8% 0;
+      padding-top: 20px;
+      text-align: center;
+      color: #0a5a1f;
+      font-size: 14px;
+      letter-spacing: 1px;
     }
 
     /* ---- RESPONSIVE ---- */
@@ -529,6 +756,8 @@
       .hero-content { padding: 30px 20px; }
       .section-title { font-size: 32px; margin-top: 70px; margin-bottom: 40px; }
       .cards { grid-template-columns: 1fr; padding: 0 5%; }
+      .stats-dashboard { grid-template-columns: repeat(2, 1fr); padding: 0 5% 30px; }
+      .stat-card .stat-number { font-size: 32px; }
       .contact-section { flex-direction: column; align-items: flex-start; }
       .logo { font-size: 20px; }
       .hero p { font-size: 18px; }
@@ -536,7 +765,14 @@
       #userGreeting { font-size: 12px; padding: 4px 12px; }
       .dropdown-menu { right: 5%; min-width: 220px; }
       .nav-right { gap: 10px; }
-      .hamburger span { width: 24px; height: 2.5px; }
+      .quiz-box { padding: 25px; }
+      .quiz-box .question { font-size: 17px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-dashboard { grid-template-columns: 1fr 1fr; gap: 15px; }
+      .stat-card { padding: 15px; }
+      .stat-card .stat-number { font-size: 26px; }
     }
   </style>
 </head>
@@ -545,27 +781,25 @@
   <!-- MATRIX CANVAS -->
   <canvas id="matrix-canvas"></canvas>
 
-  <!-- NAVBAR with HAMBURGER -->
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">⟡ CYBER HUB</div>
     <div class="nav-right">
       <span id="userGreeting" style="display:none;"></span>
       <button id="loginBtn" class="auth-btn" onclick="openModal()">🔐 LOGIN</button>
       <button id="logoutBtn" class="auth-btn logout-btn" style="display:none;" onclick="logout()">⛔ LOGOUT</button>
-      <!-- 3 horizontal lines (hamburger) -->
       <div class="hamburger" id="hamburger" onclick="toggleDropdown()">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
     </div>
   </nav>
 
-  <!-- DROPDOWN MENU -->
+  <!-- DROPDOWN -->
   <div class="dropdown-menu" id="dropdownMenu">
     <a href="#home" onclick="closeDropdown()">🏠 Home</a>
     <a href="#topics" onclick="closeDropdown()">📚 Topics</a>
     <a href="#roadmap" onclick="closeDropdown()">🧭 Roadmap</a>
+    <a href="#quiz" onclick="closeDropdown()">📝 Quiz</a>
     <div class="menu-divider"></div>
     <button class="menu-item" onclick="openVideo('phishing')">🎥 Phishing Explained</button>
     <button class="menu-item" onclick="openVideo('trojan')">🎥 Trojan Attacks</button>
@@ -615,247 +849,41 @@
     </div>
   </section>
 
-  <!-- TOPICS -->
-  <h2 class="section-title" id="topics">⛓️ TOP CYBER TOPICS</h2>
-  <section class="cards">
-    <div class="card" onclick="toggleInfo('phishing')">
-      <h3>PHISHING ATTACKS</h3>
-      <p>Fake emails, messages &amp; websites that steal credentials.</p>
-      <div id="phishing" class="info-box">
-        <p>Phishing is a top cyber threat. Attackers impersonate banks, social media, or government.</p>
-        <p>Goal: steal passwords, personal info, financial data.</p>
-        <p>Modern phishing looks extremely convincing — always verify sender &amp; URL.</p>
-        <p>Enable multi‑factor authentication (MFA) for extra protection.</p>
-        <p>📌 Report suspicious emails to your security team.</p>
-      </div>
+  <!-- STATS DASHBOARD -->
+  <div class="stats-dashboard">
+    <div class="stat-card">
+      <div class="stat-icon">🛡️</div>
+      <div class="stat-number" id="stat1">0</div>
+      <div class="stat-label">Total Attacks Blocked</div>
     </div>
-
-    <div class="card" onclick="toggleInfo('malware')">
-      <h3>MALWARE</h3>
-      <p>Viruses, worms, trojans, ransomware, spyware.</p>
-      <div id="malware" class="info-box">
-        <p>Malware is designed to damage, steal, or spy.</p>
-        <p>Ransomware encrypts files and demands payment.</p>
-        <p>Spyware monitors activity without consent.</p>
-        <p>Keep software updated, use antivirus, and backup regularly.</p>
-        <p>🔐 Download only from trusted sources.</p>
-      </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-number" id="stat2">0</div>
+      <div class="stat-label">Active Threats Detected</div>
     </div>
-
-    <div class="card" onclick="toggleInfo('networksecurity')">
-      <h3>NETWORK SECURITY</h3>
-      <p>Protect systems, communications &amp; data.</p>
-      <div id="networksecurity" class="info-box">
-        <p>Firewalls, IDS/IPS, VPNs, segmentation are key defenses.</p>
-        <p>Understanding TCP/IP, ports, and protocols is essential.</p>
-        <p>Network security is the foundation of any cybersecurity career.</p>
-        <p>🌐 Learn about LAN, WAN, DNS, and routing.</p>
-      </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔐</div>
+      <div class="stat-number" id="stat3">0</div>
+      <div class="stat-label">Secure Connections</div>
     </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <h2 class="section-title" id="roadmap">🧭 ETHICAL HACKING ROADMAP</h2>
-  <section class="cards">
-    <div class="card" onclick="toggleInfo('step1')">
-      <h3>STEP 1 · NETWORKING</h3>
-      <p>Foundation of all security systems.</p>
-      <div id="step1" class="info-box">
-        <p>Understand IP, routers, switches, DNS, TCP/IP, UDP, ports.</p>
-        <p>Learn LAN, WAN, VPN, and network segmentation.</p>
-        <p>Networking is critical for penetration testing &amp; defense.</p>
-      </div>
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-number" id="stat4">0</div>
+      <div class="stat-label">Security Incidents</div>
     </div>
-
-    <div class="card" onclick="toggleInfo('step2')">
-      <h3>STEP 2 · LINUX</h3>
-      <p>Master the OS of security pros.</p>
-      <div id="step2" class="info-box">
-        <p>Linux powers most servers and security tools.</p>
-        <p>Learn terminal, file permissions, processes, networking tools.</p>
-        <p>Kali Linux is the standard for ethical hacking.</p>
-        <p>🐧 Become comfortable with the command line.</p>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleInfo('step3')">
-      <h3>STEP 3 · WEB DEV</h3>
-      <p>Know how websites work before attacking them.</p>
-      <div id="step3" class="info-box">
-        <p>HTML, CSS, JavaScript — understand structure &amp; interaction.</p>
-        <p>Learn how browsers talk to servers (HTTP/HTTPS).</p>
-        <p>Web dev knowledge is crucial for web app security.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADVANCED ROADMAP -->
-  <h2 class="section-title">⚙️ ADVANCED ROADMAP</h2>
-  <section class="cards">
-    <div class="card" onclick="toggleInfo('step4')">
-      <h3>STEP 4 · PYTHON</h3>
-      <p>Automation &amp; security tooling.</p>
-      <div id="step4" class="info-box">
-        <p>Python is versatile and beginner‑friendly.</p>
-        <p>Automate log analysis, audits, and repetitive tasks.</p>
-        <p>Learn variables, loops, functions, file handling.</p>
-        <p>📦 Use libraries for networking and data extraction.</p>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleInfo('step5')">
-      <h3>STEP 5 · SECURITY FUNDAMENTALS</h3>
-      <p>Core concepts: CIA, risk, access control.</p>
-      <div id="step5" class="info-box">
-        <p>Confidentiality, Integrity, Availability.</p>
-        <p>Risk management, authentication, encryption, hashing.</p>
-        <p>Incident response &amp; threat intelligence.</p>
-        <p>🧠 Build a strong security mindset.</p>
-      </div>
-    </div>
-
-    <div class="card" onclick="toggleInfo('step6')">
-      <h3>STEP 6 · ETHICAL HACKING</h3>
-      <p>Authorized testing &amp; vulnerability assessment.</p>
-      <div id="step6" class="info-box">
-        <p>Always obtain permission before testing.</p>
-        <p>Learn recon, web app security, reporting.</p>
-        <p>Practice in legal labs (HackTheBox, TryHackMe).</p>
-        <p>📝 Responsible disclosure is key.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CYBER FACTS -->
-  <h2 class="section-title">🔍 CYBER FACTS</h2>
-  <section class="cards">
-    <div class="card" style="cursor:default;">
-      <h3>24/7</h3>
-      <p>Cyber threats operate around the clock — continuous monitoring &amp; awareness are critical.</p>
-    </div>
-    <div class="card" style="cursor:default;">
-      <h3>MFA</h3>
-      <p>Multi‑factor authentication stops over 99% of account attacks.</p>
-    </div>
-    <div class="card" style="cursor:default;">
-      <h3>DEFENSE</h3>
-      <p>Strong passwords, updates, and security awareness remain your first line of defense.</p>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <div id="contact" class="contact-section">
-    <div class="contact-item"><span style="font-size:28px;">📞</span><a href="tel:+919616401302">+91 96164 01302</a></div>
-    <div class="contact-item"><span style="font-size:28px;">✉️</span><a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a></div>
-    <div class="contact-item"><span style="font-size:28px;">💬</span><span>24/7 for security help</span></div>
   </div>
 
-  <div class="footer-note">⚡ CYBER SECURITY HUB · always learning · always defending ⚡</div>
+  <!-- NEWS TICKER -->
+  <div class="news-ticker">
+    <div class="ticker-content">
+      <span><span class="ticker-icon">🔴</span> New ransomware variant detected targeting healthcare</span>
+      <span><span class="ticker-icon">🟡</span> Phishing campaigns up 45% in Q2 2026</span>
+      <span><span class="ticker-icon">🟢</span> Zero-day vulnerability patched in major browsers</span>
+      <span><span class="ticker-icon">🔵</span> AI-powered security tools showing 98% detection rate</span>
+      <span><span class="ticker-icon">🟠</span> Critical infrastructure attacks increase globally</span>
+      <span><span class="ticker-icon">🟣</span> New ethical hacking certification launched</span>
+    </div>
+  </div>
 
-  <script>
-    // ---- TOGGLE INFO ----
-    function toggleInfo(id) {
-      const box = document.getElementById(id);
-      if (box) box.style.display = (box.style.display === 'block') ? 'none' : 'block';
-    }
-
-    // ---- MATRIX RAIN (unchanged) ----
-    (function matrixRain() {
-      const canvas = document.getElementById('matrix-canvas');
-      const ctx = canvas.getContext('2d');
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-      const cols = Math.floor(width / 18);
-      const drops = Array(cols).fill(1);
-      const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~";
-
-      function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = '#00ff41';
-        ctx.font = '18px "Share Tech Mono", monospace';
-        ctx.shadowColor = '#00ff41';
-        ctx.shadowBlur = 8;
-        for (let i = 0; i < drops.length; i++) {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          const x = i * 18;
-          const y = drops[i] * 18;
-          ctx.fillStyle = `rgba(0, 255, 65, ${0.8 + Math.random() * 0.4})`;
-          ctx.fillText(text, x, y);
-          if (y > height && Math.random() > 0.975) drops[i] = 0;
-          drops[i] += 0.5 + Math.random() * 0.6;
-        }
-        requestAnimationFrame(draw);
-      }
-      window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        const newCols = Math.floor(width / 18);
-        if (newCols > drops.length) { for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20); }
-        else { drops.length = newCols; }
-      });
-      draw();
-    })();
-
-    // ---- DROPDOWN MENU ----
-    function toggleDropdown() {
-      const menu = document.getElementById('dropdownMenu');
-      const hamburger = document.getElementById('hamburger');
-      menu.classList.toggle('active');
-      hamburger.classList.toggle('active');
-    }
-
-    function closeDropdown() {
-      document.getElementById('dropdownMenu').classList.remove('active');
-      document.getElementById('hamburger').classList.remove('active');
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-      const menu = document.getElementById('dropdownMenu');
-      const hamburger = document.getElementById('hamburger');
-      if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove('active');
-        hamburger.classList.remove('active');
-      }
-    });
-
-    // ---- VIDEO MODAL ----
-    function openVideo(type) {
-      const modal = document.getElementById('videoModal');
-      const frame = document.getElementById('videoFrame');
-      const title = document.getElementById('videoTitle');
-      const videos = {
-        phishing: {
-          url: 'https://www.youtube.com/embed/mc4ctFmGu_w?autoplay=1',
-          title: '🎣 Phishing Attacks Explained'
-        },
-        trojan: {
-          url: 'https://www.youtube.com/embed/T8QrMcWJ9FU?autoplay=1',
-          title: '🐴 Trojan Horse Malware'
-        },
-        ransomware: {
-          url: 'https://www.youtube.com/embed/lg3dBA9Mf7s?autoplay=1',
-          title: '💀 Ransomware & How to Prevent'
-        }
-      };
-      const selected = videos[type] || videos.phishing;
-      frame.src = selected.url;
-      title.textContent = selected.title;
-      modal.classList.add('active');
-      closeDropdown();
-    }
-
-    function closeVideo() {
-      document.getElementById('videoModal').classList.remove('active');
-      document.getElementById('videoFrame').src = '';
-    }
-
-    // close video on overlay click
-    document.getElementById('videoModal').addEventListener('click', function(e) {
-      if (e.target === this) closeVideo();
-    });
-
-    // ---- AUTH SYSTEM ----
-    const loginBtn = document.getElementById('loginBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
+  <!-- TOPICS -->
+  <
