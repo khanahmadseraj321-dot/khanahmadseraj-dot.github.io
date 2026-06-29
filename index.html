@@ -1728,9 +1728,10 @@
         </div>
     </section>
 
+    <!-- Attack Cards - Same as before -->
     <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
     <section class="cards">
-        <!-- Attack cards - same as before (omitted for brevity, but they remain unchanged) -->
+        <!-- 1. PHISHING -->
         <div class="card" onclick="toggleInfo('phishingInfo')">
             <h3>🎣 PHISHING ATTACKS</h3>
             <p>Deceptive emails and messages that steal your credentials.</p>
@@ -1758,6 +1759,7 @@
             </div>
         </div>
 
+        <!-- 2. TROJAN -->
         <div class="card" onclick="toggleInfo('trojanInfo')">
             <h3>🐴 TROJAN HORSE</h3>
             <p>Malware disguised as legitimate software.</p>
@@ -1784,6 +1786,7 @@
             </div>
         </div>
 
+        <!-- 3. RANSOMWARE -->
         <div class="card" onclick="toggleInfo('ransomwareInfo')">
             <h3>💀 RANSOMWARE</h3>
             <p>Malware that encrypts your files and demands payment.</p>
@@ -1810,6 +1813,7 @@
             </div>
         </div>
 
+        <!-- 4. BRUTE FORCE -->
         <div class="card" onclick="toggleInfo('bruteforceInfo')">
             <h3>🔑 BRUTE FORCE ATTACKS</h3>
             <p>Guessing passwords through automated trial and error.</p>
@@ -1836,6 +1840,7 @@
             </div>
         </div>
 
+        <!-- 5. MALWARE & RATS -->
         <div class="card" onclick="toggleInfo('malwareInfo')">
             <h3>🦠 MALWARE & RATs</h3>
             <p>Viruses, worms, spyware, and Remote Access Trojans.</p>
@@ -1863,6 +1868,7 @@
             </div>
         </div>
 
+        <!-- 6. SOCIAL ENGINEERING -->
         <div class="card" onclick="toggleInfo('socialInfo')">
             <h3>🎭 SOCIAL ENGINEERING</h3>
             <p>Psychological manipulation to gain confidential information.</p>
@@ -1890,6 +1896,7 @@
             </div>
         </div>
 
+        <!-- 7. MITM -->
         <div class="card" onclick="toggleInfo('mitmInfo')">
             <h3>🌐 MAN-IN-THE-MIDDLE</h3>
             <p>Attacker intercepts communication between two parties.</p>
@@ -1916,6 +1923,7 @@
             </div>
         </div>
 
+        <!-- 8. DDoS -->
         <div class="card" onclick="toggleInfo('ddosInfo')">
             <h3>💥 DDoS ATTACKS</h3>
             <p>Overwhelming servers with traffic to make them unavailable.</p>
@@ -1942,6 +1950,7 @@
             </div>
         </div>
 
+        <!-- 9. ZERO-DAY -->
         <div class="card" onclick="toggleInfo('zeroInfo')">
             <h3>🔓 ZERO-DAY EXPLOITS</h3>
             <p>Attacks on unknown vulnerabilities with no patch available.</p>
@@ -1967,6 +1976,7 @@
             </div>
         </div>
 
+        <!-- 10. STEGANOGRAPHY -->
         <div class="card" onclick="toggleInfo('stegInfo')">
             <h3>🖼️ STEGANOGRAPHY</h3>
             <p>Hiding secret data inside innocent-looking files.</p>
@@ -1993,6 +2003,7 @@
             </div>
         </div>
 
+        <!-- 11. SQL INJECTION -->
         <div class="card" onclick="toggleInfo('sqlInfo')">
             <h3>🗄️ SQL INJECTION</h3>
             <p>Injecting malicious SQL code into web applications.</p>
@@ -2019,6 +2030,7 @@
             </div>
         </div>
 
+        <!-- 12. XSS -->
         <div class="card" onclick="toggleInfo('xssInfo')">
             <h3>💉 XSS ATTACKS</h3>
             <p>Injecting malicious scripts into web pages.</p>
@@ -2313,7 +2325,7 @@
         });
 
         // =============================================================
-        // 7. INFO MODAL
+        // 7. INFO MODAL - ANIMATED ATTACK EXPLANATIONS
         // =============================================================
         const attackData = {
             phishing: {
@@ -2893,7 +2905,7 @@
         renderGallery();
 
         // =============================================================
-        // 11. THE COMMUNITY SYSTEM - FIREBASE + IMGBB (GLOBAL)
+        // 11. THE COMMUNITY SYSTEM - FIREBASE + IMGBB (GLOBAL SHARING)
         // =============================================================
 
         // Firebase Config
@@ -2908,12 +2920,33 @@
             measurementId: "G-8MNLER84K5"
         };
 
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Override renderCommunity - Firebase se load
-        const originalRenderCommunity = renderCommunity;
-        renderCommunity = function() {
+        // ============================================================
+        // COMMUNITY MODAL FUNCTIONS
+        // ============================================================
+        function openCommunityModal() {
+            document.getElementById('communityModal').classList.add('active');
+            document.getElementById('communityFileInput').value = '';
+            document.getElementById('communityTitleInput').value = '';
+            document.getElementById('communityDescInput').value = '';
+            document.getElementById('communityNameInput').value = '';
+        }
+
+        function closeCommunityModal() {
+            document.getElementById('communityModal').classList.remove('active');
+        }
+
+        document.getElementById('communityModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCommunityModal();
+        });
+
+        // ============================================================
+        // RENDER COMMUNITY - Load from Firebase
+        // ============================================================
+        function renderCommunity() {
             const container = document.getElementById('communityGrid');
             const user = sessionStorage.getItem('cyberUser');
             const isAdmin = user === 'admin';
@@ -2929,10 +2962,11 @@
                     displayCommunityPosts(posts, container, isAdmin);
                 })
                 .catch(() => {
+                    // Fallback to localStorage
                     let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
                     displayCommunityPosts(posts, container, isAdmin);
                 });
-        };
+        }
 
         function displayCommunityPosts(posts, container, isAdmin) {
             document.getElementById('communityCount').textContent = posts.length;
@@ -2971,9 +3005,10 @@
             container.innerHTML = html;
         }
 
-        // Override submitCommunityPost - ImgBB + Firebase
-        const originalSubmitCommunityPost = submitCommunityPost;
-        submitCommunityPost = function() {
+        // ============================================================
+        // SUBMIT COMMUNITY POST - ImgBB + Firebase
+        // ============================================================
+        function submitCommunityPost() {
             const fileInput = document.getElementById('communityFileInput');
             const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
             const description = document.getElementById('communityDescInput').value.trim() || 'Making the world a better place';
@@ -2995,6 +3030,7 @@
             submitBtn.textContent = '⏳ Uploading to Cloud...';
             submitBtn.disabled = true;
 
+            // Step 1: Upload to ImgBB
             const formData = new FormData();
             formData.append('image', file);
             formData.append('key', 'f6a1ce28edf8842171d4241e64c3f963');
@@ -3006,6 +3042,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Step 2: Save to Firebase
                     return db.collection('communityPosts').add({
                         data: data.data.url,
                         title: title,
@@ -3014,7 +3051,7 @@
                         uploaded: new Date().toISOString()
                     });
                 } else {
-                    throw new Error('Upload failed');
+                    throw new Error('ImgBB upload failed: ' + (data.error?.message || 'Unknown error'));
                 }
             })
             .then(() => {
@@ -3030,9 +3067,11 @@
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
-        };
+        }
 
-        // Delete - Firebase version
+        // ============================================================
+        // DELETE - Firebase version
+        // ============================================================
         function deleteCommunityPostFB(docId) {
             const user = sessionStorage.getItem('cyberUser');
             if (user !== 'admin') {
@@ -3059,7 +3098,6 @@
                 return;
             }
             if (confirm('Delete this community post?')) {
-                // Delete from localStorage backup
                 let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
                 posts.splice(index, 1);
                 localStorage.setItem('communityPosts', JSON.stringify(posts));
@@ -3067,7 +3105,29 @@
             }
         }
 
-        // INIT
+        // ============================================================
+        // COMMUNITY UPLOAD AREA - Drag & Drop
+        // ============================================================
+        const communityArea = document.getElementById('communityUploadArea');
+        if (communityArea) {
+            communityArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            communityArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            communityArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                openCommunityModal();
+            });
+        }
+
+        // ============================================================
+        // INIT - Load on page start
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             renderCommunity();
             console.log('🔥 Firebase + ImgBB Community Ready!');
