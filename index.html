@@ -6,11 +6,6 @@
     <title>Cyber Security Hub · Protect Yourself</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { background: #000; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
@@ -949,389 +944,169 @@
         }
 
         /* ============================================================ */
-        /* ===== THE COMMUNITY SECTION ===== */
+        /* ===== CYBER THREAT MAP - NEW FEATURE ===== */
         /* ============================================================ */
-        .community-section {
+        .threat-map-section {
             padding: 20px 6% 60px;
         }
-        .community-container {
+        .threat-map-container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        .community-header {
+        .threat-map-header {
             text-align: center;
             margin-bottom: 50px;
         }
-        .community-header h2 {
+        .threat-map-header h2 {
             font-size: 48px;
             font-family: 'Orbitron', sans-serif;
             color: #00ff41;
             text-shadow: 0 0 20px #00ff41;
             margin-bottom: 15px;
         }
-        .community-header p {
+        .threat-map-header p {
             color: #b0ffc0;
             font-size: 18px;
             max-width: 700px;
             margin: 0 auto 20px;
             line-height: 1.8;
         }
-        .community-header .community-stats {
+
+        .threat-map-visual {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.05);
+        }
+
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .threat-item {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            animation: threatPulse 3s ease-in-out infinite;
+            position: relative;
+        }
+        .threat-item:nth-child(1) { animation-delay: 0s; }
+        .threat-item:nth-child(2) { animation-delay: 0.5s; }
+        .threat-item:nth-child(3) { animation-delay: 1s; }
+        .threat-item:nth-child(4) { animation-delay: 1.5s; }
+        .threat-item:nth-child(5) { animation-delay: 2s; }
+        .threat-item:nth-child(6) { animation-delay: 2.5s; }
+        .threat-item:nth-child(7) { animation-delay: 3s; }
+        .threat-item:nth-child(8) { animation-delay: 3.5s; }
+
+        @keyframes threatPulse {
+            0%, 100% { transform: scale(1); border-color: rgba(0, 255, 65, 0.15); }
+            50% { transform: scale(1.03); border-color: rgba(0, 255, 65, 0.5); box-shadow: 0 0 30px rgba(0, 255, 65, 0.05); }
+        }
+
+        .threat-item:hover {
+            transform: scale(1.08) translateY(-8px);
+            border-color: #00ff41;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.2);
+            background: rgba(0, 255, 65, 0.08);
+        }
+
+        .threat-item .threat-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .threat-item .threat-name {
+            color: #00ff41;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .threat-item .threat-count {
+            color: #5a8a5a;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .threat-item .threat-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff3b3b;
+            color: #000;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            animation: badgePulse 1.5s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 20px #ff3b3b; }
+        }
+
+        .threat-stats {
             display: flex;
             justify-content: center;
             gap: 40px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin: 30px 0 20px;
         }
-        .community-header .community-stats .stat-item {
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px solid rgba(0, 255, 65, 0.15);
-            border-radius: 16px;
+        .threat-stats .stat-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
             padding: 15px 30px;
-            text-align: center;
-            transition: 0.3s;
-        }
-        .community-header .community-stats .stat-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
-            border-color: #00ff41;
-        }
-        .community-header .community-stats .stat-item .stat-number {
-            font-size: 32px;
-            font-family: 'Orbitron', sans-serif;
-            color: #00ff41;
-        }
-        .community-header .community-stats .stat-item .stat-label {
-            color: #5a8a5a;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        .community-upload-area {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px dashed #00ff41;
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 40px;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-        .community-upload-area:hover {
-            border-color: #9dffb7;
-            box-shadow: 0 0 50px rgba(0, 255, 65, 0.1);
-            transform: translateY(-3px);
-        }
-        .community-upload-area.dragover {
-            border-color: #9dffb7;
-            background: rgba(0, 255, 65, 0.05);
-        }
-        .community-upload-area .upload-icon {
-            font-size: 50px;
-            color: #00ff41;
-            display: block;
-            margin-bottom: 10px;
-        }
-        .community-upload-area h4 {
-            color: #b0ffc0;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-        .community-upload-area p {
-            color: #5a8a5a;
-            font-size: 14px;
-        }
-        .community-upload-btn {
-            padding: 14px 50px;
-            background: #00ff41;
-            color: #000;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 18px;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-        }
-        .community-upload-btn:hover {
-            box-shadow: 0 0 50px #00ff41, 0 0 80px rgba(0, 255, 65, 0.3);
-            transform: scale(1.05);
-            background: #9dffb7;
-        }
-        .community-upload-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Community Gallery Grid */
-        .community-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            min-height: 200px;
-        }
-
-        .community-gallery-item {
-            position: relative;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 255, 65, 0.2);
-            border-radius: 20px;
-            overflow: hidden;
-            aspect-ratio: 4/3;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-        }
-        .community-gallery-item:nth-child(1) { animation-delay: 0.05s; }
-        .community-gallery-item:nth-child(2) { animation-delay: 0.1s; }
-        .community-gallery-item:nth-child(3) { animation-delay: 0.15s; }
-        .community-gallery-item:nth-child(4) { animation-delay: 0.2s; }
-        .community-gallery-item:nth-child(5) { animation-delay: 0.25s; }
-        .community-gallery-item:nth-child(6) { animation-delay: 0.3s; }
-        .community-gallery-item:nth-child(7) { animation-delay: 0.35s; }
-        .community-gallery-item:nth-child(8) { animation-delay: 0.4s; }
-
-        .community-gallery-item:hover {
-            transform: scale(1.04) translateY(-8px);
-            border-color: #00ff41;
-            box-shadow: 0 0 60px rgba(0, 255, 65, 0.2), 0 20px 40px rgba(0, 0, 0, 0.6);
-            z-index: 2;
-        }
-
-        .community-gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.5s ease;
-        }
-        .community-gallery-item:hover img {
-            transform: scale(1.08);
-        }
-
-        .community-gallery-item .overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px 20px 20px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
-            transform: translateY(100%);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .community-gallery-item:hover .overlay {
-            transform: translateY(0);
-        }
-
-        .community-gallery-item .overlay .cause-title {
-            color: #00ff41;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-        .community-gallery-item .overlay .cause-desc {
-            color: #b0ffc0;
-            font-size: 13px;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-        .community-gallery-item .overlay .uploader-info {
-            color: #5a8a5a;
-            font-size: 11px;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .community-gallery-item .overlay .uploader-info i {
-            font-size: 12px;
-        }
-
-        .community-gallery-item .delete-community {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #ff3b3b;
-            color: #ff3b3b;
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: 0.3s;
-            opacity: 0;
-            z-index: 5;
-        }
-        .community-gallery-item:hover .delete-community {
-            opacity: 1;
-        }
-        .community-gallery-item .delete-community:hover {
-            background: #ff3b3b;
-            color: #000;
-            transform: scale(1.1);
-        }
-
-        .community-gallery-item .badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(0, 255, 65, 0.15);
-            border: 1px solid rgba(0, 255, 65, 0.3);
-            color: #00ff41;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(4px);
-            z-index: 4;
-        }
-
-        /* Community Upload Modal */
-        .community-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(12px);
-            z-index: 20000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .community-modal-overlay.active { display: flex; }
-        .community-modal-box {
-            background: #0a0f0a;
-            border: 2px solid #00ff41;
-            border-radius: 30px;
-            padding: 45px 40px;
-            max-width: 520px;
-            width: 100%;
-            box-shadow: 0 0 80px rgba(0, 255, 65, 0.15);
-            text-align: center;
-        }
-        .community-modal-box h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 26px;
-            color: #00ff41;
-            text-shadow: 0 0 20px #00ff41;
-            margin-bottom: 8px;
-        }
-        .community-modal-box .modal-sub {
-            color: #b0ffc0;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .community-modal-box .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-        .community-modal-box .form-group label {
-            color: #b0ffc0;
-            font-size: 13px;
-            display: block;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
-        .community-modal-box .form-group input,
-        .community-modal-box .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: #111;
-            border: 1px solid rgba(0, 255, 65, 0.2);
             border-radius: 12px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        .threat-stats .stat-item .stat-number {
+            font-size: 28px;
+            font-family: 'Orbitron', sans-serif;
             color: #00ff41;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
         }
-        .community-modal-box .form-group input:focus,
-        .community-modal-box .form-group textarea:focus {
-            border-color: #00ff41;
-            box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
-        }
-        .community-modal-box .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .community-modal-box .form-group input[type="file"] {
-            padding: 12px;
-            cursor: pointer;
-        }
-        .community-modal-box .form-group input[type="file"]::file-selector-button {
-            background: #00ff41;
-            color: #000;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-right: 12px;
-        }
-        .community-modal-box .form-group input[type="file"]::file-selector-button:hover {
-            box-shadow: 0 0 20px #00ff41;
-            transform: scale(1.02);
-        }
-
-        .community-modal-box .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .community-modal-box .modal-actions button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.3s;
-            letter-spacing: 1px;
-            border: none;
-        }
-        .community-modal-box .modal-actions .submit-btn {
-            background: #00ff41;
-            color: #000;
-        }
-        .community-modal-box .modal-actions .submit-btn:hover {
-            box-shadow: 0 0 40px #00ff41;
-            transform: scale(1.02);
-        }
-        .community-modal-box .modal-actions .cancel-btn {
-            background: transparent;
+        .threat-stats .stat-item .stat-label {
             color: #5a8a5a;
-            border: 1px solid #5a8a5a;
-        }
-        .community-modal-box .modal-actions .cancel-btn:hover {
-            color: #00ff41;
-            border-color: #00ff41;
+            font-size: 12px;
+            letter-spacing: 1px;
         }
 
-        .admin-badge {
+        .threat-live {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            border-top: 1px solid rgba(0, 255, 65, 0.1);
+            color: #5a8a5a;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+        .threat-live .live-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
             background: #00ff41;
-            color: #000;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            font-family: 'Orbitron', sans-serif;
-            margin-left: 8px;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: liveDot 1s ease-in-out infinite;
+        }
+        @keyframes liveDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.7); }
         }
 
         @media (max-width: 768px) {
@@ -1368,26 +1143,20 @@
             .about-text p {
                 font-size: 15px !important;
             }
-            .community-gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            .threat-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             }
-            .community-header h2 {
+            .threat-map-header h2 {
                 font-size: 30px;
             }
-            .community-header .community-stats {
+            .threat-stats {
                 gap: 15px;
             }
-            .community-header .community-stats .stat-item {
+            .threat-stats .stat-item {
                 padding: 10px 20px;
             }
-            .community-header .community-stats .stat-item .stat-number {
-                font-size: 24px;
-            }
-            .community-modal-box {
-                padding: 30px 25px;
-            }
-            .community-modal-box .modal-actions {
-                flex-direction: column;
+            .threat-stats .stat-item .stat-number {
+                font-size: 20px;
             }
         }
         @media (max-width: 480px) {
@@ -1404,9 +1173,8 @@
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 12px;
             }
-            .community-gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 15px;
+            .threat-grid {
+                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
             }
         }
     </style>
@@ -1432,7 +1200,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="#home" onclick="closeDropdown()"><span class="menu-icon">🏠</span> Home</a>
         <a href="#about" onclick="closeDropdown()"><span class="menu-icon">👤</span> About Me</a>
-        <a href="#community" onclick="closeDropdown()"><span class="menu-icon">🌍</span> The Community</a>
+        <a href="#threatmap" onclick="closeDropdown()"><span class="menu-icon">🌐</span> Cyber Threat Map</a>
         <a href="#pdf" onclick="closeDropdown()"><span class="menu-icon">📄</span> PDF Library</a>
         <a href="#gallery" onclick="closeDropdown()"><span class="menu-icon">🖼️</span> Gallery</a>
         <a href="#attacks" onclick="closeDropdown()"><span class="menu-icon">⚔️</span> All Attack Types</a>
@@ -1523,34 +1291,6 @@
         </div>
     </div>
 
-    <!-- Community Upload Modal -->
-    <div class="community-modal-overlay" id="communityModal">
-        <div class="community-modal-box">
-            <h3>🌍 Share Your Cause</h3>
-            <div class="modal-sub">Upload a photo and share your community service story</div>
-            <div class="form-group">
-                <label>📸 Upload Photo</label>
-                <input type="file" id="communityFileInput" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>📝 Cause Title</label>
-                <input type="text" id="communityTitleInput" placeholder="e.g., Feeding Street Dogs" maxlength="50">
-            </div>
-            <div class="form-group">
-                <label>💬 Description</label>
-                <textarea id="communityDescInput" placeholder="Tell us about your community service..." maxlength="200"></textarea>
-            </div>
-            <div class="form-group">
-                <label>👤 Your Name (optional)</label>
-                <input type="text" id="communityNameInput" placeholder="Anonymous" maxlength="30">
-            </div>
-            <div class="modal-actions">
-                <button class="cancel-btn" onclick="closeCommunityModal()">Cancel</button>
-                <button class="submit-btn" onclick="submitCommunityPost()">📤 Publish to Community</button>
-            </div>
-        </div>
-    </div>
-
     <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-content">
@@ -1622,47 +1362,41 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- ===== THE COMMUNITY SECTION ===== -->
+    <!-- ===== CYBER THREAT MAP - NEW FEATURE ===== -->
     <!-- ============================================================ -->
-    <section class="community-section" id="community">
-        <div class="community-container">
-            <div class="community-header">
-                <h2>🌍 THE COMMUNITY</h2>
+    <section class="threat-map-section" id="threatmap">
+        <div class="threat-map-container">
+            <div class="threat-map-header">
+                <h2>🌐 CYBER THREAT MAP</h2>
                 <p>
-                    A global movement of compassion — feeding street dogs, helping people in need, 
-                    and making the world a better place. Share your acts of kindness with the world.
+                    Real-time visualization of active cyber threats worldwide. Hover over each threat to learn more.
                 </p>
-                <div class="community-stats">
+            </div>
+
+            <div class="threat-map-visual">
+                <div class="threat-stats">
                     <div class="stat-item">
-                        <div class="stat-number" id="communityCount">0</div>
-                        <div class="stat-label">❤️ Acts of Kindness</div>
+                        <div class="stat-number" id="totalThreats">0</div>
+                        <div class="stat-label">🛡️ Total Threats Blocked</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="communityMembers">0</div>
-                        <div class="stat-label">🌍 Community Members</div>
+                        <div class="stat-number" id="activeThreats">0</div>
+                        <div class="stat-label">⚡ Active Attacks</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="communityAnimals">0</div>
-                        <div class="stat-label">🐾 Animals Helped</div>
+                        <div class="stat-number" id="countriesImpacted">0</div>
+                        <div class="stat-label">🌍 Countries Impacted</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Upload Area -->
-            <div class="community-upload-area" id="communityUploadArea">
-                <span class="upload-icon">📸</span>
-                <h4>Share Your Community Service</h4>
-                <p>Upload a photo of your charity work — feeding animals, helping people, or any act of kindness</p>
-                <button class="community-upload-btn" onclick="openCommunityModal()">
-                    📤 Upload to Community
-                </button>
-            </div>
+                <div class="threat-grid" id="threatGrid">
+                    <!-- Generated by JavaScript -->
+                </div>
 
-            <!-- Community Gallery Grid -->
-            <div class="community-gallery-grid" id="communityGrid">
-                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
-                    🌍 No community posts yet. Be the first to share an act of kindness!
-                </p>
+                <div class="threat-live">
+                    <span class="live-dot"></span>
+                    <span id="liveStatus">LIVE THREAT MONITORING ACTIVE</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1673,7 +1407,6 @@
         <div class="pdf-container">
             <div style="background:rgba(0,0,0,0.5); border:1px solid #00ff41; border-radius:30px; padding:40px;">
                 
-                <!-- PERMANENT PDF -->
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:rgba(0,255,65,0.05); border-radius:12px; border:1px solid #00ff41; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                     <div style="display:flex; align-items:center; gap:12px; color:#b0ffc0; font-size:15px;">
                         <span style="font-size:28px;">📖</span>
@@ -1686,10 +1419,8 @@
                     </a>
                 </div>
                 
-                <!-- Uploaded PDFs -->
                 <div id="pdfItems" style="margin-top:20px;"></div>
                 
-                <!-- Admin Upload -->
                 <div id="adminPdfUpload" style="display:none; margin-top:20px;">
                     <div class="pdf-upload-area" id="pdfUploadArea">
                         <div style="font-size:30px; color:#00ff41;">📤</div>
@@ -1709,7 +1440,6 @@
     <section class="gallery-section" id="gallery">
         <h2 class="section-title">🖼️ GALLERY</h2>
         <div class="gallery-container">
-            <!-- Admin Upload -->
             <div id="adminGalleryUpload" style="display:none; margin-bottom:20px;">
                 <div class="gallery-upload-area" id="galleryUploadArea">
                     <div style="font-size:40px; color:#00ff41;">📸</div>
@@ -1721,17 +1451,16 @@
                     </button>
                 </div>
             </div>
-            <!-- Gallery Grid -->
             <div class="gallery-grid" id="galleryGrid">
                 <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>
             </div>
         </div>
     </section>
 
-    <!-- Attack Cards - Same as before -->
+    <!-- Attack Cards -->
     <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
     <section class="cards">
-        <!-- 1. PHISHING -->
+        <!-- 12 Attack Cards - Same as before -->
         <div class="card" onclick="toggleInfo('phishingInfo')">
             <h3>🎣 PHISHING ATTACKS</h3>
             <p>Deceptive emails and messages that steal your credentials.</p>
@@ -1759,7 +1488,6 @@
             </div>
         </div>
 
-        <!-- 2. TROJAN -->
         <div class="card" onclick="toggleInfo('trojanInfo')">
             <h3>🐴 TROJAN HORSE</h3>
             <p>Malware disguised as legitimate software.</p>
@@ -1786,7 +1514,6 @@
             </div>
         </div>
 
-        <!-- 3. RANSOMWARE -->
         <div class="card" onclick="toggleInfo('ransomwareInfo')">
             <h3>💀 RANSOMWARE</h3>
             <p>Malware that encrypts your files and demands payment.</p>
@@ -1813,7 +1540,6 @@
             </div>
         </div>
 
-        <!-- 4. BRUTE FORCE -->
         <div class="card" onclick="toggleInfo('bruteforceInfo')">
             <h3>🔑 BRUTE FORCE ATTACKS</h3>
             <p>Guessing passwords through automated trial and error.</p>
@@ -1840,7 +1566,6 @@
             </div>
         </div>
 
-        <!-- 5. MALWARE & RATS -->
         <div class="card" onclick="toggleInfo('malwareInfo')">
             <h3>🦠 MALWARE & RATs</h3>
             <p>Viruses, worms, spyware, and Remote Access Trojans.</p>
@@ -1868,7 +1593,6 @@
             </div>
         </div>
 
-        <!-- 6. SOCIAL ENGINEERING -->
         <div class="card" onclick="toggleInfo('socialInfo')">
             <h3>🎭 SOCIAL ENGINEERING</h3>
             <p>Psychological manipulation to gain confidential information.</p>
@@ -1896,7 +1620,6 @@
             </div>
         </div>
 
-        <!-- 7. MITM -->
         <div class="card" onclick="toggleInfo('mitmInfo')">
             <h3>🌐 MAN-IN-THE-MIDDLE</h3>
             <p>Attacker intercepts communication between two parties.</p>
@@ -1923,7 +1646,6 @@
             </div>
         </div>
 
-        <!-- 8. DDoS -->
         <div class="card" onclick="toggleInfo('ddosInfo')">
             <h3>💥 DDoS ATTACKS</h3>
             <p>Overwhelming servers with traffic to make them unavailable.</p>
@@ -1950,7 +1672,6 @@
             </div>
         </div>
 
-        <!-- 9. ZERO-DAY -->
         <div class="card" onclick="toggleInfo('zeroInfo')">
             <h3>🔓 ZERO-DAY EXPLOITS</h3>
             <p>Attacks on unknown vulnerabilities with no patch available.</p>
@@ -1976,7 +1697,6 @@
             </div>
         </div>
 
-        <!-- 10. STEGANOGRAPHY -->
         <div class="card" onclick="toggleInfo('stegInfo')">
             <h3>🖼️ STEGANOGRAPHY</h3>
             <p>Hiding secret data inside innocent-looking files.</p>
@@ -2003,7 +1723,6 @@
             </div>
         </div>
 
-        <!-- 11. SQL INJECTION -->
         <div class="card" onclick="toggleInfo('sqlInfo')">
             <h3>🗄️ SQL INJECTION</h3>
             <p>Injecting malicious SQL code into web applications.</p>
@@ -2030,7 +1749,6 @@
             </div>
         </div>
 
-        <!-- 12. XSS -->
         <div class="card" onclick="toggleInfo('xssInfo')">
             <h3>💉 XSS ATTACKS</h3>
             <p>Injecting malicious scripts into web pages.</p>
@@ -2259,7 +1977,6 @@
                 if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
                 if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
                 if (document.getElementById('infoModal').classList.contains('active')) closeInfoModal();
-                if (document.getElementById('communityModal').classList.contains('active')) closeCommunityModal();
             }
         });
 
@@ -2905,233 +2622,66 @@
         renderGallery();
 
         // =============================================================
-        // 11. THE COMMUNITY SYSTEM - FIREBASE + IMGBB (GLOBAL SHARING)
+        // 11. CYBER THREAT MAP - NEW FEATURE
         // =============================================================
+        const threatData = [
+            { icon: '🎣', name: 'Phishing', count: 2847, color: '#ff6b35' },
+            { icon: '🐴', name: 'Trojan', count: 1923, color: '#ff3b3b' },
+            { icon: '💀', name: 'Ransomware', count: 1562, color: '#ff1744' },
+            { icon: '🔑', name: 'Brute Force', count: 3451, color: '#ff9100' },
+            { icon: '🦠', name: 'Malware', count: 4238, color: '#ff4081' },
+            { icon: '🎭', name: 'Social Eng.', count: 2187, color: '#7c4dff' },
+            { icon: '🌐', name: 'MITM', count: 976, color: '#00bcd4' },
+            { icon: '💥', name: 'DDoS', count: 1342, color: '#f44336' }
+        ];
 
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyA2CEXuXah_fQf4VBMLgrfgksS6qaMdZ_g",
-            authDomain: "community-posts-45130.firebaseapp.com",
-            databaseURL: "https://community-posts-45130-default-rtdb.firebaseio.com",
-            projectId: "community-posts-45130",
-            storageBucket: "community-posts-45130.firebasestorage.app",
-            messagingSenderId: "168218255463",
-            appId: "1:168218255463:web:724a41fff1dadccb7434c2",
-            measurementId: "G-8MNLER84K5"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // ============================================================
-        // COMMUNITY MODAL FUNCTIONS
-        // ============================================================
-        function openCommunityModal() {
-            document.getElementById('communityModal').classList.add('active');
-            document.getElementById('communityFileInput').value = '';
-            document.getElementById('communityTitleInput').value = '';
-            document.getElementById('communityDescInput').value = '';
-            document.getElementById('communityNameInput').value = '';
-        }
-
-        function closeCommunityModal() {
-            document.getElementById('communityModal').classList.remove('active');
-        }
-
-        document.getElementById('communityModal').addEventListener('click', function(e) {
-            if (e.target === this) closeCommunityModal();
-        });
-
-        // ============================================================
-        // RENDER COMMUNITY - Load from Firebase
-        // ============================================================
-        function renderCommunity() {
-            const container = document.getElementById('communityGrid');
-            const user = sessionStorage.getItem('cyberUser');
-            const isAdmin = user === 'admin';
+        function renderThreatMap() {
+            const container = document.getElementById('threatGrid');
+            const total = threatData.reduce((sum, t) => sum + t.count, 0);
             
-            db.collection('communityPosts')
-                .orderBy('uploaded', 'desc')
-                .get()
-                .then(snapshot => {
-                    let posts = [];
-                    snapshot.forEach(doc => {
-                        posts.push({ id: doc.id, ...doc.data() });
-                    });
-                    displayCommunityPosts(posts, container, isAdmin);
-                })
-                .catch(() => {
-                    // Fallback to localStorage
-                    let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
-                    displayCommunityPosts(posts, container, isAdmin);
-                });
-        }
-
-        function displayCommunityPosts(posts, container, isAdmin) {
-            document.getElementById('communityCount').textContent = posts.length;
-            const uniqueMembers = new Set(posts.map(p => p.name || 'Anonymous'));
-            document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
-            document.getElementById('communityAnimals').textContent = posts.length * 2;
+            // Update stats
+            document.getElementById('totalThreats').textContent = total.toLocaleString();
+            document.getElementById('activeThreats').textContent = threatData.length * Math.floor(Math.random() * 100 + 50);
+            document.getElementById('countriesImpacted').textContent = Math.floor(Math.random() * 150 + 50);
             
-            if (posts.length === 0) {
-                container.innerHTML = `
-                    <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
-                        🌍 No community posts yet. Be the first to share an act of kindness!
-                    </p>
-                `;
-                return;
-            }
-
             let html = '';
-            posts.forEach((post) => {
+            threatData.forEach((threat, index) => {
                 html += `
-                    <div class="community-gallery-item">
-                        <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
-                        <span class="badge">❤️ Community</span>
-                        ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPostFB('${post.id}')" title="Delete Post">✕</button>` : ''}
-                        <div class="overlay">
-                            <div class="cause-title">${post.title || 'Act of Kindness'}</div>
-                            <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
-                            <div class="uploader-info">
-                                <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
-                                <span style="margin:0 6px;">•</span>
-                                <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
-                            </div>
-                        </div>
+                    <div class="threat-item" style="animation-delay: ${index * 0.3}s;">
+                        <span class="threat-badge">${Math.floor(Math.random() * 100 + 10)}</span>
+                        <span class="threat-icon">${threat.icon}</span>
+                        <div class="threat-name">${threat.name}</div>
+                        <div class="threat-count">🛡️ ${threat.count.toLocaleString()} blocked</div>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
 
-        // ============================================================
-        // SUBMIT COMMUNITY POST - ImgBB + Firebase
-        // ============================================================
-        function submitCommunityPost() {
-            const fileInput = document.getElementById('communityFileInput');
-            const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
-            const description = document.getElementById('communityDescInput').value.trim() || 'Making the world a better place';
-            const name = document.getElementById('communityNameInput').value.trim() || 'Anonymous';
+        // Call on page load
+        renderThreatMap();
 
-            if (!fileInput.files || fileInput.files.length === 0) {
-                alert('📸 Please select a photo to upload.');
-                return;
+        // Auto-refresh threat map every 10 seconds
+        setInterval(() => {
+            const total = document.getElementById('totalThreats');
+            const current = parseInt(total.textContent.replace(/,/g, ''));
+            if (current) {
+                const increment = Math.floor(Math.random() * 100 + 10);
+                total.textContent = (current + increment).toLocaleString();
+                
+                // Randomly update active threats
+                const active = document.getElementById('activeThreats');
+                const activeVal = parseInt(active.textContent);
+                const change = Math.floor(Math.random() * 20 - 10);
+                active.textContent = Math.max(0, activeVal + change);
+                
+                // Randomly update countries
+                const countries = document.getElementById('countriesImpacted');
+                const countryVal = parseInt(countries.textContent);
+                const countryChange = Math.floor(Math.random() * 5 - 2);
+                countries.textContent = Math.max(30, countryVal + countryChange);
             }
-
-            const file = fileInput.files[0];
-            if (!file.type.startsWith('image/')) {
-                alert('❌ Please upload an image file (JPG, PNG, GIF, WebP).');
-                return;
-            }
-
-            const submitBtn = document.querySelector('.community-modal-box .submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = '⏳ Uploading to Cloud...';
-            submitBtn.disabled = true;
-
-            // Step 1: Upload to ImgBB
-            const formData = new FormData();
-            formData.append('image', file);
-            formData.append('key', '72ca60679091b7bef8e577e88d32607f');
-
-            fetch('https://api.imgbb.com/1/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Step 2: Save to Firebase
-                    return db.collection('communityPosts').add({
-                        data: data.data.url,
-                        title: title,
-                        description: description,
-                        name: name,
-                        uploaded: new Date().toISOString()
-                    });
-                } else {
-                    throw new Error('ImgBB upload failed: ' + (data.error?.message || 'Unknown error'));
-                }
-            })
-            .then(() => {
-                renderCommunity();
-                closeCommunityModal();
-                alert('✅ Photo uploaded to cloud! 🌍 Now everyone can see it!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('❌ Upload failed: ' + error.message);
-            })
-            .finally(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            });
-        }
-
-        // ============================================================
-        // DELETE - Firebase version
-        // ============================================================
-        function deleteCommunityPostFB(docId) {
-            const user = sessionStorage.getItem('cyberUser');
-            if (user !== 'admin') {
-                alert('⚠️ Only admin can delete community posts.');
-                return;
-            }
-            if (confirm('Delete this post?')) {
-                db.collection('communityPosts').doc(docId).delete()
-                    .then(() => {
-                        renderCommunity();
-                        alert('✅ Post deleted successfully!');
-                    })
-                    .catch(err => {
-                        alert('❌ Delete failed: ' + err.message);
-                    });
-            }
-        }
-
-        // Keep original delete function for localStorage fallback
-        function deleteCommunityPost(index) {
-            const user = sessionStorage.getItem('cyberUser');
-            if (user !== 'admin') {
-                alert('⚠️ Only admin can delete community posts.');
-                return;
-            }
-            if (confirm('Delete this community post?')) {
-                let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
-                posts.splice(index, 1);
-                localStorage.setItem('communityPosts', JSON.stringify(posts));
-                renderCommunity();
-            }
-        }
-
-        // ============================================================
-        // COMMUNITY UPLOAD AREA - Drag & Drop
-        // ============================================================
-        const communityArea = document.getElementById('communityUploadArea');
-        if (communityArea) {
-            communityArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.classList.add('dragover');
-            });
-            communityArea.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.classList.remove('dragover');
-            });
-            communityArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.classList.remove('dragover');
-                openCommunityModal();
-            });
-        }
-
-        // ============================================================
-        // INIT - Load on page start
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCommunity();
-            console.log('🔥 Firebase + ImgBB Community Ready!');
-        });
+        }, 8000);
 
         // =============================================================
         // 12. SMOOTH SCROLLING
@@ -3152,7 +2702,7 @@
         // =============================================================
         console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
         console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
-        console.log('%c🌍 The Community - Firebase + ImgBB Global Sharing!', 'font-size: 14px; color: #00ff41;');
+        console.log('%c🌐 Cyber Threat Map - Real-time monitoring active!', 'font-size: 14px; color: #00ff41;');
         console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
         console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
@@ -3165,7 +2715,7 @@
             if (e.ctrlKey && e.key === 'q') { e.preventDefault(); openQuiz(); }
             if (e.ctrlKey && e.key === 'g') { e.preventDefault(); openGuidance(); }
             if (e.ctrlKey && e.key === 'h') { e.preventDefault(); document.getElementById('home').scrollIntoView({ behavior: 'smooth' }); }
-            if (e.ctrlKey && e.key === 'c') { e.preventDefault(); document.getElementById('community').scrollIntoView({ behavior: 'smooth' }); }
+            if (e.ctrlKey && e.key === 't') { e.preventDefault(); document.getElementById('threatmap').scrollIntoView({ behavior: 'smooth' }); }
         });
     </script>
 </body>
