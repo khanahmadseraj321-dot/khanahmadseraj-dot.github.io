@@ -944,7 +944,7 @@
         }
 
         /* ============================================================ */
-        /* ===== CYBER THREAT MAP - NEW FEATURE ===== */
+        /* ===== CYBER THREAT MAP - ASTONISHING ===== */
         /* ============================================================ */
         .threat-map-section {
             padding: 20px 6% 60px;
@@ -962,8 +962,9 @@
             font-size: 48px;
             font-family: 'Orbitron', sans-serif;
             color: #00ff41;
-            text-shadow: 0 0 20px #00ff41;
+            text-shadow: 0 0 20px #00ff41, 0 0 60px rgba(0,255,65,0.2);
             margin-bottom: 15px;
+            animation: glowPulse 2s ease-in-out infinite;
         }
         .threat-map-header p {
             color: #b0ffc0;
@@ -975,19 +976,37 @@
 
         .threat-map-visual {
             background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #00ff41;
+            border: 1px solid rgba(0, 255, 65, 0.3);
             border-radius: 30px;
             padding: 40px;
             min-height: 400px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 60px rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 80px rgba(0, 255, 65, 0.05), inset 0 0 80px rgba(0, 255, 65, 0.02);
+        }
+        .threat-map-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(0,255,65,0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(0,255,65,0.02) 0%, transparent 40%);
+            animation: mapGlow 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes mapGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(2%, 1%); }
         }
 
         .threat-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .threat-item {
@@ -998,34 +1017,41 @@
             text-align: center;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
-            animation: threatPulse 3s ease-in-out infinite;
             position: relative;
+            backdrop-filter: blur(4px);
+            overflow: hidden;
         }
-        .threat-item:nth-child(1) { animation-delay: 0s; }
-        .threat-item:nth-child(2) { animation-delay: 0.5s; }
-        .threat-item:nth-child(3) { animation-delay: 1s; }
-        .threat-item:nth-child(4) { animation-delay: 1.5s; }
-        .threat-item:nth-child(5) { animation-delay: 2s; }
-        .threat-item:nth-child(6) { animation-delay: 2.5s; }
-        .threat-item:nth-child(7) { animation-delay: 3s; }
-        .threat-item:nth-child(8) { animation-delay: 3.5s; }
-
-        @keyframes threatPulse {
-            0%, 100% { transform: scale(1); border-color: rgba(0, 255, 65, 0.15); }
-            50% { transform: scale(1.03); border-color: rgba(0, 255, 65, 0.5); box-shadow: 0 0 30px rgba(0, 255, 65, 0.05); }
+        .threat-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0,255,65,0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .threat-item:hover::after {
+            opacity: 1;
         }
 
         .threat-item:hover {
             transform: scale(1.08) translateY(-8px);
             border-color: #00ff41;
-            box-shadow: 0 0 50px rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.2), 0 20px 40px rgba(0,0,0,0.6);
             background: rgba(0, 255, 65, 0.08);
         }
 
         .threat-item .threat-icon {
-            font-size: 40px;
+            font-size: 42px;
             display: block;
             margin-bottom: 10px;
+            transition: transform 0.4s;
+        }
+        .threat-item:hover .threat-icon {
+            transform: scale(1.2) rotate(-5deg);
         }
         .threat-item .threat-name {
             color: #00ff41;
@@ -1043,11 +1069,11 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #ff3b3b;
+            background: linear-gradient(135deg, #ff3b3b, #ff1744);
             color: #000;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1055,10 +1081,31 @@
             font-weight: bold;
             font-family: 'Orbitron', sans-serif;
             animation: badgePulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);
         }
         @keyframes badgePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); box-shadow: 0 0 20px #ff3b3b; }
+            50% { transform: scale(1.2); box-shadow: 0 0 30px rgba(255, 59, 59, 0.6); }
+        }
+        .threat-item .threat-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 255, 65, 0.1);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+        .threat-item .threat-progress .bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #00cc33);
+            border-radius: 4px;
+            animation: progressBar 3s ease-in-out infinite;
+        }
+
+        @keyframes progressBar {
+            0% { width: 30%; opacity: 0.6; }
+            50% { width: 80%; opacity: 1; }
+            100% { width: 30%; opacity: 0.6; }
         }
 
         .threat-stats {
@@ -1067,33 +1114,45 @@
             gap: 40px;
             flex-wrap: wrap;
             margin: 30px 0 20px;
+            position: relative;
+            z-index: 1;
         }
         .threat-stats .stat-item {
             text-align: center;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             padding: 15px 30px;
             border-radius: 12px;
             border: 1px solid rgba(0, 255, 65, 0.1);
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .threat-stats .stat-item:hover {
+            border-color: rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.05);
         }
         .threat-stats .stat-item .stat-number {
-            font-size: 28px;
+            font-size: 32px;
             font-family: 'Orbitron', sans-serif;
             color: #00ff41;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
         }
         .threat-stats .stat-item .stat-label {
             color: #5a8a5a;
             font-size: 12px;
             letter-spacing: 1px;
+            margin-top: 4px;
         }
 
         .threat-live {
             text-align: center;
-            margin-top: 20px;
-            padding: 12px;
+            margin-top: 25px;
+            padding: 15px;
             border-top: 1px solid rgba(0, 255, 65, 0.1);
             color: #5a8a5a;
             font-size: 13px;
             letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
         }
         .threat-live .live-dot {
             display: inline-block;
@@ -1103,10 +1162,92 @@
             border-radius: 50%;
             margin-right: 10px;
             animation: liveDot 1s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
         }
         @keyframes liveDot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        /* Threat Detail Modal */
+        .threat-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 30000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .threat-detail-modal.active { display: flex; }
+        .threat-detail-modal .modal-content {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 45px 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 80px rgba(0, 255, 65, 0.15);
+            text-align: center;
+            animation: modalIn 0.4s ease-out;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .threat-detail-modal .modal-content .modal-icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .threat-detail-modal .modal-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            margin-bottom: 10px;
+        }
+        .threat-detail-modal .modal-content .modal-desc {
+            color: #b0ffc0;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .threat-detail-modal .modal-content .modal-tips {
+            text-align: left;
+            background: rgba(0, 255, 65, 0.03);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-left: 3px solid #00ff41;
+        }
+        .threat-detail-modal .modal-content .modal-tips li {
+            color: #b0ffc0;
+            font-size: 13px;
+            line-height: 2;
+            list-style: none;
+        }
+        .threat-detail-modal .modal-content .modal-tips li::before {
+            content: '🛡️ ';
+        }
+        .threat-detail-modal .modal-content .close-modal-btn {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .threat-detail-modal .modal-content .close-modal-btn:hover {
+            background: #00ff41;
+            color: #000;
+            box-shadow: 0 0 30px #00ff41;
         }
 
         @media (max-width: 768px) {
@@ -1144,7 +1285,7 @@
                 font-size: 15px !important;
             }
             .threat-grid {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
             .threat-map-header h2 {
                 font-size: 30px;
@@ -1156,7 +1297,7 @@
                 padding: 10px 20px;
             }
             .threat-stats .stat-item .stat-number {
-                font-size: 20px;
+                font-size: 22px;
             }
         }
         @media (max-width: 480px) {
@@ -1174,7 +1315,10 @@
                 gap: 12px;
             }
             .threat-grid {
-                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            }
+            .threat-detail-modal .modal-content {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -1362,14 +1506,14 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- ===== CYBER THREAT MAP - NEW FEATURE ===== -->
+    <!-- ===== CYBER THREAT MAP - ASTONISHING ===== -->
     <!-- ============================================================ -->
     <section class="threat-map-section" id="threatmap">
         <div class="threat-map-container">
             <div class="threat-map-header">
                 <h2>🌐 CYBER THREAT MAP</h2>
                 <p>
-                    Real-time visualization of active cyber threats worldwide. Hover over each threat to learn more.
+                    Real-time visualization of active cyber threats worldwide. Click on any threat to learn more.
                 </p>
             </div>
 
@@ -1401,12 +1545,32 @@
         </div>
     </section>
 
+    <!-- Threat Detail Modal -->
+    <div class="threat-detail-modal" id="threatDetailModal">
+        <div class="modal-content">
+            <span class="modal-icon" id="detailIcon">🎣</span>
+            <h3 id="detailTitle">Phishing Attacks</h3>
+            <p class="modal-desc" id="detailDesc">Phishing is a social engineering attack where criminals impersonate trusted organizations to steal your sensitive information.</p>
+            <div class="modal-tips">
+                <ul id="detailTips">
+                    <li>Always check sender email address for misspellings</li>
+                    <li>Hover over links before clicking to see real URL</li>
+                    <li>Never share passwords or OTPs via email</li>
+                    <li>Enable Multi-Factor Authentication (MFA)</li>
+                    <li>Report suspicious emails to security team</li>
+                </ul>
+            </div>
+            <button class="close-modal-btn" onclick="closeThreatDetail()">✕ Close</button>
+        </div>
+    </div>
+
     <!-- ===== PDF SECTION ===== -->
     <section class="pdf-section" id="pdf">
         <h2 class="section-title">📄 PDF LIBRARY</h2>
         <div class="pdf-container">
             <div style="background:rgba(0,0,0,0.5); border:1px solid #00ff41; border-radius:30px; padding:40px;">
                 
+                <!-- PERMANENT PDF -->
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:rgba(0,255,65,0.05); border-radius:12px; border:1px solid #00ff41; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                     <div style="display:flex; align-items:center; gap:12px; color:#b0ffc0; font-size:15px;">
                         <span style="font-size:28px;">📖</span>
@@ -1419,8 +1583,10 @@
                     </a>
                 </div>
                 
+                <!-- Uploaded PDFs -->
                 <div id="pdfItems" style="margin-top:20px;"></div>
                 
+                <!-- Admin Upload -->
                 <div id="adminPdfUpload" style="display:none; margin-top:20px;">
                     <div class="pdf-upload-area" id="pdfUploadArea">
                         <div style="font-size:30px; color:#00ff41;">📤</div>
@@ -1440,6 +1606,7 @@
     <section class="gallery-section" id="gallery">
         <h2 class="section-title">🖼️ GALLERY</h2>
         <div class="gallery-container">
+            <!-- Admin Upload -->
             <div id="adminGalleryUpload" style="display:none; margin-bottom:20px;">
                 <div class="gallery-upload-area" id="galleryUploadArea">
                     <div style="font-size:40px; color:#00ff41;">📸</div>
@@ -1451,6 +1618,7 @@
                     </button>
                 </div>
             </div>
+            <!-- Gallery Grid -->
             <div class="gallery-grid" id="galleryGrid">
                 <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>
             </div>
@@ -1460,7 +1628,7 @@
     <!-- Attack Cards -->
     <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
     <section class="cards">
-        <!-- 12 Attack Cards - Same as before -->
+        <!-- 12 Attack Cards (Same as before) -->
         <div class="card" onclick="toggleInfo('phishingInfo')">
             <h3>🎣 PHISHING ATTACKS</h3>
             <p>Deceptive emails and messages that steal your credentials.</p>
@@ -1977,6 +2145,7 @@
                 if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
                 if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
                 if (document.getElementById('infoModal').classList.contains('active')) closeInfoModal();
+                if (document.getElementById('threatDetailModal').classList.contains('active')) closeThreatDetail();
             }
         });
 
@@ -2622,66 +2791,146 @@
         renderGallery();
 
         // =============================================================
-        // 11. CYBER THREAT MAP - NEW FEATURE
+        // 11. CYBER THREAT MAP - ASTONISHING + FUNCTIONAL
         // =============================================================
         const threatData = [
-            { icon: '🎣', name: 'Phishing', count: 2847, color: '#ff6b35' },
-            { icon: '🐴', name: 'Trojan', count: 1923, color: '#ff3b3b' },
-            { icon: '💀', name: 'Ransomware', count: 1562, color: '#ff1744' },
-            { icon: '🔑', name: 'Brute Force', count: 3451, color: '#ff9100' },
-            { icon: '🦠', name: 'Malware', count: 4238, color: '#ff4081' },
-            { icon: '🎭', name: 'Social Eng.', count: 2187, color: '#7c4dff' },
-            { icon: '🌐', name: 'MITM', count: 976, color: '#00bcd4' },
-            { icon: '💥', name: 'DDoS', count: 1342, color: '#f44336' }
+            { 
+                icon: '🎣', 
+                name: 'Phishing', 
+                count: 2847, 
+                color: '#ff6b35',
+                desc: 'Phishing attacks use deceptive emails and messages to steal your credentials and personal information.',
+                tips: ['Always check sender email address for misspellings', 'Hover over links before clicking to see real URL', 'Never share passwords or OTPs via email', 'Enable Multi-Factor Authentication (MFA)', 'Report suspicious emails to security team']
+            },
+            { 
+                icon: '🐴', 
+                name: 'Trojan', 
+                count: 1923, 
+                color: '#ff3b3b',
+                desc: 'Trojans are malicious software disguised as legitimate software that create backdoors for hackers.',
+                tips: ['Only download from official websites', 'Never open attachments from unknown senders', 'Keep antivirus software updated', 'Use firewall to monitor suspicious connections', 'Scan downloaded files before opening']
+            },
+            { 
+                icon: '💀', 
+                name: 'Ransomware', 
+                count: 1562, 
+                color: '#ff1744',
+                desc: 'Ransomware encrypts your files and demands payment for decryption. One of the most devastating threats.',
+                tips: ['Regularly backup files to external drives or cloud', 'Keep all software and systems updated', 'Use strong antivirus and anti-malware tools', 'NEVER pay the ransom', 'Use email filtering to block malicious attachments']
+            },
+            { 
+                icon: '🔑', 
+                name: 'Brute Force', 
+                count: 3451, 
+                color: '#ff9100',
+                desc: 'Brute force attacks use automated software to try millions of password combinations per second.',
+                tips: ['Use strong passwords (12+ characters with mix)', 'Enable Multi-Factor Authentication (MFA)', 'Implement account lockout after failed attempts', 'Use unique passwords for every account', 'Use a password manager']
+            },
+            { 
+                icon: '🦠', 
+                name: 'Malware', 
+                count: 4238, 
+                color: '#ff4081',
+                desc: 'Malware includes viruses, worms, spyware, and RATs that give hackers complete remote control.',
+                tips: ['Install reputable antivirus with real-time scanning', 'Keep everything updated - OS, browsers, all software', 'Use a firewall to monitor network traffic', 'Only download from trusted sources', 'Perform regular full system scans']
+            },
+            { 
+                icon: '🎭', 
+                name: 'Social Eng.', 
+                count: 2187, 
+                color: '#7c4dff',
+                desc: 'Social engineering targets the human element, manipulating people into revealing confidential information.',
+                tips: ['Verify identity of people requesting information', 'Trust your instincts', 'Never share passwords over phone or email', 'Question urgent requests', 'Use official channels to verify requests']
+            },
+            { 
+                icon: '🌐', 
+                name: 'MITM', 
+                count: 976, 
+                color: '#00bcd4',
+                desc: 'Man-in-the-Middle attacks intercept and alter communication between two parties without their knowledge.',
+                tips: ['Always use HTTPS websites', 'Avoid public Wi-Fi without a VPN', 'Use encrypted messaging apps', 'Verify SSL certificates', 'Keep browsers and software updated']
+            },
+            { 
+                icon: '💥', 
+                name: 'DDoS', 
+                count: 1342, 
+                color: '#f44336',
+                desc: 'DDoS attacks overwhelm servers with massive traffic from multiple sources, making services unavailable.',
+                tips: ['Use DDoS protection services (Cloudflare, AWS Shield)', 'Implement traffic filtering and rate limiting', 'Use load balancers to distribute traffic', 'Configure firewalls to block suspicious IPs', 'Monitor network traffic for anomalies']
+            }
         ];
 
         function renderThreatMap() {
             const container = document.getElementById('threatGrid');
             const total = threatData.reduce((sum, t) => sum + t.count, 0);
             
-            // Update stats
             document.getElementById('totalThreats').textContent = total.toLocaleString();
-            document.getElementById('activeThreats').textContent = threatData.length * Math.floor(Math.random() * 100 + 50);
+            document.getElementById('activeThreats').textContent = Math.floor(Math.random() * 1000 + 500);
             document.getElementById('countriesImpacted').textContent = Math.floor(Math.random() * 150 + 50);
             
             let html = '';
             threatData.forEach((threat, index) => {
+                const randomBadge = Math.floor(Math.random() * 200 + 20);
+                const randomWidth = Math.floor(Math.random() * 60 + 30);
                 html += `
-                    <div class="threat-item" style="animation-delay: ${index * 0.3}s;">
-                        <span class="threat-badge">${Math.floor(Math.random() * 100 + 10)}</span>
+                    <div class="threat-item" onclick="openThreatDetail(${index})" style="animation-delay: ${index * 0.1}s;">
+                        <span class="threat-badge">${randomBadge}</span>
                         <span class="threat-icon">${threat.icon}</span>
                         <div class="threat-name">${threat.name}</div>
                         <div class="threat-count">🛡️ ${threat.count.toLocaleString()} blocked</div>
+                        <div class="threat-progress">
+                            <div class="bar" style="width: ${randomWidth}%; animation-duration: ${2 + Math.random() * 2}s;"></div>
+                        </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
 
-        // Call on page load
-        renderThreatMap();
+        function openThreatDetail(index) {
+            const threat = threatData[index];
+            if (!threat) return;
+            
+            document.getElementById('detailIcon').textContent = threat.icon;
+            document.getElementById('detailTitle').textContent = threat.name + ' Attacks';
+            document.getElementById('detailDesc').textContent = threat.desc;
+            
+            const tipsList = document.getElementById('detailTips');
+            tipsList.innerHTML = threat.tips.map(tip => `<li>${tip}</li>`).join('');
+            
+            document.getElementById('threatDetailModal').classList.add('active');
+        }
 
-        // Auto-refresh threat map every 10 seconds
+        function closeThreatDetail() {
+            document.getElementById('threatDetailModal').classList.remove('active');
+        }
+
+        document.getElementById('threatDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) closeThreatDetail();
+        });
+
+        // Auto-update stats
         setInterval(() => {
             const total = document.getElementById('totalThreats');
             const current = parseInt(total.textContent.replace(/,/g, ''));
             if (current) {
-                const increment = Math.floor(Math.random() * 100 + 10);
+                const increment = Math.floor(Math.random() * 100 + 20);
                 total.textContent = (current + increment).toLocaleString();
                 
-                // Randomly update active threats
                 const active = document.getElementById('activeThreats');
                 const activeVal = parseInt(active.textContent);
-                const change = Math.floor(Math.random() * 20 - 10);
+                const change = Math.floor(Math.random() * 30 - 15);
                 active.textContent = Math.max(0, activeVal + change);
                 
-                // Randomly update countries
                 const countries = document.getElementById('countriesImpacted');
                 const countryVal = parseInt(countries.textContent);
-                const countryChange = Math.floor(Math.random() * 5 - 2);
+                const countryChange = Math.floor(Math.random() * 6 - 3);
                 countries.textContent = Math.max(30, countryVal + countryChange);
             }
-        }, 8000);
+        }, 7000);
+
+        // Call on load
+        renderThreatMap();
 
         // =============================================================
         // 12. SMOOTH SCROLLING
@@ -2702,7 +2951,7 @@
         // =============================================================
         console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
         console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
-        console.log('%c🌐 Cyber Threat Map - Real-time monitoring active!', 'font-size: 14px; color: #00ff41;');
+        console.log('%c🌐 Cyber Threat Map - Astonishing + Functional!', 'font-size: 14px; color: #00ff41;');
         console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
         console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
