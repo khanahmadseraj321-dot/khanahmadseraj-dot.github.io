@@ -6,6 +6,11 @@
     <title>Cyber Security Hub · Protect Yourself</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { background: #000; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
@@ -1653,7 +1658,7 @@
                 </button>
             </div>
 
-            <!-- Community Gallery Grid - GLOBAL (Sabhi ko dikhega) -->
+            <!-- Community Gallery Grid -->
             <div class="community-gallery-grid" id="communityGrid">
                 <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
                     🌍 No community posts yet. Be the first to share an act of kindness!
@@ -1725,7 +1730,7 @@
 
     <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
     <section class="cards">
-        <!-- 1. PHISHING -->
+        <!-- Attack cards - same as before (omitted for brevity, but they remain unchanged) -->
         <div class="card" onclick="toggleInfo('phishingInfo')">
             <h3>🎣 PHISHING ATTACKS</h3>
             <p>Deceptive emails and messages that steal your credentials.</p>
@@ -1753,7 +1758,6 @@
             </div>
         </div>
 
-        <!-- 2. TROJAN -->
         <div class="card" onclick="toggleInfo('trojanInfo')">
             <h3>🐴 TROJAN HORSE</h3>
             <p>Malware disguised as legitimate software.</p>
@@ -1780,7 +1784,6 @@
             </div>
         </div>
 
-        <!-- 3. RANSOMWARE -->
         <div class="card" onclick="toggleInfo('ransomwareInfo')">
             <h3>💀 RANSOMWARE</h3>
             <p>Malware that encrypts your files and demands payment.</p>
@@ -1807,7 +1810,6 @@
             </div>
         </div>
 
-        <!-- 4. BRUTE FORCE -->
         <div class="card" onclick="toggleInfo('bruteforceInfo')">
             <h3>🔑 BRUTE FORCE ATTACKS</h3>
             <p>Guessing passwords through automated trial and error.</p>
@@ -1834,7 +1836,6 @@
             </div>
         </div>
 
-        <!-- 5. MALWARE & RATS -->
         <div class="card" onclick="toggleInfo('malwareInfo')">
             <h3>🦠 MALWARE & RATs</h3>
             <p>Viruses, worms, spyware, and Remote Access Trojans.</p>
@@ -1862,7 +1863,6 @@
             </div>
         </div>
 
-        <!-- 6. SOCIAL ENGINEERING -->
         <div class="card" onclick="toggleInfo('socialInfo')">
             <h3>🎭 SOCIAL ENGINEERING</h3>
             <p>Psychological manipulation to gain confidential information.</p>
@@ -1890,7 +1890,6 @@
             </div>
         </div>
 
-        <!-- 7. MITM -->
         <div class="card" onclick="toggleInfo('mitmInfo')">
             <h3>🌐 MAN-IN-THE-MIDDLE</h3>
             <p>Attacker intercepts communication between two parties.</p>
@@ -1917,7 +1916,6 @@
             </div>
         </div>
 
-        <!-- 8. DDoS -->
         <div class="card" onclick="toggleInfo('ddosInfo')">
             <h3>💥 DDoS ATTACKS</h3>
             <p>Overwhelming servers with traffic to make them unavailable.</p>
@@ -1944,7 +1942,6 @@
             </div>
         </div>
 
-        <!-- 9. ZERO-DAY -->
         <div class="card" onclick="toggleInfo('zeroInfo')">
             <h3>🔓 ZERO-DAY EXPLOITS</h3>
             <p>Attacks on unknown vulnerabilities with no patch available.</p>
@@ -1970,7 +1967,6 @@
             </div>
         </div>
 
-        <!-- 10. STEGANOGRAPHY -->
         <div class="card" onclick="toggleInfo('stegInfo')">
             <h3>🖼️ STEGANOGRAPHY</h3>
             <p>Hiding secret data inside innocent-looking files.</p>
@@ -1997,7 +1993,6 @@
             </div>
         </div>
 
-        <!-- 11. SQL INJECTION -->
         <div class="card" onclick="toggleInfo('sqlInfo')">
             <h3>🗄️ SQL INJECTION</h3>
             <p>Injecting malicious SQL code into web applications.</p>
@@ -2024,7 +2019,6 @@
             </div>
         </div>
 
-        <!-- 12. XSS -->
         <div class="card" onclick="toggleInfo('xssInfo')">
             <h3>💉 XSS ATTACKS</h3>
             <p>Injecting malicious scripts into web pages.</p>
@@ -2899,72 +2893,87 @@
         renderGallery();
 
         // =============================================================
-        // 11. THE COMMUNITY SYSTEM - GLOBAL WITH IMGBB CLOUD
+        // 11. THE COMMUNITY SYSTEM - FIREBASE + IMGBB (GLOBAL)
         // =============================================================
-        let communityPosts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
-         function renderCommunity() {
-    const container = document.getElementById('communityGrid');
-    const user = sessionStorage.getItem('cyberUser');
-    const isAdmin = user === 'admin';
-    
-    let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
-    
-    document.getElementById('communityCount').textContent = posts.length;
-    const uniqueMembers = new Set(posts.map(p => p.name || 'Anonymous'));
-    document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
-    document.getElementById('communityAnimals').textContent = posts.length * 2;
-    
-    if (posts.length === 0) {
-        container.innerHTML = `
-            <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
-                🌍 No community posts yet. Be the first to share an act of kindness!
-            </p>
-        `;
-        return;
-    }
 
-    let html = '';
-    posts.forEach((post, index) => {
-        html += `
-            <div class="community-gallery-item">
-                <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
-                <span class="badge">❤️ Community</span>
-                ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
-                <div class="overlay">
-                    <div class="cause-title">${post.title || 'Act of Kindness'}</div>
-                    <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
-                    <div class="uploader-info">
-                        <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
-                        <span style="margin:0 6px;">•</span>
-                        <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2CEXuXah_fQf4VBMLgrfgksS6qaMdZ_g",
+            authDomain: "community-posts-45130.firebaseapp.com",
+            databaseURL: "https://community-posts-45130-default-rtdb.firebaseio.com",
+            projectId: "community-posts-45130",
+            storageBucket: "community-posts-45130.firebasestorage.app",
+            messagingSenderId: "168218255463",
+            appId: "1:168218255463:web:724a41fff1dadccb7434c2",
+            measurementId: "G-8MNLER84K5"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Override renderCommunity - Firebase se load
+        const originalRenderCommunity = renderCommunity;
+        renderCommunity = function() {
+            const container = document.getElementById('communityGrid');
+            const user = sessionStorage.getItem('cyberUser');
+            const isAdmin = user === 'admin';
+            
+            db.collection('communityPosts')
+                .orderBy('uploaded', 'desc')
+                .get()
+                .then(snapshot => {
+                    let posts = [];
+                    snapshot.forEach(doc => {
+                        posts.push({ id: doc.id, ...doc.data() });
+                    });
+                    displayCommunityPosts(posts, container, isAdmin);
+                })
+                .catch(() => {
+                    let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+                    displayCommunityPosts(posts, container, isAdmin);
+                });
+        };
+
+        function displayCommunityPosts(posts, container, isAdmin) {
+            document.getElementById('communityCount').textContent = posts.length;
+            const uniqueMembers = new Set(posts.map(p => p.name || 'Anonymous'));
+            document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
+            document.getElementById('communityAnimals').textContent = posts.length * 2;
+            
+            if (posts.length === 0) {
+                container.innerHTML = `
+                    <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                        🌍 No community posts yet. Be the first to share an act of kindness!
+                    </p>
+                `;
+                return;
+            }
+
+            let html = '';
+            posts.forEach((post) => {
+                html += `
+                    <div class="community-gallery-item">
+                        <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
+                        <span class="badge">❤️ Community</span>
+                        ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPostFB('${post.id}')" title="Delete Post">✕</button>` : ''}
+                        <div class="overlay">
+                            <div class="cause-title">${post.title || 'Act of Kindness'}</div>
+                            <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
+                            <div class="uploader-info">
+                                <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
+                                <span style="margin:0 6px;">•</span>
+                                <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        `;
-    });
-    container.innerHTML = html;
-}
-        
-        function openCommunityModal() {
-            document.getElementById('communityModal').classList.add('active');
-            document.getElementById('communityFileInput').value = '';
-            document.getElementById('communityTitleInput').value = '';
-            document.getElementById('communityDescInput').value = '';
-            document.getElementById('communityNameInput').value = '';
+                `;
+            });
+            container.innerHTML = html;
         }
 
-        function closeCommunityModal() {
-            document.getElementById('communityModal').classList.remove('active');
-        }
-
-        document.getElementById('communityModal').addEventListener('click', function(e) {
-            if (e.target === this) closeCommunityModal();
-        });
-
-        // =============================================================
-        // SUBMIT COMMUNITY POST - WITH IMGBB CLOUD UPLOAD
-        // =============================================================
-        function submitCommunityPost() {
+        // Override submitCommunityPost - ImgBB + Firebase
+        const originalSubmitCommunityPost = submitCommunityPost;
+        submitCommunityPost = function() {
             const fileInput = document.getElementById('communityFileInput');
             const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
             const description = document.getElementById('communityDescInput').value.trim() || 'Making the world a better place';
@@ -2981,16 +2990,14 @@
                 return;
             }
 
-            // Show loading
             const submitBtn = document.querySelector('.community-modal-box .submit-btn');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = '⏳ Uploading to Cloud...';
             submitBtn.disabled = true;
 
-            // Upload to ImgBB Cloud
             const formData = new FormData();
             formData.append('image', file);
-            formData.append('key', 'f6a1ce28edf8842171d4241e64c3f963'); // API Key
+            formData.append('key', 'f6a1ce28edf8842171d4241e64c3f963');
 
             fetch('https://api.imgbb.com/1/upload', {
                 method: 'POST',
@@ -2999,65 +3006,72 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Cloud se URL aaya - ab yeh globally accessible hai!
-                    const post = {
+                    return db.collection('communityPosts').add({
                         data: data.data.url,
                         title: title,
                         description: description,
                         name: name,
                         uploaded: new Date().toISOString()
-                    };
-                    
-                    communityPosts.push(post);
-                    localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
-                    renderCommunity();
-                    closeCommunityModal();
-                    alert('✅ Photo uploaded to cloud! 🌍 Now everyone can see it!');
+                    });
                 } else {
-                    alert('❌ Upload failed: ' + (data.error?.message || 'Unknown error'));
+                    throw new Error('Upload failed');
                 }
+            })
+            .then(() => {
+                renderCommunity();
+                closeCommunityModal();
+                alert('✅ Photo uploaded to cloud! 🌍 Now everyone can see it!');
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('❌ Upload failed. Please check your internet connection.');
+                alert('❌ Upload failed: ' + error.message);
             })
             .finally(() => {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
+        };
+
+        // Delete - Firebase version
+        function deleteCommunityPostFB(docId) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete community posts.');
+                return;
+            }
+            if (confirm('Delete this post?')) {
+                db.collection('communityPosts').doc(docId).delete()
+                    .then(() => {
+                        renderCommunity();
+                        alert('✅ Post deleted successfully!');
+                    })
+                    .catch(err => {
+                        alert('❌ Delete failed: ' + err.message);
+                    });
+            }
         }
 
+        // Keep original delete function for localStorage fallback
         function deleteCommunityPost(index) {
             const user = sessionStorage.getItem('cyberUser');
             if (user !== 'admin') {
-                alert('⚠️ Only admin can delete community posts. Please login as admin.');
+                alert('⚠️ Only admin can delete community posts.');
                 return;
             }
             if (confirm('Delete this community post?')) {
-                communityPosts.splice(index, 1);
-                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                // Delete from localStorage backup
+                let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+                posts.splice(index, 1);
+                localStorage.setItem('communityPosts', JSON.stringify(posts));
                 renderCommunity();
             }
         }
 
-        const communityArea = document.getElementById('communityUploadArea');
-        if (communityArea) {
-            communityArea.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.classList.add('dragover');
-            });
-            communityArea.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.classList.remove('dragover');
-            });
-            communityArea.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.classList.remove('dragover');
-                openCommunityModal();
-            });
-        }
-
-        renderCommunity();
+        // INIT
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCommunity();
+            console.log('🔥 Firebase + ImgBB Community Ready!');
+        });
 
         // =============================================================
         // 12. SMOOTH SCROLLING
@@ -3078,7 +3092,7 @@
         // =============================================================
         console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
         console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
-        console.log('%c🌍 The Community - Global sharing with ImgBB Cloud!', 'font-size: 14px; color: #00ff41;');
+        console.log('%c🌍 The Community - Firebase + ImgBB Global Sharing!', 'font-size: 14px; color: #00ff41;');
         console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
         console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
