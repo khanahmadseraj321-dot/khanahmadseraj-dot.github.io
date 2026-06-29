@@ -829,6 +829,282 @@
             from { width: 0; }
             to { width: var(--fill-width); }
         }
+
+        /* ============================================================ */
+        /* ===== ABOUT ME SECTION ===== */
+        /* ============================================================ */
+        .about-section {
+            padding: 40px 6%;
+        }
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-card {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.05);
+        }
+        .about-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .about-avatar {
+            font-size: 120px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        /* ============================================================ */
+        /* ===== PDF UPLOAD SECTION ===== */
+        /* ============================================================ */
+        .pdf-section {
+            padding: 20px 6% 60px;
+        }
+        .pdf-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .pdf-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .pdf-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            transform: translateY(-2px);
+        }
+        .pdf-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .pdf-upload-icon {
+            font-size: 60px;
+            color: #00ff41;
+        }
+        .pdf-upload-btn {
+            padding: 12px 40px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .pdf-upload-btn:hover {
+            box-shadow: 0 0 30px #00ff41;
+            transform: scale(1.02);
+        }
+        .pdf-list {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            padding: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .pdf-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .pdf-list::-webkit-scrollbar-track {
+            background: #000;
+        }
+        .pdf-list::-webkit-scrollbar-thumb {
+            background: #00ff41;
+            border-radius: 10px;
+        }
+        .pdf-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(0, 255, 65, 0.03);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            transition: 0.3s;
+        }
+        .pdf-item:hover {
+            background: rgba(0, 255, 65, 0.06);
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+        .pdf-item .pdf-name {
+            color: #b0ffc0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pdf-item .pdf-name .pdf-icon {
+            font-size: 24px;
+        }
+        .pdf-item .pdf-delete {
+            background: transparent;
+            border: none;
+            color: #ff3b3b;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .pdf-item .pdf-delete:hover {
+            background: rgba(255, 59, 59, 0.1);
+        }
+        .pdf-item .pdf-download {
+            background: transparent;
+            border: none;
+            color: #00ff41;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .pdf-item .pdf-download:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+        .pdf-item .pdf-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* ============================================================ */
+        /* ===== GALLERY SECTION ===== */
+        /* ============================================================ */
+        .gallery-section {
+            padding: 20px 6% 60px;
+        }
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .gallery-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            transform: translateY(-2px);
+        }
+        .gallery-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .gallery-upload-icon {
+            font-size: 50px;
+            color: #00ff41;
+        }
+        .gallery-upload-btn {
+            padding: 12px 40px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .gallery-upload-btn:hover {
+            box-shadow: 0 0 30px #00ff41;
+            transform: scale(1.02);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            min-height: 100px;
+        }
+        .gallery-item {
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            transition: 0.3s;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);
+            border-color: #9dffb7;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-item .gallery-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+            opacity: 0;
+        }
+        .gallery-item:hover .gallery-delete {
+            opacity: 1;
+        }
+        .gallery-item .gallery-delete:hover {
+            background: #ff3b3b;
+            color: #000;
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .hero-content { padding: 30px 20px; }
@@ -852,6 +1128,28 @@
             .animated-arrow { font-size: 25px; }
             .attack-steps { grid-template-columns: 1fr 1fr; }
             .protection-tips { grid-template-columns: 1fr; }
+            .about-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 25px;
+            }
+            .about-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 70px;
+            }
+            .pdf-container {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .about-text h3 {
+                font-size: 22px !important;
+            }
+            .about-text p {
+                font-size: 15px !important;
+            }
         }
         @media (max-width: 480px) {
             .hero h1 { font-size: 28px; }
@@ -861,6 +1159,18 @@
             .attack-steps { grid-template-columns: 1fr; }
             .character { font-size: 30px; }
             .attack-animation-container .scene { height: 200px; }
+            .about-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            .pdf-upload-area, .gallery-upload-area {
+                padding: 25px;
+            }
         }
     </style>
 </head>
@@ -884,6 +1194,9 @@
 
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="#home" onclick="closeDropdown()"><span class="menu-icon">🏠</span> Home</a>
+        <a href="#about" onclick="closeDropdown()"><span class="menu-icon">👤</span> About Me</a>
+        <a href="#pdf" onclick="closeDropdown()"><span class="menu-icon">📄</span> PDF Library</a>
+        <a href="#gallery" onclick="closeDropdown()"><span class="menu-icon">🖼️</span> Gallery</a>
         <a href="#attacks" onclick="closeDropdown()"><span class="menu-icon">⚔️</span> All Attack Types</a>
         <div class="menu-divider"></div>
         <button class="menu-item" onclick="openVideo('phishing')"><span class="menu-icon">🎣</span> Phishing Attacks</button>
@@ -972,6 +1285,7 @@
         </div>
     </div>
 
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>CYBER SECURITY<br>LEARNING HUB</h1>
@@ -982,6 +1296,111 @@
             <button class="hero-btn" onclick="document.getElementById('attacks').scrollIntoView({behavior:'smooth'})">
                 ⚡ ENTER THE SYSTEM
             </button>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== ABOUT ME SECTION ===== -->
+    <!-- ============================================================ -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2 class="section-title">👤 ABOUT ME</h2>
+                <div class="about-card">
+                    <div class="about-image">
+                        <div class="about-avatar">👨‍💻</div>
+                    </div>
+                    <div class="about-text">
+                        <h3 style="color:#00ff41; font-family:'Orbitron',sans-serif; font-size:28px; margin-bottom:15px;">
+                            Zaid Ahmad Khan
+                        </h3>
+                        <p style="color:#b0ffc0; font-size:18px; line-height:2;">
+                            <span style="color:#00ff41;">📍</span> Currently studying in <strong style="color:#00ff41;">Class 11th PCM</strong><br>
+                            <span style="color:#00ff41;">🎯</span> Future goal: Study in <strong style="color:#00ff41;">Germany</strong> and pursue advanced technology<br>
+                            <span style="color:#00ff41;">🔐</span> Passionate about <strong style="color:#00ff41;">Cyber Security</strong> and helping people stay safe online
+                        </p>
+                        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:15px;">
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">📚</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Class 11th PCM</div>
+                            </div>
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">🇩🇪</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Study in Germany</div>
+                            </div>
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">🔐</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Cyber Security Expert</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px; padding:20px; background:rgba(0,255,65,0.03); border-radius:12px; border-left:3px solid #00ff41;">
+                            <p style="color:#d4ffe0; font-size:15px; line-height:2;">
+                                💡 <strong style="color:#00ff41;">My Mission:</strong> To provide knowledge about cyber security, 
+                                teach people how to <strong style="color:#00ff41;">not get hacked</strong>, and spread awareness about 
+                                how to <strong style="color:#00ff41;">stay safe</strong> from cyber threats. 
+                                I believe education is the best defense against hackers.
+                            </p>
+                        </div>
+                        <div style="margin-top:20px; display:flex; gap:15px; flex-wrap:wrap;">
+                            <div style="display:flex; align-items:center; gap:10px; background:rgba(0,255,65,0.05); padding:8px 18px; border-radius:40px; border:1px solid rgba(0,255,65,0.15);">
+                                <span>📞</span>
+                                <a href="tel:+919616401302" style="color:#00ff41; text-decoration:none;">+91 96164 01302</a>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px; background:rgba(0,255,65,0.05); padding:8px 18px; border-radius:40px; border:1px solid rgba(0,255,65,0.15);">
+                                <span>✉️</span>
+                                <a href="mailto:zaidahmadkhan467@gmail.com" style="color:#00ff41; text-decoration:none;">zaidahmadkhan467@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== PDF UPLOAD SECTION ===== -->
+    <!-- ============================================================ -->
+    <section class="pdf-section" id="pdf">
+        <h2 class="section-title">📄 PDF LIBRARY</h2>
+        <div class="pdf-container">
+            <div class="pdf-upload-area" id="pdfUploadArea">
+                <div class="pdf-upload-icon">📤</div>
+                <h3 style="color:#b0ffc0; font-size:18px; margin:10px 0;">Drag & Drop PDFs Here</h3>
+                <p style="color:#5a8a5a; font-size:14px;">or click to select files</p>
+                <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;">
+                <button class="pdf-upload-btn" onclick="document.getElementById('pdfInput').click()">
+                    📄 Upload PDF
+                </button>
+                <p style="color:#5a8a5a; font-size:12px; margin-top:10px;">Supported: .pdf files only</p>
+            </div>
+            <div class="pdf-list" id="pdfList">
+                <h4 style="color:#00ff41; margin-bottom:15px;">📚 Uploaded PDFs</h4>
+                <div id="pdfItems">
+                    <p style="color:#5a8a5a; text-align:center; padding:20px;">No PDFs uploaded yet. Upload your security guides, reports, or study materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== GALLERY SECTION ===== -->
+    <!-- ============================================================ -->
+    <section class="gallery-section" id="gallery">
+        <h2 class="section-title">🖼️ GALLERY</h2>
+        <div class="gallery-container">
+            <div class="gallery-upload-area" id="galleryUploadArea">
+                <div class="gallery-upload-icon">🖼️</div>
+                <h3 style="color:#b0ffc0; font-size:18px; margin:10px 0;">Upload Photos</h3>
+                <p style="color:#5a8a5a; font-size:14px;">Click to select images</p>
+                <input type="file" id="galleryInput" accept="image/*" multiple style="display:none;">
+                <button class="gallery-upload-btn" onclick="document.getElementById('galleryInput').click()">
+                    📸 Upload Photos
+                </button>
+                <p style="color:#5a8a5a; font-size:12px; margin-top:10px;">Supported: JPG, PNG, GIF, WebP</p>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet. Add your security related photos, certificates, or event pictures.</p>
+            </div>
         </div>
     </section>
 
@@ -2347,7 +2766,170 @@
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
+        // =============================================================
+        // 13. PDF UPLOAD SYSTEM
+        // =============================================================
+        let pdfFiles = JSON.parse(localStorage.getItem('cyberPdfs') || '[]');
+        
+        function renderPdfs() {
+            const container = document.getElementById('pdfItems');
+            if (pdfFiles.length === 0) {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:20px;">No PDFs uploaded yet. Upload your security guides, reports, or study materials.</p>';
+                return;
+            }
+            container.innerHTML = pdfFiles.map((file, index) => `
+                <div class="pdf-item">
+                    <div class="pdf-name">
+                        <span class="pdf-icon">📄</span>
+                        <span>${file.name}</span>
+                    </div>
+                    <div class="pdf-actions">
+                        <button class="pdf-download" onclick="downloadPdf(${index})" title="Download">⬇️</button>
+                        <button class="pdf-delete" onclick="deletePdf(${index})" title="Delete">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function handlePdfUpload(files) {
+            Array.from(files).forEach(file => {
+                if (file.type === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const pdfData = {
+                            name: file.name,
+                            data: e.target.result,
+                            size: file.size,
+                            uploaded: new Date().toISOString()
+                        };
+                        pdfFiles.push(pdfData);
+                        localStorage.setItem('cyberPdfs', JSON.stringify(pdfFiles));
+                        renderPdfs();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('❌ Please upload only PDF files.');
+                }
+            });
+        }
+        
+        document.getElementById('pdfInput').addEventListener('change', function(e) {
+            handlePdfUpload(e.target.files);
+            this.value = '';
+        });
+        
+        // Drag and drop for PDF
+        const pdfArea = document.getElementById('pdfUploadArea');
+        pdfArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        pdfArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+        pdfArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            handlePdfUpload(e.dataTransfer.files);
+        });
+        
+        function downloadPdf(index) {
+            const file = pdfFiles[index];
+            if (file) {
+                const link = document.createElement('a');
+                link.href = file.data;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+        
+        function deletePdf(index) {
+            if (confirm('Delete this PDF?')) {
+                pdfFiles.splice(index, 1);
+                localStorage.setItem('cyberPdfs', JSON.stringify(pdfFiles));
+                renderPdfs();
+            }
+        }
+        
+        renderPdfs();
+
+        // =============================================================
+        // 14. GALLERY SYSTEM
+        // =============================================================
+        let galleryImages = JSON.parse(localStorage.getItem('cyberGallery') || '[]');
+        
+        function renderGallery() {
+            const container = document.getElementById('galleryGrid');
+            if (galleryImages.length === 0) {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet. Add your security related photos, certificates, or event pictures.</p>';
+                return;
+            }
+            container.innerHTML = galleryImages.map((img, index) => `
+                <div class="gallery-item">
+                    <img src="${img.data}" alt="${img.name}">
+                    <button class="gallery-delete" onclick="deleteGalleryImage(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+        
+        function handleGalleryUpload(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgData = {
+                            name: file.name,
+                            data: e.target.result,
+                            uploaded: new Date().toISOString()
+                        };
+                        galleryImages.push(imgData);
+                        localStorage.setItem('cyberGallery', JSON.stringify(galleryImages));
+                        renderGallery();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('❌ Please upload only image files (JPG, PNG, GIF, WebP).');
+                }
+            });
+        }
+        
+        document.getElementById('galleryInput').addEventListener('change', function(e) {
+            handleGalleryUpload(e.target.files);
+            this.value = '';
+        });
+        
+        // Drag and drop for Gallery
+        const galleryArea = document.getElementById('galleryUploadArea');
+        galleryArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        galleryArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+        galleryArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            handleGalleryUpload(e.dataTransfer.files);
+        });
+        
+        function deleteGalleryImage(index) {
+            if (confirm('Delete this image?')) {
+                galleryImages.splice(index, 1);
+                localStorage.setItem('cyberGallery', JSON.stringify(galleryImages));
+                renderGallery();
+            }
+        }
+        
+        renderGallery();
+
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
+        console.log('%c📄 PDF Upload System - Ready', 'color: #00ff41; font-size: 12px;');
+        console.log('%c🖼️ Gallery System - Ready', 'color: #00ff41; font-size: 12px;');
     </script>
 </body>
 </html>
