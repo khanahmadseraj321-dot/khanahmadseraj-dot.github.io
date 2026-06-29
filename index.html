@@ -2899,7 +2899,7 @@
         renderGallery();
 
         // =============================================================
-        // 11. THE COMMUNITY SYSTEM - GLOBAL (Sabhi ko dikhega)
+        // 11. THE COMMUNITY SYSTEM - GLOBAL WITH IMGBB CLOUD
         // =============================================================
         let communityPosts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
 
@@ -2908,14 +2908,10 @@
             const user = sessionStorage.getItem('cyberUser');
             const isAdmin = user === 'admin';
             
-            // Update stats - yeh sabhi ko dikhega
+            // Update stats
             document.getElementById('communityCount').textContent = communityPosts.length;
-            
-            // Unique members count
             const uniqueMembers = new Set(communityPosts.map(p => p.name || 'Anonymous'));
             document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
-            
-            // Animals helped (estimate)
             document.getElementById('communityAnimals').textContent = communityPosts.length * 2;
             
             if (communityPosts.length === 0) {
@@ -2928,11 +2924,10 @@
             }
 
             let html = '';
-            // Show ALL posts - sabhi ko dikhega
             communityPosts.forEach((post, index) => {
                 html += `
                     <div class="community-gallery-item">
-                        <img src="${post.data}" alt="${post.title || 'Community Service'}">
+                        <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
                         <span class="badge">❤️ Community</span>
                         ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
                         <div class="overlay">
@@ -2966,6 +2961,9 @@
             if (e.target === this) closeCommunityModal();
         });
 
+        // =============================================================
+        // SUBMIT COMMUNITY POST - WITH IMGBB CLOUD UPLOAD
+        // =============================================================
         function submitCommunityPost() {
             const fileInput = document.getElementById('communityFileInput');
             const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
@@ -2983,22 +2981,50 @@
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const post = {
-                    data: e.target.result,
-                    title: title,
-                    description: description,
-                    name: name,
-                    uploaded: new Date().toISOString()
-                };
-                communityPosts.push(post);
-                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
-                renderCommunity();
-                closeCommunityModal();
-                alert('✅ Your community post has been published globally! 🌍 Now everyone can see it.');
-            };
-            reader.readAsDataURL(file);
+            // Show loading
+            const submitBtn = document.querySelector('.community-modal-box .submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '⏳ Uploading to Cloud...';
+            submitBtn.disabled = true;
+
+            // Upload to ImgBB Cloud
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('key', 'f6a1ce28edf8842171d4241e64c3f963'); // API Key
+
+            fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Cloud se URL aaya - ab yeh globally accessible hai!
+                    const post = {
+                        data: data.data.url,
+                        title: title,
+                        description: description,
+                        name: name,
+                        uploaded: new Date().toISOString()
+                    };
+                    
+                    communityPosts.push(post);
+                    localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                    renderCommunity();
+                    closeCommunityModal();
+                    alert('✅ Photo uploaded to cloud! 🌍 Now everyone can see it!');
+                } else {
+                    alert('❌ Upload failed: ' + (data.error?.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('❌ Upload failed. Please check your internet connection.');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
         }
 
         function deleteCommunityPost(index) {
@@ -3052,7 +3078,7 @@
         // =============================================================
         console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
         console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
-        console.log('%c🌍 The Community - Global sharing! Everyone can see all posts.', 'font-size: 14px; color: #00ff41;');
+        console.log('%c🌍 The Community - Global sharing with ImgBB Cloud!', 'font-size: 14px; color: #00ff41;');
         console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
         console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
