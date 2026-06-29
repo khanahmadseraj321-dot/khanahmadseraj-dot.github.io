@@ -943,7 +943,381 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Admin badge */
+        /* ============================================================ */
+        /* ===== THE COMMUNITY SECTION - NEW ===== */
+        /* ============================================================ */
+        .community-section {
+            padding: 20px 6% 60px;
+        }
+        .community-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .community-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .community-header h2 {
+            font-size: 48px;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            margin-bottom: 15px;
+        }
+        .community-header p {
+            color: #b0ffc0;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+        }
+        .community-header .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .community-header .community-stats .stat-item {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            border-radius: 16px;
+            padding: 15px 30px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .community-header .community-stats .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+        }
+        .community-header .community-stats .stat-item .stat-number {
+            font-size: 32px;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff41;
+        }
+        .community-header .community-stats .stat-item .stat-label {
+            color: #5a8a5a;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .community-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .community-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.1);
+            transform: translateY(-3px);
+        }
+        .community-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .community-upload-area .upload-icon {
+            font-size: 50px;
+            color: #00ff41;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .community-upload-area h4 {
+            color: #b0ffc0;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .community-upload-area p {
+            color: #5a8a5a;
+            font-size: 14px;
+        }
+        .community-upload-btn {
+            padding: 14px 50px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 18px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+        .community-upload-btn:hover {
+            box-shadow: 0 0 50px #00ff41, 0 0 80px rgba(0, 255, 65, 0.3);
+            transform: scale(1.05);
+            background: #9dffb7;
+        }
+        .community-upload-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Community Gallery Grid */
+        .community-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            min-height: 200px;
+        }
+
+        .community-gallery-item {
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        .community-gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .community-gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .community-gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .community-gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .community-gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .community-gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .community-gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .community-gallery-item:nth-child(8) { animation-delay: 0.4s; }
+
+        .community-gallery-item:hover {
+            transform: scale(1.04) translateY(-8px);
+            border-color: #00ff41;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.2), 0 20px 40px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .community-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        .community-gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .community-gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+            transform: translateY(100%);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .community-gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .community-gallery-item .overlay .cause-title {
+            color: #00ff41;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .community-gallery-item .overlay .cause-desc {
+            color: #b0ffc0;
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        .community-gallery-item .overlay .uploader-info {
+            color: #5a8a5a;
+            font-size: 11px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .community-gallery-item .overlay .uploader-info i {
+            font-size: 12px;
+        }
+
+        .community-gallery-item .delete-community {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+            opacity: 0;
+            z-index: 5;
+        }
+        .community-gallery-item:hover .delete-community {
+            opacity: 1;
+        }
+        .community-gallery-item .delete-community:hover {
+            background: #ff3b3b;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .community-gallery-item .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 255, 65, 0.15);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00ff41;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            z-index: 4;
+        }
+
+        /* Community Upload Modal */
+        .community-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .community-modal-overlay.active { display: flex; }
+        .community-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 45px 40px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 0 80px rgba(0, 255, 65, 0.15);
+            text-align: center;
+        }
+        .community-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            margin-bottom: 8px;
+        }
+        .community-modal-box .modal-sub {
+            color: #b0ffc0;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .community-modal-box .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .community-modal-box .form-group label {
+            color: #b0ffc0;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .community-modal-box .form-group input,
+        .community-modal-box .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #111;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .community-modal-box .form-group input:focus,
+        .community-modal-box .form-group textarea:focus {
+            border-color: #00ff41;
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
+        }
+        .community-modal-box .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .community-modal-box .form-group input[type="file"] {
+            padding: 12px;
+            cursor: pointer;
+        }
+        .community-modal-box .form-group input[type="file"]::file-selector-button {
+            background: #00ff41;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-right: 12px;
+        }
+        .community-modal-box .form-group input[type="file"]::file-selector-button:hover {
+            box-shadow: 0 0 20px #00ff41;
+            transform: scale(1.02);
+        }
+
+        .community-modal-box .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .community-modal-box .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            border: none;
+        }
+        .community-modal-box .modal-actions .submit-btn {
+            background: #00ff41;
+            color: #000;
+        }
+        .community-modal-box .modal-actions .submit-btn:hover {
+            box-shadow: 0 0 40px #00ff41;
+            transform: scale(1.02);
+        }
+        .community-modal-box .modal-actions .cancel-btn {
+            background: transparent;
+            color: #5a8a5a;
+            border: 1px solid #5a8a5a;
+        }
+        .community-modal-box .modal-actions .cancel-btn:hover {
+            color: #00ff41;
+            border-color: #00ff41;
+        }
+
         .admin-badge {
             background: #00ff41;
             color: #000;
@@ -989,6 +1363,27 @@
             .about-text p {
                 font-size: 15px !important;
             }
+            .community-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .community-header h2 {
+                font-size: 30px;
+            }
+            .community-header .community-stats {
+                gap: 15px;
+            }
+            .community-header .community-stats .stat-item {
+                padding: 10px 20px;
+            }
+            .community-header .community-stats .stat-item .stat-number {
+                font-size: 24px;
+            }
+            .community-modal-box {
+                padding: 30px 25px;
+            }
+            .community-modal-box .modal-actions {
+                flex-direction: column;
+            }
         }
         @media (max-width: 480px) {
             .hero h1 { font-size: 28px; }
@@ -1003,6 +1398,10 @@
             .gallery-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 12px;
+            }
+            .community-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
             }
         }
     </style>
@@ -1028,6 +1427,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
         <a href="#home" onclick="closeDropdown()"><span class="menu-icon">🏠</span> Home</a>
         <a href="#about" onclick="closeDropdown()"><span class="menu-icon">👤</span> About Me</a>
+        <a href="#community" onclick="closeDropdown()"><span class="menu-icon">🌍</span> The Community</a>
         <a href="#pdf" onclick="closeDropdown()"><span class="menu-icon">📄</span> PDF Library</a>
         <a href="#gallery" onclick="closeDropdown()"><span class="menu-icon">🖼️</span> Gallery</a>
         <a href="#attacks" onclick="closeDropdown()"><span class="menu-icon">⚔️</span> All Attack Types</a>
@@ -1118,6 +1518,34 @@
         </div>
     </div>
 
+    <!-- Community Upload Modal -->
+    <div class="community-modal-overlay" id="communityModal">
+        <div class="community-modal-box">
+            <h3>🌍 Share Your Cause</h3>
+            <div class="modal-sub">Upload a photo and share your community service story</div>
+            <div class="form-group">
+                <label>📸 Upload Photo</label>
+                <input type="file" id="communityFileInput" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>📝 Cause Title</label>
+                <input type="text" id="communityTitleInput" placeholder="e.g., Feeding Street Dogs" maxlength="50">
+            </div>
+            <div class="form-group">
+                <label>💬 Description</label>
+                <textarea id="communityDescInput" placeholder="Tell us about your community service..." maxlength="200"></textarea>
+            </div>
+            <div class="form-group">
+                <label>👤 Your Name (optional)</label>
+                <input type="text" id="communityNameInput" placeholder="Anonymous" maxlength="30">
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeCommunityModal()">Cancel</button>
+                <button class="submit-btn" onclick="submitCommunityPost()">📤 Publish to Community</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-content">
@@ -1184,6 +1612,52 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== THE COMMUNITY SECTION - NEW ===== -->
+    <!-- ============================================================ -->
+    <section class="community-section" id="community">
+        <div class="community-container">
+            <div class="community-header">
+                <h2>🌍 THE COMMUNITY</h2>
+                <p>
+                    A global movement of compassion — feeding street dogs, helping people in need, 
+                    and making the world a better place. Share your acts of kindness with the world.
+                </p>
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityCount">0</div>
+                        <div class="stat-label">❤️ Acts of Kindness</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityMembers">+1</div>
+                        <div class="stat-label">🌍 Community Members</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityAnimals">0</div>
+                        <div class="stat-label">🐾 Animals Helped</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="community-upload-area" id="communityUploadArea">
+                <span class="upload-icon">📸</span>
+                <h4>Share Your Community Service</h4>
+                <p>Upload a photo of your charity work — feeding animals, helping people, or any act of kindness</p>
+                <button class="community-upload-btn" onclick="openCommunityModal()">
+                    📤 Upload to Community
+                </button>
+            </div>
+
+            <!-- Community Gallery Grid -->
+            <div class="community-gallery-grid" id="communityGrid">
+                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                    🌍 No community posts yet. Be the first to share an act of kindness!
+                </p>
             </div>
         </div>
     </section>
@@ -1779,6 +2253,7 @@
                 if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
                 if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
                 if (document.getElementById('infoModal').classList.contains('active')) closeInfoModal();
+                if (document.getElementById('communityModal').classList.contains('active')) closeCommunityModal();
             }
         });
 
@@ -2425,7 +2900,139 @@
         renderGallery();
 
         // =============================================================
-        // 11. SMOOTH SCROLLING
+        // 11. THE COMMUNITY SYSTEM - NEW
+        // =============================================================
+        let communityPosts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+
+        function renderCommunity() {
+            const container = document.getElementById('communityGrid');
+            const user = sessionStorage.getItem('cyberUser');
+            const isAdmin = user === 'admin';
+            
+            // Update stats
+            document.getElementById('communityCount').textContent = communityPosts.length;
+            document.getElementById('communityAnimals').textContent = communityPosts.length * 2;
+            
+            if (communityPosts.length === 0) {
+                container.innerHTML = `
+                    <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                        🌍 No community posts yet. Be the first to share an act of kindness!
+                    </p>
+                `;
+                return;
+            }
+
+            let html = '';
+            communityPosts.forEach((post, index) => {
+                html += `
+                    <div class="community-gallery-item">
+                        <img src="${post.data}" alt="${post.title || 'Community Service'}">
+                        <span class="badge">❤️ Community</span>
+                        ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
+                        <div class="overlay">
+                            <div class="cause-title">${post.title || 'Act of Kindness'}</div>
+                            <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
+                            <div class="uploader-info">
+                                <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
+                                <span style="margin:0 6px;">•</span>
+                                <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function openCommunityModal() {
+            document.getElementById('communityModal').classList.add('active');
+            // Clear previous values
+            document.getElementById('communityFileInput').value = '';
+            document.getElementById('communityTitleInput').value = '';
+            document.getElementById('communityDescInput').value = '';
+            document.getElementById('communityNameInput').value = '';
+        }
+
+        function closeCommunityModal() {
+            document.getElementById('communityModal').classList.remove('active');
+        }
+
+        document.getElementById('communityModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCommunityModal();
+        });
+
+        function submitCommunityPost() {
+            const fileInput = document.getElementById('communityFileInput');
+            const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
+            const description = document.getElementById('communityDescInput').value.trim() || 'Making the world a better place';
+            const name = document.getElementById('communityNameInput').value.trim() || 'Anonymous';
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('📸 Please select a photo to upload.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (!file.type.startsWith('image/')) {
+                alert('❌ Please upload an image file (JPG, PNG, GIF, WebP).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const post = {
+                    data: e.target.result,
+                    title: title,
+                    description: description,
+                    name: name,
+                    uploaded: new Date().toISOString()
+                };
+                communityPosts.push(post);
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                renderCommunity();
+                closeCommunityModal();
+                alert('✅ Your community post has been published globally! 🌍');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function deleteCommunityPost(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete community posts. Please login as admin.');
+                return;
+            }
+            if (confirm('Delete this community post?')) {
+                communityPosts.splice(index, 1);
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                renderCommunity();
+            }
+        }
+
+        // Community Upload Area Drag & Drop
+        const communityArea = document.getElementById('communityUploadArea');
+        if (communityArea) {
+            communityArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            communityArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            communityArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                // Trigger file input in modal
+                openCommunityModal();
+            });
+        }
+
+        // Render community on load
+        renderCommunity();
+
+        // =============================================================
+        // 12. SMOOTH SCROLLING
         // =============================================================
         document.querySelectorAll('.dropdown-menu a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -2439,22 +3046,24 @@
         });
 
         // =============================================================
-        // 12. CONSOLE WELCOME
+        // 13. CONSOLE WELCOME
         // =============================================================
         console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
         console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
+        console.log('%c🌍 The Community - Share your acts of kindness!', 'font-size: 14px; color: #00ff41;');
         console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
         console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
 
         // =============================================================
-        // 13. KEYBOARD SHORTCUTS
+        // 14. KEYBOARD SHORTCUTS
         // =============================================================
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'l') { e.preventDefault(); if (!sessionStorage.getItem('cyberUser')) openModal(); }
             if (e.ctrlKey && e.key === 'q') { e.preventDefault(); openQuiz(); }
             if (e.ctrlKey && e.key === 'g') { e.preventDefault(); openGuidance(); }
             if (e.ctrlKey && e.key === 'h') { e.preventDefault(); document.getElementById('home').scrollIntoView({ behavior: 'smooth' }); }
+            if (e.ctrlKey && e.key === 'c') { e.preventDefault(); document.getElementById('community').scrollIntoView({ behavior: 'smooth' }); }
         });
     </script>
 </body>
