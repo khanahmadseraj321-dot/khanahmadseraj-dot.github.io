@@ -1358,61 +1358,67 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- ===== PDF UPLOAD SECTION ===== -->
+    <!-- ===== PDF SECTION - PERMANENT DOWNLOAD + ADMIN UPLOAD ===== -->
     <!-- ============================================================ -->
     <section class="pdf-section" id="pdf">
         <h2 class="section-title">📄 PDF LIBRARY</h2>
-        <div class="pdf-container">
-            <div class="pdf-upload-area" id="pdfUploadArea">
-                <div class="pdf-upload-icon">📤</div>
-                <h3 style="color:#b0ffc0; font-size:18px; margin:10px 0;">Drag & Drop PDFs Here</h3>
-                <p style="color:#5a8a5a; font-size:14px;">or click to select files</p>
-                <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;">
-                <button class="pdf-upload-btn" onclick="document.getElementById('pdfInput').click()">
-                    📄 Upload PDF
-                </button>
-                <p style="color:#5a8a5a; font-size:12px; margin-top:10px;">Supported: .pdf files only</p>
+        <div class="pdf-container" style="display:block; max-width:900px; margin:0 auto;">
+            <div style="background:rgba(0,0,0,0.5); border:1px solid #00ff41; border-radius:30px; padding:40px;">
+                
+                <!-- PERMANENT PDF - SAB KO DIKHEGA -->
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:rgba(0,255,65,0.05); border-radius:12px; border:1px solid #00ff41; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:12px; color:#b0ffc0; font-size:15px;">
+                        <span style="font-size:28px;">📖</span>
+                        <span style="color:#00ff41; font-weight:bold;">Complete Cyber Security Guide (8 Chapters)</span>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=1xpJWXrjEnsNyNIbjNBKEbV1BuFxDFMKE" 
+                       download 
+                       style="background:#00ff41; color:#000; padding:10px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:14px; transition:0.3s; font-family:'Orbitron',sans-serif;">
+                        ⬇️ Download
+                    </a>
+                </div>
+                
+                <!-- User Uploaded PDFs - Admin Only -->
+                <div id="pdfItems" style="margin-top:20px;">
+                    <p style="color:#5a8a5a; text-align:center; padding:15px; font-size:13px;">📤 Upload your own PDFs using the option below</p>
+                </div>
+                
+                <!-- Upload Area - ONLY VISIBLE TO ADMIN -->
+                <div id="adminPdfUpload" style="display:none;">
+                    <div class="pdf-upload-area" id="pdfUploadArea" style="margin-top:20px; padding:25px; border:2px dashed #00ff41; border-radius:20px; text-align:center; cursor:pointer;">
+                        <div style="font-size:30px; color:#00ff41;">📤</div>
+                        <h4 style="color:#b0ffc0; font-size:16px; margin:8px 0;">Upload Your PDF</h4>
+                        <p style="color:#5a8a5a; font-size:12px;">Drag & drop or click to upload</p>
+                        <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;">
+                        <button class="pdf-upload-btn" onclick="document.getElementById('pdfInput').click()" style="padding:10px 30px; background:#00ff41; color:#000; border:none; border-radius:30px; font-family:'Orbitron',sans-serif; font-weight:600; font-size:13px; cursor:pointer; margin-top:10px;">
+                            📄 Upload PDF
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="pdf-list" id="pdfList">
-                <h4 style="color:#00ff41; margin-bottom:15px;">📚 Uploaded PDFs</h4>
-                 <div id="pdfItems">
-    <!-- PERMANENT PDF - Cyber Security Guide -->
-    <div class="pdf-item" style="border-color:#00ff41; background:rgba(0,255,65,0.05); margin-bottom:15px;">
-        <div class="pdf-name">
-            <span class="pdf-icon">📖</span>
-            <span style="color:#00ff41; font-weight:bold;">Complete Cyber Security Guide (8 Chapters)</span>
-        </div>
-        <div class="pdf-actions">
-            <a href="https://drive.google.com/uc?export=download&id=1xpJWXrjEnsNyNIbjNBKEbV1BuFxDFMKE" 
-               download 
-               style="background:transparent; border:none; color:#00ff41; cursor:pointer; font-size:18px; padding:5px 10px; border-radius:8px; text-decoration:none; display:inline-block;">
-                ⬇️
-            </a>
-        </div>
-    </div>
-    <p style="color:#5a8a5a; text-align:center; padding:10px; font-size:12px;">⬆️ Upload your own PDFs above</p>
-          </div>
         </div>
     </section>
 
     <!-- ============================================================ -->
-    <!-- ===== GALLERY SECTION ===== -->
+    <!-- ===== GALLERY SECTION - ADMIN UPLOAD ONLY ===== -->
     <!-- ============================================================ -->
     <section class="gallery-section" id="gallery">
         <h2 class="section-title">🖼️ GALLERY</h2>
         <div class="gallery-container">
-            <div class="gallery-upload-area" id="galleryUploadArea">
-                <div class="gallery-upload-icon">🖼️</div>
-                <h3 style="color:#b0ffc0; font-size:18px; margin:10px 0;">Upload Photos</h3>
-                <p style="color:#5a8a5a; font-size:14px;">Click to select images</p>
-                <input type="file" id="galleryInput" accept="image/*" multiple style="display:none;">
-                <button class="gallery-upload-btn" onclick="document.getElementById('galleryInput').click()">
-                    📸 Upload Photos
-                </button>
-                <p style="color:#5a8a5a; font-size:12px; margin-top:10px;">Supported: JPG, PNG, GIF, WebP</p>
-            </div>
             <div class="gallery-grid" id="galleryGrid">
-                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet. Add your security related photos, certificates, or event pictures.</p>
+                <!-- Upload Area - ONLY VISIBLE TO ADMIN -->
+                <div id="adminGalleryUpload" style="display:none; grid-column:1/-1; margin-bottom:20px;">
+                    <div class="gallery-upload-area" id="galleryUploadArea" style="border:2px dashed #00ff41; border-radius:20px; padding:25px; text-align:center; cursor:pointer;">
+                        <div style="font-size:40px; color:#00ff41;">📸</div>
+                        <h4 style="color:#b0ffc0; font-size:16px; margin:8px 0;">Upload Photos</h4>
+                        <p style="color:#5a8a5a; font-size:12px;">Click to select images</p>
+                        <input type="file" id="galleryInput" accept="image/*" multiple style="display:none;">
+                        <button class="gallery-upload-btn" onclick="document.getElementById('galleryInput').click()" style="padding:10px 30px; background:#00ff41; color:#000; border:none; border-radius:30px; font-family:'Orbitron',sans-serif; font-weight:600; font-size:13px; cursor:pointer; margin-top:10px;">
+                            📸 Upload Photos
+                        </button>
+                    </div>
+                </div>
+                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>
             </div>
         </div>
     </section>
@@ -2246,6 +2252,8 @@
                 userGreeting.textContent = `👤 ${username}`;
                 closeModal();
                 alert('✅ Access granted. Welcome, Operator.');
+                // Show admin controls after login
+                showAdminControls();
             } else {
                 alert('❌ Access denied. Invalid credentials.\n\nHint: Username: admin | Password: 1234');
             }
@@ -2257,7 +2265,31 @@
             logoutBtn.style.display = 'none';
             userGreeting.style.display = 'none';
             alert('⛔ Logged out successfully.');
+            hideAdminControls();
         }
+
+        // Admin Controls Visibility
+        function showAdminControls() {
+            const pdfUpload = document.getElementById('adminPdfUpload');
+            const galleryUpload = document.getElementById('adminGalleryUpload');
+            if (pdfUpload) pdfUpload.style.display = 'block';
+            if (galleryUpload) galleryUpload.style.display = 'block';
+        }
+
+        function hideAdminControls() {
+            const pdfUpload = document.getElementById('adminPdfUpload');
+            const galleryUpload = document.getElementById('adminGalleryUpload');
+            if (pdfUpload) pdfUpload.style.display = 'none';
+            if (galleryUpload) galleryUpload.style.display = 'none';
+        }
+
+        // Check session on load
+        (function checkAdminOnLoad() {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user === 'admin') {
+                showAdminControls();
+            }
+        })();
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && document.getElementById('loginModal').classList.contains('active')) {
@@ -2780,31 +2812,43 @@
         window.addEventListener('resize', checkMobile);
 
         // =============================================================
-        // 13. PDF UPLOAD SYSTEM
+        // 13. PDF UPLOAD SYSTEM - ADMIN ONLY
         // =============================================================
         let pdfFiles = JSON.parse(localStorage.getItem('cyberPdfs') || '[]');
         
         function renderPdfs() {
             const container = document.getElementById('pdfItems');
-            if (pdfFiles.length === 0) {
-                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:20px;">No PDFs uploaded yet. Upload your security guides, reports, or study materials.</p>';
-                return;
+            let html = '';
+            
+            // Show uploaded PDFs (only if any)
+            if (pdfFiles.length > 0) {
+                pdfFiles.forEach((file, index) => {
+                    html += `
+                        <div class="pdf-item">
+                            <div class="pdf-name">
+                                <span class="pdf-icon">📄</span>
+                                <span>${file.name}</span>
+                            </div>
+                            <div class="pdf-actions">
+                                <button class="pdf-download" onclick="downloadPdf(${index})" title="Download">⬇️</button>
+                                <button class="pdf-delete" onclick="deletePdf(${index})" title="Delete">✕</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:15px; font-size:13px;">📤 Upload your own PDFs using the option below</p>';
             }
-            container.innerHTML = pdfFiles.map((file, index) => `
-                <div class="pdf-item">
-                    <div class="pdf-name">
-                        <span class="pdf-icon">📄</span>
-                        <span>${file.name}</span>
-                    </div>
-                    <div class="pdf-actions">
-                        <button class="pdf-download" onclick="downloadPdf(${index})" title="Download">⬇️</button>
-                        <button class="pdf-delete" onclick="deletePdf(${index})" title="Delete">✕</button>
-                    </div>
-                </div>
-            `).join('');
         }
         
         function handlePdfUpload(files) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can upload PDFs. Please login as admin.');
+                return;
+            }
+            
             Array.from(files).forEach(file => {
                 if (file.type === 'application/pdf') {
                     const reader = new FileReader();
@@ -2833,19 +2877,21 @@
         
         // Drag and drop for PDF
         const pdfArea = document.getElementById('pdfUploadArea');
-        pdfArea.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.classList.add('dragover');
-        });
-        pdfArea.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragover');
-        });
-        pdfArea.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragover');
-            handlePdfUpload(e.dataTransfer.files);
-        });
+        if (pdfArea) {
+            pdfArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            pdfArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            pdfArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                handlePdfUpload(e.dataTransfer.files);
+            });
+        }
         
         function downloadPdf(index) {
             const file = pdfFiles[index];
@@ -2860,6 +2906,11 @@
         }
         
         function deletePdf(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete PDFs. Please login as admin.');
+                return;
+            }
             if (confirm('Delete this PDF?')) {
                 pdfFiles.splice(index, 1);
                 localStorage.setItem('cyberPdfs', JSON.stringify(pdfFiles));
@@ -2870,25 +2921,37 @@
         renderPdfs();
 
         // =============================================================
-        // 14. GALLERY SYSTEM
+        // 14. GALLERY SYSTEM - ADMIN ONLY
         // =============================================================
         let galleryImages = JSON.parse(localStorage.getItem('cyberGallery') || '[]');
         
         function renderGallery() {
             const container = document.getElementById('galleryGrid');
-            if (galleryImages.length === 0) {
-                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet. Add your security related photos, certificates, or event pictures.</p>';
-                return;
+            let html = '';
+            
+            // Show uploaded images (only if any)
+            if (galleryImages.length > 0) {
+                galleryImages.forEach((img, index) => {
+                    html += `
+                        <div class="gallery-item">
+                            <img src="${img.data}" alt="${img.name}">
+                            <button class="gallery-delete" onclick="deleteGalleryImage(${index})">✕</button>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>';
             }
-            container.innerHTML = galleryImages.map((img, index) => `
-                <div class="gallery-item">
-                    <img src="${img.data}" alt="${img.name}">
-                    <button class="gallery-delete" onclick="deleteGalleryImage(${index})">✕</button>
-                </div>
-            `).join('');
         }
         
         function handleGalleryUpload(files) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can upload images. Please login as admin.');
+                return;
+            }
+            
             Array.from(files).forEach(file => {
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
@@ -2916,21 +2979,28 @@
         
         // Drag and drop for Gallery
         const galleryArea = document.getElementById('galleryUploadArea');
-        galleryArea.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.classList.add('dragover');
-        });
-        galleryArea.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragover');
-        });
-        galleryArea.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.classList.remove('dragover');
-            handleGalleryUpload(e.dataTransfer.files);
-        });
+        if (galleryArea) {
+            galleryArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            galleryArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            galleryArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                handleGalleryUpload(e.dataTransfer.files);
+            });
+        }
         
         function deleteGalleryImage(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete images. Please login as admin.');
+                return;
+            }
             if (confirm('Delete this image?')) {
                 galleryImages.splice(index, 1);
                 localStorage.setItem('cyberGallery', JSON.stringify(galleryImages));
@@ -2941,8 +3011,9 @@
         renderGallery();
 
         console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
-        console.log('%c📄 PDF Upload System - Ready', 'color: #00ff41; font-size: 12px;');
-        console.log('%c🖼️ Gallery System - Ready', 'color: #00ff41; font-size: 12px;');
+        console.log('%c📄 PDF Upload System - Admin Only', 'color: #00ff41; font-size: 12px;');
+        console.log('%c🖼️ Gallery System - Admin Only', 'color: #00ff41; font-size: 12px;');
+        console.log('%c🔑 Login as admin to upload/delete', 'color: #ff6b35; font-size: 12px;');
     </script>
 </body>
 </html>
