@@ -1,1 +1,3098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Hub · Protect Yourself</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background: #000; color: #00ff41; font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
 
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: #000;
+            display: block;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 255, 65, 0.03), rgba(0, 0, 0, 0.3));
+            z-index: -1;
+            pointer-events: none;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 20px; box-shadow: 0 0 15px #00ff41; }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 14px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid #00ff41;
+            z-index: 9999;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px #00ff41, 0 0 30px #00ff41;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        .hamburger:hover { background: rgba(0, 255, 65, 0.15); border-color: #00ff41; }
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: #00ff41;
+            border-radius: 4px;
+            transition: 0.3s;
+            box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+        .auth-btn {
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px);
+            background: rgba(0, 255, 65, 0.05);
+            white-space: nowrap;
+        }
+        .auth-btn:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; transform: scale(1.05); }
+        .auth-btn.logout-btn { border-color: #ff3b3b; color: #ff3b3b; }
+        .auth-btn.logout-btn:hover { background: #ff3b3b; color: #000; box-shadow: 0 0 30px #ff3b3b; }
+        #userGreeting {
+            color: #9dffb7;
+            font-size: 13px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            background: rgba(0, 255, 65, 0.08);
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            white-space: nowrap;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 75px;
+            right: 6%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(16px);
+            border: 1px solid #00ff41;
+            border-radius: 20px;
+            padding: 15px 10px;
+            min-width: 320px;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.15);
+            z-index: 10001;
+            flex-direction: column;
+            gap: 3px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .dropdown-menu.active { display: flex; }
+        .dropdown-menu a, .dropdown-menu .menu-item {
+            color: #00ff41;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            transition: 0.3s;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            border-left: 2px solid transparent;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-family: 'Share Tech Mono', monospace;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .dropdown-menu a:hover, .dropdown-menu .menu-item:hover {
+            background: rgba(0, 255, 65, 0.08);
+            border-left-color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .dropdown-menu .menu-divider { border-top: 1px solid rgba(0, 255, 65, 0.15); margin: 5px 0; }
+        .dropdown-menu .contact-info {
+            padding: 10px 18px;
+            color: #b0ffc0;
+            font-size: 13px;
+            line-height: 2;
+        }
+        .dropdown-menu .contact-info a {
+            color: #00ff41;
+            text-decoration: none;
+            border-bottom: 1px dotted #00ff41;
+            padding: 0;
+            display: inline;
+            background: transparent;
+            border-left: none;
+            font-size: 13px;
+        }
+        .dropdown-menu .contact-info a:hover {
+            text-shadow: 0 0 20px #00ff41;
+            border-bottom: 1px solid #00ff41;
+            background: transparent;
+        }
+        .dropdown-menu .menu-icon { font-size: 18px; width: 28px; text-align: center; }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 45px 40px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+            text-align: center;
+        }
+        .modal-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .modal-box .sub { color: #b0ffc0; margin-bottom: 30px; font-size: 14px; }
+        .modal-box input {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            background: #111;
+            border: 1px solid #00ff41;
+            border-radius: 50px;
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .modal-box input:focus { box-shadow: 0 0 25px rgba(0, 255, 65, 0.4); border-color: #9dffb7; }
+        .modal-box .login-submit {
+            width: 100%;
+            padding: 14px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 6px;
+        }
+        .modal-box .login-submit:hover { box-shadow: 0 0 40px #00ff41; transform: scale(1.02); }
+        .modal-box .close-modal {
+            margin-top: 20px;
+            background: transparent;
+            border: none;
+            color: #5a8a5a;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .modal-box .close-modal:hover { color: #00ff41; }
+
+        .video-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 10002;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .video-modal-overlay.active { display: flex; }
+        .video-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+        }
+        .video-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .video-modal-box .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid #00ff41;
+        }
+        .video-modal-box .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-modal-box .close-video {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .video-modal-box .close-video:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
+
+        .guidance-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 10003;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .guidance-modal-overlay.active { display: flex; }
+        .guidance-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+            text-align: center;
+        }
+        .guidance-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .guidance-modal-box p { color: #b0ffc0; line-height: 2; margin-bottom: 20px; font-size: 15px; }
+        .guidance-modal-box .contact-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 14px;
+            margin: 10px 0;
+            background: rgba(0, 255, 65, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        .guidance-modal-box .contact-detail a { color: #00ff41; text-decoration: none; font-size: 18px; }
+        .guidance-modal-box .contact-detail a:hover { text-shadow: 0 0 20px #00ff41; }
+        .guidance-modal-box .close-guidance {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .guidance-modal-box .close-guidance:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
+
+        .info-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 10005;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .info-modal-overlay.active { display: flex; }
+        .info-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 750px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+            text-align: left;
+        }
+        .info-modal-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .info-modal-box .close-info {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .info-modal-box .close-info:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
+
+        .quiz-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 10004;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .quiz-modal-overlay.active { display: flex; }
+        .quiz-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.2);
+        }
+        .quiz-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 0 20px #00ff41;
+        }
+        .quiz-modal-box .quiz-sub {
+            text-align: center;
+            color: #b0ffc0;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .quiz-modal-box .question-item {
+            background: rgba(0, 255, 65, 0.03);
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .quiz-modal-box .question-item .q-text {
+            color: #00ff41;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .quiz-modal-box .question-item .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quiz-modal-box .question-item .options label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #b0ffc0;
+        }
+        .quiz-modal-box .question-item .options label:hover {
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .quiz-modal-box .question-item .options input[type="radio"] {
+            accent-color: #00ff41;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .quiz-modal-box .quiz-submit {
+            width: 100%;
+            padding: 14px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+        .quiz-modal-box .quiz-submit:hover { box-shadow: 0 0 40px #00ff41; transform: scale(1.02); }
+        .quiz-modal-box .quiz-result {
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            display: none;
+        }
+        .quiz-modal-box .quiz-result .score {
+            color: #00ff41;
+            font-size: 48px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 30px #00ff41;
+        }
+        .quiz-modal-box .close-quiz {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .quiz-modal-box .close-quiz:hover { background: #00ff41; color: #000; box-shadow: 0 0 30px #00ff41; }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero-content {
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 50px 60px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 70px rgba(0, 255, 65, 0.1);
+        }
+        .hero h1 {
+            font-size: 72px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            text-shadow: 0 0 12px #00ff41, 0 0 35px #00ff41, 0 0 70px #00ff41;
+            line-height: 1.1;
+        }
+        .hero p { font-size: 20px; line-height: 2; color: #c8ffd6; margin-bottom: 40px; }
+        .hero-btn {
+            padding: 18px 50px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 0 25px #00ff41;
+            letter-spacing: 2px;
+        }
+        .hero-btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 0 50px #00ff41, 0 0 90px #00ff41; background: #9dffb7; }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 100px;
+            margin-bottom: 60px;
+            text-shadow: 0 0 20px #00ff41;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 35px;
+            padding: 0 6% 40px;
+        }
+        .card {
+            background: #050505;
+            border: 1px solid #00ff41;
+            border-radius: 20px;
+            padding: 30px 28px;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 45px rgba(0, 255, 65, 0.3);
+            background: #0a0f0a;
+            border-color: #9dffb7;
+        }
+        .card h3 { font-family: 'Orbitron', sans-serif; font-size: 24px; margin-bottom: 14px; }
+        .card p { line-height: 1.9; color: #d4ffe0; font-size: 15px; }
+
+        .info-box {
+            display: none;
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid #00ff41;
+            line-height: 2.2;
+            color: #e2ffe8;
+            font-size: 14px;
+            background: rgba(0, 255, 65, 0.02);
+            border-radius: 8px;
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+        .info-box p { margin-bottom: 8px; }
+        .info-box .highlight { color: #00ff41; font-weight: bold; }
+        .info-box .warning { color: #ff6b35; font-weight: bold; }
+        .info-box .danger { color: #ff3b3b; font-weight: bold; }
+        .info-box .success { color: #00ff41; font-weight: bold; }
+        .info-box ul { padding-left: 25px; margin: 8px 0; }
+        .info-box ul li { margin-bottom: 4px; }
+
+        .contact-section {
+            margin: 80px 6% 40px;
+            padding: 40px 30px;
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.05);
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 18px;
+        }
+        .contact-item a {
+            color: #00ff41;
+            text-decoration: none;
+            border-bottom: 1px dotted #00ff41;
+            transition: 0.3s;
+        }
+        .contact-item a:hover { text-shadow: 0 0 20px #00ff41; border-bottom: 1px solid #00ff41; }
+
+        .footer-note {
+            text-align: center;
+            padding: 30px 0 20px;
+            color: #0a5a1f;
+            font-size: 14px;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(0, 255, 65, 0.1);
+            margin: 20px 6% 0;
+        }
+
+        .about-section {
+            padding: 40px 6%;
+        }
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .about-card {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.05);
+        }
+        .about-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .about-avatar {
+            font-size: 120px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.05); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 65, 0.15); }
+        }
+
+        .pdf-section {
+            padding: 20px 6% 60px;
+        }
+        .pdf-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .pdf-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .pdf-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            transform: translateY(-2px);
+        }
+        .pdf-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .pdf-upload-icon {
+            font-size: 60px;
+            color: #00ff41;
+        }
+        .pdf-upload-btn {
+            padding: 12px 40px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .pdf-upload-btn:hover {
+            box-shadow: 0 0 30px #00ff41;
+            transform: scale(1.02);
+        }
+        .pdf-list {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 30px;
+            padding: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .pdf-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .pdf-list::-webkit-scrollbar-track {
+            background: #000;
+        }
+        .pdf-list::-webkit-scrollbar-thumb {
+            background: #00ff41;
+            border-radius: 10px;
+        }
+        .pdf-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(0, 255, 65, 0.03);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            transition: 0.3s;
+        }
+        .pdf-item:hover {
+            background: rgba(0, 255, 65, 0.06);
+            border-color: rgba(0, 255, 65, 0.3);
+        }
+        .pdf-item .pdf-name {
+            color: #b0ffc0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pdf-item .pdf-name .pdf-icon {
+            font-size: 24px;
+        }
+        .pdf-item .pdf-delete {
+            background: transparent;
+            border: none;
+            color: #ff3b3b;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .pdf-item .pdf-delete:hover {
+            background: rgba(255, 59, 59, 0.1);
+        }
+        .pdf-item .pdf-download {
+            background: transparent;
+            border: none;
+            color: #00ff41;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .pdf-item .pdf-download:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+        .pdf-item .pdf-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .pdf-item .pdf-info {
+            color: #5a8a5a;
+            font-size: 12px;
+        }
+
+        .gallery-section {
+            padding: 20px 6% 60px;
+        }
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .gallery-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+            transform: translateY(-2px);
+        }
+        .gallery-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .gallery-upload-icon {
+            font-size: 50px;
+            color: #00ff41;
+        }
+        .gallery-upload-btn {
+            padding: 12px 40px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .gallery-upload-btn:hover {
+            box-shadow: 0 0 30px #00ff41;
+            transform: scale(1.02);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            min-height: 100px;
+        }
+        .gallery-item {
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            transition: 0.3s;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);
+            border-color: #9dffb7;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-item .gallery-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+            opacity: 0;
+        }
+        .gallery-item:hover .gallery-delete {
+            opacity: 1;
+        }
+        .gallery-item .gallery-delete:hover {
+            background: #ff3b3b;
+            color: #000;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================ */
+        /* ===== THE COMMUNITY SECTION ===== */
+        /* ============================================================ */
+        .community-section {
+            padding: 20px 6% 60px;
+        }
+        .community-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .community-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .community-header h2 {
+            font-size: 48px;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            margin-bottom: 15px;
+        }
+        .community-header p {
+            color: #b0ffc0;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+        }
+        .community-header .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .community-header .community-stats .stat-item {
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            border-radius: 16px;
+            padding: 15px 30px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .community-header .community-stats .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+        }
+        .community-header .community-stats .stat-item .stat-number {
+            font-size: 32px;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff41;
+        }
+        .community-header .community-stats .stat-item .stat-label {
+            color: #5a8a5a;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .community-upload-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #00ff41;
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .community-upload-area:hover {
+            border-color: #9dffb7;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.1);
+            transform: translateY(-3px);
+        }
+        .community-upload-area.dragover {
+            border-color: #9dffb7;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .community-upload-area .upload-icon {
+            font-size: 50px;
+            color: #00ff41;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .community-upload-area h4 {
+            color: #b0ffc0;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .community-upload-area p {
+            color: #5a8a5a;
+            font-size: 14px;
+        }
+        .community-upload-btn {
+            padding: 14px 50px;
+            background: #00ff41;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 18px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+        .community-upload-btn:hover {
+            box-shadow: 0 0 50px #00ff41, 0 0 80px rgba(0, 255, 65, 0.3);
+            transform: scale(1.05);
+            background: #9dffb7;
+        }
+        .community-upload-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Community Gallery Grid */
+        .community-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            min-height: 200px;
+        }
+
+        .community-gallery-item {
+            position: relative;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        .community-gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .community-gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .community-gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .community-gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .community-gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .community-gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .community-gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .community-gallery-item:nth-child(8) { animation-delay: 0.4s; }
+
+        .community-gallery-item:hover {
+            transform: scale(1.04) translateY(-8px);
+            border-color: #00ff41;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.2), 0 20px 40px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .community-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        .community-gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .community-gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+            transform: translateY(100%);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .community-gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .community-gallery-item .overlay .cause-title {
+            color: #00ff41;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .community-gallery-item .overlay .cause-desc {
+            color: #b0ffc0;
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        .community-gallery-item .overlay .uploader-info {
+            color: #5a8a5a;
+            font-size: 11px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .community-gallery-item .overlay .uploader-info i {
+            font-size: 12px;
+        }
+
+        .community-gallery-item .delete-community {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+            opacity: 0;
+            z-index: 5;
+        }
+        .community-gallery-item:hover .delete-community {
+            opacity: 1;
+        }
+        .community-gallery-item .delete-community:hover {
+            background: #ff3b3b;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .community-gallery-item .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 255, 65, 0.15);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00ff41;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            z-index: 4;
+        }
+
+        /* Community Upload Modal */
+        .community-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .community-modal-overlay.active { display: flex; }
+        .community-modal-box {
+            background: #0a0f0a;
+            border: 2px solid #00ff41;
+            border-radius: 30px;
+            padding: 45px 40px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 0 80px rgba(0, 255, 65, 0.15);
+            text-align: center;
+        }
+        .community-modal-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            margin-bottom: 8px;
+        }
+        .community-modal-box .modal-sub {
+            color: #b0ffc0;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .community-modal-box .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .community-modal-box .form-group label {
+            color: #b0ffc0;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .community-modal-box .form-group input,
+        .community-modal-box .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #111;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .community-modal-box .form-group input:focus,
+        .community-modal-box .form-group textarea:focus {
+            border-color: #00ff41;
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.15);
+        }
+        .community-modal-box .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .community-modal-box .form-group input[type="file"] {
+            padding: 12px;
+            cursor: pointer;
+        }
+        .community-modal-box .form-group input[type="file"]::file-selector-button {
+            background: #00ff41;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-right: 12px;
+        }
+        .community-modal-box .form-group input[type="file"]::file-selector-button:hover {
+            box-shadow: 0 0 20px #00ff41;
+            transform: scale(1.02);
+        }
+
+        .community-modal-box .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .community-modal-box .modal-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            border: none;
+        }
+        .community-modal-box .modal-actions .submit-btn {
+            background: #00ff41;
+            color: #000;
+        }
+        .community-modal-box .modal-actions .submit-btn:hover {
+            box-shadow: 0 0 40px #00ff41;
+            transform: scale(1.02);
+        }
+        .community-modal-box .modal-actions .cancel-btn {
+            background: transparent;
+            color: #5a8a5a;
+            border: 1px solid #5a8a5a;
+        }
+        .community-modal-box .modal-actions .cancel-btn:hover {
+            color: #00ff41;
+            border-color: #00ff41;
+        }
+
+        .admin-badge {
+            background: #00ff41;
+            color: #000;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero-content { padding: 30px 20px; }
+            .section-title { font-size: 30px; margin-top: 70px; margin-bottom: 40px; }
+            .cards { grid-template-columns: 1fr; padding: 0 4%; }
+            .contact-section { flex-direction: column; align-items: flex-start; }
+            .logo { font-size: 18px; }
+            .hero p { font-size: 16px; }
+            .auth-btn { padding: 6px 14px; font-size: 11px; }
+            #userGreeting { font-size: 11px; padding: 4px 12px; }
+            .dropdown-menu { right: 4%; min-width: 280px; }
+            .nav-right { gap: 10px; }
+            .hamburger span { width: 24px; height: 2.5px; }
+            .modal-box { padding: 30px 25px; }
+            .quiz-modal-box { padding: 25px; }
+            .about-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 25px;
+            }
+            .about-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 70px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            .about-text h3 {
+                font-size: 22px !important;
+            }
+            .about-text p {
+                font-size: 15px !important;
+            }
+            .community-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .community-header h2 {
+                font-size: 30px;
+            }
+            .community-header .community-stats {
+                gap: 15px;
+            }
+            .community-header .community-stats .stat-item {
+                padding: 10px 20px;
+            }
+            .community-header .community-stats .stat-item .stat-number {
+                font-size: 24px;
+            }
+            .community-modal-box {
+                padding: 30px 25px;
+            }
+            .community-modal-box .modal-actions {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 28px; }
+            .cards { gap: 20px; }
+            .card { padding: 20px; }
+            .card h3 { font-size: 20px; }
+            .about-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            .community-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">⟡ CYBER HUB</div>
+        <div class="nav-right">
+            <span id="userGreeting" style="display:none;"></span>
+            <button id="loginBtn" class="auth-btn" onclick="openModal()">🔐 LOGIN</button>
+            <button id="logoutBtn" class="auth-btn logout-btn" style="display:none;" onclick="logout()">⛔ LOGOUT</button>
+            <div class="hamburger" id="hamburger" onclick="toggleDropdown()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#home" onclick="closeDropdown()"><span class="menu-icon">🏠</span> Home</a>
+        <a href="#about" onclick="closeDropdown()"><span class="menu-icon">👤</span> About Me</a>
+        <a href="#community" onclick="closeDropdown()"><span class="menu-icon">🌍</span> The Community</a>
+        <a href="#pdf" onclick="closeDropdown()"><span class="menu-icon">📄</span> PDF Library</a>
+        <a href="#gallery" onclick="closeDropdown()"><span class="menu-icon">🖼️</span> Gallery</a>
+        <a href="#attacks" onclick="closeDropdown()"><span class="menu-icon">⚔️</span> All Attack Types</a>
+        <div class="menu-divider"></div>
+        <button class="menu-item" onclick="openVideo('phishing')"><span class="menu-icon">🎣</span> Phishing Attacks</button>
+        <button class="menu-item" onclick="openVideo('trojan')"><span class="menu-icon">🐴</span> Trojan Horse</button>
+        <button class="menu-item" onclick="openVideo('ransomware')"><span class="menu-icon">💀</span> Ransomware</button>
+        <button class="menu-item" onclick="openVideo('bruteforce')"><span class="menu-icon">🔑</span> Brute Force</button>
+        <button class="menu-item" onclick="openVideo('malware')"><span class="menu-icon">🦠</span> Malware & RATs</button>
+        <button class="menu-item" onclick="openVideo('social')"><span class="menu-icon">🎭</span> Social Engineering</button>
+        <button class="menu-item" onclick="openVideo('mitm')"><span class="menu-icon">🌐</span> Man-in-the-Middle</button>
+        <button class="menu-item" onclick="openVideo('ddos')"><span class="menu-icon">💥</span> DDoS Attacks</button>
+        <button class="menu-item" onclick="openVideo('zero')"><span class="menu-icon">🔓</span> Zero-Day Exploits</button>
+        <button class="menu-item" onclick="openVideo('steg')"><span class="menu-icon">🖼️</span> Steganography</button>
+        <button class="menu-item" onclick="openVideo('sql')"><span class="menu-icon">🗄️</span> SQL Injection</button>
+        <button class="menu-item" onclick="openVideo('xss')"><span class="menu-icon">💉</span> XSS Attacks</button>
+        <div class="menu-divider"></div>
+        <button class="menu-item" onclick="openGuidance()"><span class="menu-icon">📞</span> Free Guidance</button>
+        <button class="menu-item" onclick="openQuiz()"><span class="menu-icon">📝</span> Free Cyber Quiz</button>
+        <div class="menu-divider"></div>
+        <div class="contact-info">
+            <strong>📞 24/7 Cyber Help</strong><br>
+            <a href="tel:+919616401302">📱 +91 96164 01302</a><br>
+            <a href="mailto:zaidahmadkhan467@gmail.com">✉️ zaidahmadkhan467@gmail.com</a>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>⛓️ ACCESS</h2>
+            <div class="sub">Enter credentials to unlock full system</div>
+            <input type="text" id="usernameInput" placeholder="Username" value="admin">
+            <input type="password" id="passwordInput" placeholder="Password" value="1234">
+            <button class="login-submit" onclick="handleLogin()">⬢ LOGIN</button>
+            <button class="close-modal" onclick="closeModal()">↺ Cancel</button>
+        </div>
+    </div>
+
+    <div class="video-modal-overlay" id="videoModal">
+        <div class="video-modal-box">
+            <h3 id="videoTitle">🎬 Security Awareness</h3>
+            <div class="video-wrapper">
+                <iframe id="videoFrame" src="" allowfullscreen></iframe>
+            </div>
+            <button class="close-video" onclick="closeVideo()">✕ Close</button>
+        </div>
+    </div>
+
+    <div class="guidance-modal-overlay" id="guidanceModal">
+        <div class="guidance-modal-box">
+            <h3>📞 FREE CYBER GUIDANCE</h3>
+            <p>Need help with cyber security? We're here 24/7 to assist you with:</p>
+            <div class="contact-detail">
+                <span style="font-size:24px;">📱</span>
+                <a href="tel:+919616401302">+91 96164 01302</a>
+            </div>
+            <div class="contact-detail">
+                <span style="font-size:24px;">✉️</span>
+                <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
+            </div>
+            <p style="font-size:13px; color:#5a8a5a; margin-top:15px;">
+                ⚡ Available for: Phishing prevention, Malware removal, Security audits, Safe browsing tips, Identity theft protection, Ransomware recovery advice, Social engineering awareness, Network security guidance
+            </p>
+            <button class="close-guidance" onclick="closeGuidance()">✕ Close</button>
+        </div>
+    </div>
+
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal-box">
+            <h2 id="infoTitle">🎯 Attack Information</h2>
+            <div id="infoContent"></div>
+            <button class="close-info" onclick="closeInfoModal()">✕ Close</button>
+        </div>
+    </div>
+
+    <div class="quiz-modal-overlay" id="quizModal">
+        <div class="quiz-modal-box">
+            <h3>📝 CYBER SECURITY QUIZ</h3>
+            <div class="quiz-sub">Test your knowledge - 20 questions</div>
+            <div id="quizContainer"></div>
+            <button class="quiz-submit" onclick="submitQuiz()">⬢ SUBMIT ANSWERS</button>
+            <div class="quiz-result" id="quizResult">
+                <p>Your Score:</p>
+                <div class="score" id="quizScore">0/20</div>
+                <p style="margin-top:10px; color:#b0ffc0;" id="quizFeedback"></p>
+            </div>
+            <button class="close-quiz" onclick="closeQuiz()">✕ Close</button>
+        </div>
+    </div>
+
+    <!-- Community Upload Modal -->
+    <div class="community-modal-overlay" id="communityModal">
+        <div class="community-modal-box">
+            <h3>🌍 Share Your Cause</h3>
+            <div class="modal-sub">Upload a photo and share your community service story</div>
+            <div class="form-group">
+                <label>📸 Upload Photo</label>
+                <input type="file" id="communityFileInput" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>📝 Cause Title</label>
+                <input type="text" id="communityTitleInput" placeholder="e.g., Feeding Street Dogs" maxlength="50">
+            </div>
+            <div class="form-group">
+                <label>💬 Description</label>
+                <textarea id="communityDescInput" placeholder="Tell us about your community service..." maxlength="200"></textarea>
+            </div>
+            <div class="form-group">
+                <label>👤 Your Name (optional)</label>
+                <input type="text" id="communityNameInput" placeholder="Anonymous" maxlength="30">
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeCommunityModal()">Cancel</button>
+                <button class="submit-btn" onclick="submitCommunityPost()">📤 Publish to Community</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>CYBER SECURITY<br>LEARNING HUB</h1>
+            <p>
+                Master Ethical Hacking, Network Security, Web Defense &amp; Digital Awareness<br>
+                Learn how hackers attack and how to protect yourself.
+            </p>
+            <button class="hero-btn" onclick="document.getElementById('attacks').scrollIntoView({behavior:'smooth'})">
+                ⚡ ENTER THE SYSTEM
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ME ===== -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2 class="section-title">👤 ABOUT ME</h2>
+                <div class="about-card">
+                    <div class="about-image">
+                        <div class="about-avatar">👨‍💻</div>
+                    </div>
+                    <div class="about-text">
+                        <h3 style="color:#00ff41; font-family:'Orbitron',sans-serif; font-size:28px; margin-bottom:15px;">
+                            Zaid Ahmad Khan
+                        </h3>
+                        <p style="color:#b0ffc0; font-size:18px; line-height:2;">
+                            <span style="color:#00ff41;">📍</span> Currently studying in <strong style="color:#00ff41;">Class 11th PCM</strong><br>
+                            <span style="color:#00ff41;">🎯</span> Future goal: Study in <strong style="color:#00ff41;">Germany</strong> and pursue advanced technology<br>
+                            <span style="color:#00ff41;">🔐</span> Passionate about <strong style="color:#00ff41;">Cyber Security</strong> and helping people stay safe online
+                        </p>
+                        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:15px;">
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">📚</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Class 11th PCM</div>
+                            </div>
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">🇩🇪</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Study in Germany</div>
+                            </div>
+                            <div style="background:rgba(0,255,65,0.05); border:1px solid rgba(0,255,65,0.2); border-radius:12px; padding:15px 20px; flex:1; min-width:150px;">
+                                <div style="color:#00ff41; font-size:24px; font-family:'Orbitron',sans-serif;">🔐</div>
+                                <div style="color:#b0ffc0; font-size:14px;">Cyber Security Expert</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px; padding:20px; background:rgba(0,255,65,0.03); border-radius:12px; border-left:3px solid #00ff41;">
+                            <p style="color:#d4ffe0; font-size:15px; line-height:2;">
+                                💡 <strong style="color:#00ff41;">My Mission:</strong> To provide knowledge about cyber security, 
+                                teach people how to <strong style="color:#00ff41;">not get hacked</strong>, and spread awareness about 
+                                how to <strong style="color:#00ff41;">stay safe</strong> from cyber threats. 
+                                I believe education is the best defense against hackers.
+                            </p>
+                        </div>
+                        <div style="margin-top:20px; display:flex; gap:15px; flex-wrap:wrap;">
+                            <div style="display:flex; align-items:center; gap:10px; background:rgba(0,255,65,0.05); padding:8px 18px; border-radius:40px; border:1px solid rgba(0,255,65,0.15);">
+                                <span>📞</span>
+                                <a href="tel:+919616401302" style="color:#00ff41; text-decoration:none;">+91 96164 01302</a>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px; background:rgba(0,255,65,0.05); padding:8px 18px; border-radius:40px; border:1px solid rgba(0,255,65,0.15);">
+                                <span>✉️</span>
+                                <a href="mailto:zaidahmadkhan467@gmail.com" style="color:#00ff41; text-decoration:none;">zaidahmadkhan467@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ===== THE COMMUNITY SECTION ===== -->
+    <!-- ============================================================ -->
+    <section class="community-section" id="community">
+        <div class="community-container">
+            <div class="community-header">
+                <h2>🌍 THE COMMUNITY</h2>
+                <p>
+                    A global movement of compassion — feeding street dogs, helping people in need, 
+                    and making the world a better place. Share your acts of kindness with the world.
+                </p>
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityCount">0</div>
+                        <div class="stat-label">❤️ Acts of Kindness</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityMembers">0</div>
+                        <div class="stat-label">🌍 Community Members</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="communityAnimals">0</div>
+                        <div class="stat-label">🐾 Animals Helped</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="community-upload-area" id="communityUploadArea">
+                <span class="upload-icon">📸</span>
+                <h4>Share Your Community Service</h4>
+                <p>Upload a photo of your charity work — feeding animals, helping people, or any act of kindness</p>
+                <button class="community-upload-btn" onclick="openCommunityModal()">
+                    📤 Upload to Community
+                </button>
+            </div>
+
+            <!-- Community Gallery Grid - GLOBAL (Sabhi ko dikhega) -->
+            <div class="community-gallery-grid" id="communityGrid">
+                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                    🌍 No community posts yet. Be the first to share an act of kindness!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PDF SECTION ===== -->
+    <section class="pdf-section" id="pdf">
+        <h2 class="section-title">📄 PDF LIBRARY</h2>
+        <div class="pdf-container">
+            <div style="background:rgba(0,0,0,0.5); border:1px solid #00ff41; border-radius:30px; padding:40px;">
+                
+                <!-- PERMANENT PDF -->
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:rgba(0,255,65,0.05); border-radius:12px; border:1px solid #00ff41; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:12px; color:#b0ffc0; font-size:15px;">
+                        <span style="font-size:28px;">📖</span>
+                        <span style="color:#00ff41; font-weight:bold;">Complete Cyber Security Guide (8 Chapters)</span>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=1xpJWXrjEnsNyNIbjNBKEbV1BuFxDFMKE" 
+                       download 
+                       style="background:#00ff41; color:#000; padding:10px 30px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:14px; transition:0.3s; font-family:'Orbitron',sans-serif;">
+                        ⬇️ Download
+                    </a>
+                </div>
+                
+                <!-- Uploaded PDFs -->
+                <div id="pdfItems" style="margin-top:20px;"></div>
+                
+                <!-- Admin Upload -->
+                <div id="adminPdfUpload" style="display:none; margin-top:20px;">
+                    <div class="pdf-upload-area" id="pdfUploadArea">
+                        <div style="font-size:30px; color:#00ff41;">📤</div>
+                        <h4 style="color:#b0ffc0; font-size:16px; margin:8px 0;">Upload Your PDF (Admin Only)</h4>
+                        <p style="color:#5a8a5a; font-size:12px;">Drag & drop or click to upload</p>
+                        <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;">
+                        <button class="pdf-upload-btn" onclick="document.getElementById('pdfInput').click()" style="padding:10px 30px; background:#00ff41; color:#000; border:none; border-radius:30px; font-family:'Orbitron',sans-serif; font-weight:600; font-size:13px; cursor:pointer; margin-top:10px;">
+                            📄 Upload PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY SECTION ===== -->
+    <section class="gallery-section" id="gallery">
+        <h2 class="section-title">🖼️ GALLERY</h2>
+        <div class="gallery-container">
+            <!-- Admin Upload -->
+            <div id="adminGalleryUpload" style="display:none; margin-bottom:20px;">
+                <div class="gallery-upload-area" id="galleryUploadArea">
+                    <div style="font-size:40px; color:#00ff41;">📸</div>
+                    <h4 style="color:#b0ffc0; font-size:16px; margin:8px 0;">Upload Photos (Admin Only)</h4>
+                    <p style="color:#5a8a5a; font-size:12px;">Click to select images</p>
+                    <input type="file" id="galleryInput" accept="image/*" multiple style="display:none;">
+                    <button class="gallery-upload-btn" onclick="document.getElementById('galleryInput').click()" style="padding:10px 30px; background:#00ff41; color:#000; border:none; border-radius:30px; font-family:'Orbitron',sans-serif; font-weight:600; font-size:13px; cursor:pointer; margin-top:10px;">
+                        📸 Upload Photos
+                    </button>
+                </div>
+            </div>
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid">
+                <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title" id="attacks">⚔️ UNDERSTANDING CYBER ATTACKS</h2>
+    <section class="cards">
+        <!-- 1. PHISHING -->
+        <div class="card" onclick="toggleInfo('phishingInfo')">
+            <h3>🎣 PHISHING ATTACKS</h3>
+            <p>Deceptive emails and messages that steal your credentials.</p>
+            <div id="phishingInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW HACKERS EXECUTE PHISHING ATTACKS:</span></p>
+                <p>Phishing is a social engineering attack where cybercriminals impersonate legitimate organizations to trick victims into revealing sensitive information.</p>
+                <p><span class="highlight">🔍 COMMON PHISHING TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>Email Phishing:</strong> Mass emails sent to thousands of recipients</li>
+                    <li><strong>Spear Phishing:</strong> Targeted attacks on specific individuals</li>
+                    <li><strong>Whaling:</strong> Phishing targeting high-profile executives</li>
+                    <li><strong>Clone Phishing:</strong> Creating identical copies of legitimate emails</li>
+                    <li><strong>Vishing:</strong> Voice phishing through phone calls</li>
+                    <li><strong>Smishing:</strong> Phishing through SMS text messages</li>
+                </ul>
+                <p><span class="success">🛡️ HOW TO PROTECT YOURSELF:</span></p>
+                <ul>
+                    <li>✅ Always check the sender's email address carefully</li>
+                    <li>✅ Hover over links before clicking to see the actual URL</li>
+                    <li>✅ Never share passwords or OTPs via email</li>
+                    <li>✅ Enable Multi-Factor Authentication (MFA)</li>
+                    <li>✅ Look for spelling mistakes and urgent language</li>
+                </ul>
+                <p class="warning">📊 STATISTICS: 90% of cyber attacks start with a phishing email.</p>
+            </div>
+        </div>
+
+        <!-- 2. TROJAN -->
+        <div class="card" onclick="toggleInfo('trojanInfo')">
+            <h3>🐴 TROJAN HORSE</h3>
+            <p>Malware disguised as legitimate software.</p>
+            <div id="trojanInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW TROJANS INFECT SYSTEMS:</span></p>
+                <p>A Trojan Horse is malicious software that disguises itself as legitimate software to trick users into installing it.</p>
+                <p><span class="highlight">🔍 COMMON TROJAN TYPES:</span></p>
+                <ul>
+                    <li><strong>Backdoor Trojans:</strong> Create hidden access points for hackers</li>
+                    <li><strong>Banking Trojans:</strong> Steal financial information</li>
+                    <li><strong>Downloader Trojans:</strong> Download additional malware</li>
+                    <li><strong>Fake Antivirus Trojans:</strong> Pretend to be security software</li>
+                    <li><strong>Game Thief Trojans:</strong> Steal gaming credentials</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Download only from official sources</li>
+                    <li>✅ Never open attachments from unknown senders</li>
+                    <li>✅ Install and update antivirus software</li>
+                    <li>✅ Use a firewall</li>
+                    <li>✅ Keep operating system updated</li>
+                </ul>
+                <p class="warning">📊 70% of Trojans are delivered through email attachments.</p>
+            </div>
+        </div>
+
+        <!-- 3. RANSOMWARE -->
+        <div class="card" onclick="toggleInfo('ransomwareInfo')">
+            <h3>💀 RANSOMWARE</h3>
+            <p>Malware that encrypts your files and demands payment.</p>
+            <div id="ransomwareInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW RANSOMWARE ATTACKS WORK:</span></p>
+                <p>Ransomware encrypts a victim's files and demands a ransom payment to restore access.</p>
+                <p><span class="highlight">🔍 COMMON RANSOMWARE VARIANTS:</span></p>
+                <ul>
+                    <li><strong>Crypto Ransomware:</strong> Encrypts files using strong encryption</li>
+                    <li><strong>Locker Ransomware:</strong> Locks users out of their entire system</li>
+                    <li><strong>Scareware:</strong> Claims to have found viruses</li>
+                    <li><strong>Leakware:</strong> Threatens to leak sensitive information</li>
+                    <li><strong>Double Extortion:</strong> Encrypts AND steals data</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Regular backups (3-2-1 rule)</li>
+                    <li>✅ Keep systems updated</li>
+                    <li>✅ Use strong antivirus</li>
+                    <li>✅ NEVER pay the ransom</li>
+                    <li>✅ Email filtering</li>
+                </ul>
+                <p class="warning">📊 Ransomware attacks occur every 11 seconds.</p>
+            </div>
+        </div>
+
+        <!-- 4. BRUTE FORCE -->
+        <div class="card" onclick="toggleInfo('bruteforceInfo')">
+            <h3>🔑 BRUTE FORCE ATTACKS</h3>
+            <p>Guessing passwords through automated trial and error.</p>
+            <div id="bruteforceInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW BRUTE FORCE ATTACKS WORK:</span></p>
+                <p>Attackers use automated software that rapidly tries millions of password combinations per second.</p>
+                <p><span class="highlight">🔍 TYPES OF BRUTE FORCE ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Simple Brute Force:</strong> Trying every possible combination</li>
+                    <li><strong>Dictionary Attack:</strong> Using lists of common passwords</li>
+                    <li><strong>Hybrid Attack:</strong> Combining dictionary words with numbers</li>
+                    <li><strong>Credential Stuffing:</strong> Using stolen credentials from data breaches</li>
+                    <li><strong>Password Spraying:</strong> Trying common passwords against many accounts</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Use strong passwords (12+ characters)</li>
+                    <li>✅ Enable Multi-Factor Authentication</li>
+                    <li>✅ Implement account lockout</li>
+                    <li>✅ Use CAPTCHA</li>
+                    <li>✅ Use unique passwords for every account</li>
+                </ul>
+                <p class="warning">📊 A weak password can be cracked in under 1 second.</p>
+            </div>
+        </div>
+
+        <!-- 5. MALWARE & RATS -->
+        <div class="card" onclick="toggleInfo('malwareInfo')">
+            <h3>🦠 MALWARE & RATs</h3>
+            <p>Viruses, worms, spyware, and Remote Access Trojans.</p>
+            <div id="malwareInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING MALWARE AND RATs:</span></p>
+                <p>Malware is any software designed to cause harm to computer systems. RATs give hackers complete remote control.</p>
+                <p><span class="highlight">🔍 TYPES OF MALWARE:</span></p>
+                <ul>
+                    <li><strong>Viruses:</strong> Self-replicating programs</li>
+                    <li><strong>Worms:</strong> Self-replicating malware that spreads across networks</li>
+                    <li><strong>Spyware:</strong> Secretly monitors user activity</li>
+                    <li><strong>RATs:</strong> Complete remote control of infected systems</li>
+                    <li><strong>Keyloggers:</strong> Record every keystroke</li>
+                    <li><strong>Rootkits:</strong> Hide deep within the operating system</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Install reputable antivirus</li>
+                    <li>✅ Keep everything updated</li>
+                    <li>✅ Use a firewall</li>
+                    <li>✅ Be careful with downloads</li>
+                    <li>✅ Regular system scans</li>
+                </ul>
+                <p class="warning">📊 Over 500,000 new malware variants are discovered daily.</p>
+            </div>
+        </div>
+
+        <!-- 6. SOCIAL ENGINEERING -->
+        <div class="card" onclick="toggleInfo('socialInfo')">
+            <h3>🎭 SOCIAL ENGINEERING</h3>
+            <p>Psychological manipulation to gain confidential information.</p>
+            <div id="socialInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING SOCIAL ENGINEERING:</span></p>
+                <p>Social engineering targets the human element. Attackers manipulate people into revealing confidential information.</p>
+                <p><span class="highlight">🔍 COMMON TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>Pretexting:</strong> Creating a fabricated scenario</li>
+                    <li><strong>Baiting:</strong> Offering something enticing</li>
+                    <li><strong>Tailgating:</strong> Following authorized personnel</li>
+                    <li><strong>Phishing:</strong> Fraudulent emails</li>
+                    <li><strong>Vishing:</strong> Voice phishing</li>
+                    <li><strong>Impersonation:</strong> Pretending to be someone else</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Verify identity of people requesting information</li>
+                    <li>✅ Trust your instincts</li>
+                    <li>✅ Never share passwords</li>
+                    <li>✅ Question urgent requests</li>
+                    <li>✅ Use official channels</li>
+                </ul>
+                <p class="warning">📊 70% of all cyber attacks involve social engineering.</p>
+            </div>
+        </div>
+
+        <!-- 7. MITM -->
+        <div class="card" onclick="toggleInfo('mitmInfo')">
+            <h3>🌐 MAN-IN-THE-MIDDLE</h3>
+            <p>Attacker intercepts communication between two parties.</p>
+            <div id="mitmInfo" class="info-box">
+                <p><span class="danger">⚠️ HOW MITM ATTACKS WORK:</span></p>
+                <p>Attackers secretly intercept and potentially alter communication between two parties.</p>
+                <p><span class="highlight">🔍 COMMON MITM TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>Wi-Fi Eavesdropping:</strong> Intercepting traffic on unsecured Wi-Fi</li>
+                    <li><strong>DNS Spoofing:</strong> Redirecting traffic to malicious sites</li>
+                    <li><strong>SSL/TLS Stripping:</strong> Downgrading HTTPS to HTTP</li>
+                    <li><strong>ARP Spoofing:</strong> Associating attacker's MAC address with legitimate IP</li>
+                    <li><strong>Session Hijacking:</strong> Stealing session tokens</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Always use HTTPS websites</li>
+                    <li>✅ Avoid public Wi-Fi without a VPN</li>
+                    <li>✅ Use encrypted messaging apps</li>
+                    <li>✅ Verify SSL certificates</li>
+                    <li>✅ Keep browsers and software updated</li>
+                </ul>
+                <p class="warning">📊 85% of MITM attacks target financial institutions.</p>
+            </div>
+        </div>
+
+        <!-- 8. DDoS -->
+        <div class="card" onclick="toggleInfo('ddosInfo')">
+            <h3>💥 DDoS ATTACKS</h3>
+            <p>Overwhelming servers with traffic to make them unavailable.</p>
+            <div id="ddosInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING DDoS ATTACKS:</span></p>
+                <p>DDoS attacks aim to make a service unavailable by overwhelming it with massive traffic from multiple sources.</p>
+                <p><span class="highlight">🔍 TYPES OF DDoS ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Volume-based:</strong> Flooding with massive traffic</li>
+                    <li><strong>Protocol Attacks:</strong> Exploiting protocol weaknesses</li>
+                    <li><strong>Application Layer:</strong> Targeting specific applications</li>
+                    <li><strong>Multi-vector:</strong> Combining multiple attack types</li>
+                    <li><strong>Reflection Attacks:</strong> Using third-party servers to amplify traffic</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Use DDoS protection services</li>
+                    <li>✅ Implement traffic filtering</li>
+                    <li>✅ Use load balancers</li>
+                    <li>✅ Configure firewalls</li>
+                    <li>✅ Monitor network traffic for anomalies</li>
+                </ul>
+                <p class="warning">📊 DDoS attacks increased by 85% in 2025.</p>
+            </div>
+        </div>
+
+        <!-- 9. ZERO-DAY -->
+        <div class="card" onclick="toggleInfo('zeroInfo')">
+            <h3>🔓 ZERO-DAY EXPLOITS</h3>
+            <p>Attacks on unknown vulnerabilities with no patch available.</p>
+            <div id="zeroInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING ZERO-DAY EXPLOITS:</span></p>
+                <p>A zero-day exploit targets previously unknown vulnerabilities in software or hardware.</p>
+                <p><span class="highlight">🔍 HOW ZERO-DAY EXPLOITS WORK:</span></p>
+                <ul>
+                    <li>Hackers discover a vulnerability before the developer knows</li>
+                    <li>Hackers sell the exploit on the dark web</li>
+                    <li>Attackers use the exploit before developers can patch it</li>
+                    <li>May take weeks or months for a fix</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Keep all software updated</li>
+                    <li>✅ Use antivirus with exploit protection</li>
+                    <li>✅ Implement defense-in-depth</li>
+                    <li>✅ Monitor for unusual behavior</li>
+                    <li>✅ Use application whitelisting</li>
+                </ul>
+                <p class="warning">📊 Zero-day exploits are sold for $50,000 to $2.5 million.</p>
+            </div>
+        </div>
+
+        <!-- 10. STEGANOGRAPHY -->
+        <div class="card" onclick="toggleInfo('stegInfo')">
+            <h3>🖼️ STEGANOGRAPHY</h3>
+            <p>Hiding secret data inside innocent-looking files.</p>
+            <div id="stegInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING STEGANOGRAPHY:</span></p>
+                <p>Steganography hides secret data inside ordinary, innocent-looking files.</p>
+                <p><span class="highlight">🔍 COMMON TECHNIQUES:</span></p>
+                <ul>
+                    <li><strong>LSB Embedding:</strong> Hiding data in the lowest bits of image pixels</li>
+                    <li><strong>Image Steganography:</strong> Hiding text in images</li>
+                    <li><strong>Audio Steganography:</strong> Hiding data in audio files</li>
+                    <li><strong>Video Steganography:</strong> Hiding data in video files</li>
+                    <li><strong>Text Steganography:</strong> Using whitespace or hidden characters</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Use steganography detection tools</li>
+                    <li>✅ Inspect file metadata</li>
+                    <li>✅ Compare file sizes and checksums</li>
+                    <li>✅ Use file integrity monitoring</li>
+                    <li>✅ Be cautious of unexpected files</li>
+                </ul>
+                <p class="warning">📊 40% of advanced malware uses steganography.</p>
+            </div>
+        </div>
+
+        <!-- 11. SQL INJECTION -->
+        <div class="card" onclick="toggleInfo('sqlInfo')">
+            <h3>🗄️ SQL INJECTION</h3>
+            <p>Injecting malicious SQL code into web applications.</p>
+            <div id="sqlInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING SQL INJECTION:</span></p>
+                <p>SQL Injection inserts malicious SQL queries into input fields to manipulate databases.</p>
+                <p><span class="highlight">🔍 HOW SQL INJECTION WORKS:</span></p>
+                <ul>
+                    <li>Hackers find input fields (login forms, search boxes)</li>
+                    <li>They inject malicious SQL code</li>
+                    <li>The database executes the malicious query</li>
+                    <li>Hackers can read, modify, or delete data</li>
+                    <li>Can lead to complete database compromise</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Use parameterized queries</li>
+                    <li>✅ Implement input validation</li>
+                    <li>✅ Use stored procedures</li>
+                    <li>✅ Limit database permissions</li>
+                    <li>✅ Use a web application firewall</li>
+                </ul>
+                <p class="warning">📊 SQL Injection is #1 on OWASP Top 10.</p>
+            </div>
+        </div>
+
+        <!-- 12. XSS -->
+        <div class="card" onclick="toggleInfo('xssInfo')">
+            <h3>💉 XSS ATTACKS</h3>
+            <p>Injecting malicious scripts into web pages.</p>
+            <div id="xssInfo" class="info-box">
+                <p><span class="danger">⚠️ UNDERSTANDING XSS ATTACKS:</span></p>
+                <p>Cross-Site Scripting (XSS) attacks inject malicious scripts into web applications.</p>
+                <p><span class="highlight">🔍 TYPES OF XSS ATTACKS:</span></p>
+                <ul>
+                    <li><strong>Stored XSS:</strong> Script permanently stored on the server</li>
+                    <li><strong>Reflected XSS:</strong> Script reflected off the web server</li>
+                    <li><strong>DOM-based XSS:</strong> Script executes in the browser DOM</li>
+                </ul>
+                <p><span class="success">🛡️ PROTECTION GUIDE:</span></p>
+                <ul>
+                    <li>✅ Input validation and sanitization</li>
+                    <li>✅ Output encoding</li>
+                    <li>✅ Use Content Security Policy (CSP)</li>
+                    <li>✅ HTTP-only cookies</li>
+                    <li>✅ Regular security testing</li>
+                </ul>
+                <p class="warning">📊 XSS attacks account for 40% of web application attacks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact-section" id="contact">
+        <div class="contact-item">
+            <span style="font-size:28px;">📞</span>
+            <a href="tel:+919616401302">+91 96164 01302</a>
+        </div>
+        <div class="contact-item">
+            <span style="font-size:28px;">✉️</span>
+            <a href="mailto:zaidahmadkhan467@gmail.com">zaidahmadkhan467@gmail.com</a>
+        </div>
+        <div class="contact-item">
+            <span style="font-size:28px;">💬</span>
+            <span>Available 24/7 for Security Help</span>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer-note">
+        ⚡ CYBER SECURITY HUB · Always Learning · Always Defending ⚡<br>
+        <span style="font-size:12px; color:#0a3a0a;">© 2026 Cyber Security Hub · All Rights Reserved</span>
+    </div>
+
+    <script>
+        // =============================================================
+        // 1. MATRIX RAIN ANIMATION
+        // =============================================================
+        (function matrixRain() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            
+            const cols = Math.floor(width / 18);
+            const drops = Array(cols).fill(1);
+            const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+{}:<>?~";
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.fillStyle = '#00ff41';
+                ctx.font = '18px "Share Tech Mono", monospace';
+                ctx.shadowColor = '#00ff41';
+                ctx.shadowBlur = 8;
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * 18;
+                    const y = drops[i] * 18;
+                    ctx.fillStyle = `rgba(0, 255, 65, ${0.8 + Math.random() * 0.4})`;
+                    ctx.fillText(text, x, y);
+                    
+                    if (y > height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i] += 0.5 + Math.random() * 0.6;
+                }
+                requestAnimationFrame(draw);
+            }
+            
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                const newCols = Math.floor(width / 18);
+                if (newCols > drops.length) {
+                    for (let i = drops.length; i < newCols; i++) drops.push(Math.random() * 20);
+                } else {
+                    drops.length = newCols;
+                }
+            });
+            
+            draw();
+        })();
+
+        // =============================================================
+        // 2. TOGGLE INFO BOXES
+        // =============================================================
+        function toggleInfo(id) {
+            const box = document.getElementById(id);
+            if (box) {
+                if (box.style.display === 'block') {
+                    box.style.display = 'none';
+                } else {
+                    document.querySelectorAll('.info-box').forEach(b => {
+                        if (b.id !== id) b.style.display = 'none';
+                    });
+                    box.style.display = 'block';
+                    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        // =============================================================
+        // 3. DROPDOWN MENU
+        // =============================================================
+        function toggleDropdown() {
+            const menu = document.getElementById('dropdownMenu');
+            const hamburger = document.getElementById('hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function closeDropdown() {
+            document.getElementById('dropdownMenu').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('dropdownMenu');
+            const hamburger = document.getElementById('hamburger');
+            if (!hamburger.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // =============================================================
+        // 4. LOGIN SYSTEM
+        // =============================================================
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userGreeting = document.getElementById('userGreeting');
+
+        function showAdminControls() {
+            const pdfUpload = document.getElementById('adminPdfUpload');
+            const galleryUpload = document.getElementById('adminGalleryUpload');
+            if (pdfUpload) pdfUpload.style.display = 'block';
+            if (galleryUpload) galleryUpload.style.display = 'block';
+        }
+
+        function hideAdminControls() {
+            const pdfUpload = document.getElementById('adminPdfUpload');
+            const galleryUpload = document.getElementById('adminGalleryUpload');
+            if (pdfUpload) pdfUpload.style.display = 'none';
+            if (galleryUpload) galleryUpload.style.display = 'none';
+        }
+
+        function checkSession() {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                userGreeting.style.display = 'inline-block';
+                userGreeting.textContent = `👤 ${user}`;
+                if (user === 'admin') {
+                    showAdminControls();
+                }
+            } else {
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userGreeting.style.display = 'none';
+                hideAdminControls();
+            }
+        }
+
+        function openModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            if (username === 'admin' && password === '1234') {
+                sessionStorage.setItem('cyberUser', username);
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                userGreeting.style.display = 'inline-block';
+                userGreeting.textContent = `👤 ${username}`;
+                closeModal();
+                showAdminControls();
+                alert('✅ Access granted. Welcome, Operator.');
+                renderPdfs();
+                renderGallery();
+            } else {
+                alert('❌ Access denied. Invalid credentials.\n\nHint: Username: admin | Password: 1234');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('cyberUser');
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+            userGreeting.style.display = 'none';
+            hideAdminControls();
+            alert('⛔ Logged out successfully.');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('loginModal').classList.contains('active')) {
+                handleLogin();
+            }
+            if (e.key === 'Escape') {
+                if (document.getElementById('loginModal').classList.contains('active')) closeModal();
+                if (document.getElementById('videoModal').classList.contains('active')) closeVideo();
+                if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
+                if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
+                if (document.getElementById('infoModal').classList.contains('active')) closeInfoModal();
+                if (document.getElementById('communityModal').classList.contains('active')) closeCommunityModal();
+            }
+        });
+
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        checkSession();
+
+        // =============================================================
+        // 5. VIDEO MODAL
+        // =============================================================
+        const videoData = {
+            phishing: { url: 'https://www.youtube.com/embed/mc4ctFmGu_w?autoplay=1', title: '🎣 Phishing Attacks' },
+            trojan: { url: 'https://www.youtube.com/embed/T8QrMcWJ9FU?autoplay=1', title: '🐴 Trojan Horse' },
+            ransomware: { url: 'https://www.youtube.com/embed/lg3dBA9Mf7s?autoplay=1', title: '💀 Ransomware' },
+            bruteforce: { url: 'https://www.youtube.com/embed/7U-RbOKanYQ?autoplay=1', title: '🔑 Brute Force' },
+            malware: { url: 'https://www.youtube.com/embed/6OxxmskCqFE?autoplay=1', title: '🦠 Malware & RATs' },
+            social: { url: 'https://www.youtube.com/embed/RVzQjWk5aXw?autoplay=1', title: '🎭 Social Engineering' },
+            mitm: { url: 'https://www.youtube.com/embed/2bOw-zIGl6U?autoplay=1', title: '🌐 Man-in-the-Middle' },
+            ddos: { url: 'https://www.youtube.com/embed/9gOD6l0KbFA?autoplay=1', title: '💥 DDoS Attacks' },
+            zero: { url: 'https://www.youtube.com/embed/sJtVv_7cSME?autoplay=1', title: '🔓 Zero-Day Exploits' },
+            steg: { url: 'https://www.youtube.com/embed/3M6nG9hM5dA?autoplay=1', title: '🖼️ Steganography' },
+            sql: { url: 'https://www.youtube.com/embed/_jKylhJtPmI?autoplay=1', title: '🗄️ SQL Injection' },
+            xss: { url: 'https://www.youtube.com/embed/EoaDgUgS6QA?autoplay=1', title: '💉 XSS Attacks' }
+        };
+
+        function openVideo(type) {
+            const modal = document.getElementById('videoModal');
+            const frame = document.getElementById('videoFrame');
+            const title = document.getElementById('videoTitle');
+            
+            const selected = videoData[type] || videoData.phishing;
+            frame.src = selected.url;
+            title.textContent = selected.title;
+            modal.classList.add('active');
+            closeDropdown();
+        }
+
+        function closeVideo() {
+            document.getElementById('videoModal').classList.remove('active');
+            document.getElementById('videoFrame').src = '';
+        }
+
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) closeVideo();
+        });
+
+        // =============================================================
+        // 6. GUIDANCE MODAL
+        // =============================================================
+        function openGuidance() {
+            document.getElementById('guidanceModal').classList.add('active');
+            closeDropdown();
+        }
+
+        function closeGuidance() {
+            document.getElementById('guidanceModal').classList.remove('active');
+        }
+
+        document.getElementById('guidanceModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGuidance();
+        });
+
+        // =============================================================
+        // 7. INFO MODAL
+        // =============================================================
+        const attackData = {
+            phishing: {
+                title: '🎣 PHISHING ATTACKS',
+                description: 'Phishing is a social engineering attack where criminals impersonate trusted organizations to steal your sensitive information.',
+                steps: [
+                    { icon: '📧', text: 'Hacker sends fake email from your bank' },
+                    { icon: '😰', text: 'Urgent message creates panic' },
+                    { icon: '🔗', text: 'You click malicious link' },
+                    { icon: '🌐', text: 'Fake website looks exactly like real bank' },
+                    { icon: '💸', text: 'You enter credentials - HACKER WINS!' }
+                ],
+                tips: [
+                    '✅ Always check sender email address for misspellings',
+                    '✅ Hover over links before clicking to see real URL',
+                    '✅ Never share passwords or OTPs via email',
+                    '✅ Enable Multi-Factor Authentication (MFA)',
+                    '✅ Report suspicious emails to security team'
+                ],
+                stat: '90% of cyber attacks start with phishing email!',
+                statValue: 90,
+                scene: { attacker: '🎣', victim: '👤', arrow: '➡️' }
+            },
+            trojan: {
+                title: '🐴 TROJAN HORSE',
+                description: 'A Trojan Horse is malicious software disguised as legitimate software. It hides something dangerous inside something that looks harmless.',
+                steps: [
+                    { icon: '🎮', text: 'Download "free" game or software' },
+                    { icon: '🔓', text: 'Trojan opens hidden backdoor' },
+                    { icon: '👾', text: 'Hacker gains remote access' },
+                    { icon: '💻', text: 'Hacker controls your computer' },
+                    { icon: '💰', text: 'Steals passwords and personal data' }
+                ],
+                tips: [
+                    '✅ Only download from official websites',
+                    '✅ Never open attachments from unknown senders',
+                    '✅ Keep antivirus software updated',
+                    '✅ Use firewall to monitor suspicious connections',
+                    '✅ Scan downloaded files before opening'
+                ],
+                stat: '70% of Trojans delivered through email attachments!',
+                statValue: 70,
+                scene: { attacker: '🐴', victim: '💻', arrow: '🔓' }
+            },
+            ransomware: {
+                title: '💀 RANSOMWARE',
+                description: 'Ransomware encrypts your files and demands payment for decryption. It\'s one of the most devastating cyber threats.',
+                steps: [
+                    { icon: '📎', text: 'Open infected attachment' },
+                    { icon: '🔒', text: 'Files get encrypted silently' },
+                    { icon: '💀', text: 'Ransom note appears' },
+                    { icon: '💰', text: 'Demands payment in cryptocurrency' },
+                    { icon: '😭', text: 'Files lost forever if you don\'t pay' }
+                ],
+                tips: [
+                    '✅ Regularly backup files to external drives or cloud',
+                    '✅ Keep all software and systems updated',
+                    '✅ Use strong antivirus and anti-malware tools',
+                    '✅ NEVER pay the ransom - no guarantee you\'ll get files back',
+                    '✅ Use email filtering to block malicious attachments'
+                ],
+                stat: 'Ransomware attacks occur every 11 seconds!',
+                statValue: 95,
+                scene: { attacker: '💀', victim: '💻', arrow: '🔒' }
+            },
+            bruteforce: {
+                title: '🔑 BRUTE FORCE ATTACKS',
+                description: 'Brute force attacks use automated software to try millions of password combinations per second.',
+                steps: [
+                    { icon: '🤖', text: 'Automated bot starts trying passwords' },
+                    { icon: '🔢', text: 'Tries millions of combinations' },
+                    { icon: '⚡', text: 'Uses GPU power for speed' },
+                    { icon: '🔓', text: 'Finds weak password' },
+                    { icon: '🚪', text: 'Hacker gains unauthorized access' }
+                ],
+                tips: [
+                    '✅ Use strong passwords: 12+ characters with mix of letters, numbers, symbols',
+                    '✅ Enable Multi-Factor Authentication (MFA)',
+                    '✅ Implement account lockout after failed attempts',
+                    '✅ Use unique passwords for every account',
+                    '✅ Use a password manager'
+                ],
+                stat: 'Weak passwords cracked in under 1 second!',
+                statValue: 85,
+                scene: { attacker: '🔑', victim: '🔐', arrow: '💥' }
+            },
+            malware: {
+                title: '🦠 MALWARE & RATs',
+                description: 'Malware is any malicious software designed to harm systems. RATs give hackers complete remote control.',
+                steps: [
+                    { icon: '📥', text: 'Malware downloads on your system' },
+                    { icon: '👁️', text: 'Spyware monitors your activity' },
+                    { icon: '⌨️', text: 'Keyloggers record your keystrokes' },
+                    { icon: '🎥', text: 'Hackers access webcam & microphone' },
+                    { icon: '💀', text: 'Complete remote control of your PC' }
+                ],
+                tips: [
+                    '✅ Install reputable antivirus with real-time scanning',
+                    '✅ Keep everything updated - OS, browsers, all software',
+                    '✅ Use a firewall to monitor network traffic',
+                    '✅ Only download from trusted sources',
+                    '✅ Perform regular full system scans'
+                ],
+                stat: '500,000+ new malware variants discovered daily!',
+                statValue: 80,
+                scene: { attacker: '🦠', victim: '💻', arrow: '⚡' }
+            },
+            social: {
+                title: '🎭 SOCIAL ENGINEERING',
+                description: 'Social engineering targets the human element. Attackers manipulate people into revealing confidential information.',
+                steps: [
+                    { icon: '📞', text: 'Pretends to be IT support or bank' },
+                    { icon: '😰', text: 'Creates urgency and panic' },
+                    { icon: '🤝', text: 'Builds false trust' },
+                    { icon: '📝', text: 'Extracts sensitive information' },
+                    { icon: '💸', text: 'Steals money or data' }
+                ],
+                tips: [
+                    '✅ Always verify identity of people requesting information',
+                    '✅ Trust your instincts - if it feels wrong, it probably is',
+                    '✅ Never share passwords over phone or email',
+                    '✅ Question urgent requests - attackers create urgency',
+                    '✅ Use official channels to verify requests'
+                ],
+                stat: '70% of cyber attacks involve social engineering!',
+                statValue: 70,
+                scene: { attacker: '🎭', victim: '👤', arrow: '🎯' }
+            },
+            mitm: {
+                title: '🌐 MAN-IN-THE-MIDDLE',
+                description: 'In a Man-in-the-Middle attack, the attacker secretly intercepts and alters communication between two parties.',
+                steps: [
+                    { icon: '🌐', text: 'You connect to unsecured Wi-Fi' },
+                    { icon: '👤', text: 'Hacker intercepts your connection' },
+                    { icon: '📡', text: 'Hacker reads all your data' },
+                    { icon: '✏️', text: 'Hacker can modify messages' },
+                    { icon: '💀', text: 'Your sensitive info is stolen' }
+                ],
+                tips: [
+                    '✅ Always use HTTPS websites (look for padlock icon)',
+                    '✅ Avoid public Wi-Fi without a VPN',
+                    '✅ Use encrypted messaging apps',
+                    '✅ Verify SSL certificates',
+                    '✅ Keep browsers and software updated'
+                ],
+                stat: '85% of MITM attacks target financial institutions!',
+                statValue: 85,
+                scene: { attacker: '👾', victim: '📶', arrow: '🔀' }
+            },
+            ddos: {
+                title: '💥 DDoS ATTACKS',
+                description: 'Distributed Denial of Service (DDoS) attacks overwhelm servers with massive traffic from multiple sources.',
+                steps: [
+                    { icon: '🧟', text: 'Botnet of infected computers ready' },
+                    { icon: '🚀', text: 'Massive traffic launched at target' },
+                    { icon: '💥', text: 'Server becomes overwhelmed' },
+                    { icon: '⛔', text: 'Website crashes' },
+                    { icon: '😤', text: 'Legitimate users can\'t access' }
+                ],
+                tips: [
+                    '✅ Use DDoS protection services (Cloudflare, AWS Shield)',
+                    '✅ Implement traffic filtering and rate limiting',
+                    '✅ Use load balancers to distribute traffic',
+                    '✅ Configure firewalls to block suspicious IPs',
+                    '✅ Monitor network traffic for anomalies'
+                ],
+                stat: 'DDoS attacks increased by 85% in 2025!',
+                statValue: 85,
+                scene: { attacker: '💥', victim: '🖥️', arrow: '📡' }
+            },
+            zero: {
+                title: '🔓 ZERO-DAY EXPLOITS',
+                description: 'Zero-day exploits target unknown vulnerabilities that developers haven\'t patched yet. The most dangerous attacks.',
+                steps: [
+                    { icon: '🔍', text: 'Hacker finds unknown vulnerability' },
+                    { icon: '💰', text: 'Sold on dark web for millions' },
+                    { icon: '🔓', text: 'Exploit used before patch exists' },
+                    { icon: '💻', text: 'Systems compromised' },
+                    { icon: '⏰', text: 'Takes weeks/months to fix' }
+                ],
+                tips: [
+                    '✅ Keep all software and systems updated',
+                    '✅ Use antivirus with exploit protection',
+                    '✅ Implement defense-in-depth strategy',
+                    '✅ Monitor for unusual system behavior',
+                    '✅ Follow security advisories from vendors'
+                ],
+                stat: 'Zero-day exploits sold for $50,000 - $2.5 million!',
+                statValue: 95,
+                scene: { attacker: '🔓', victim: '🖥️', arrow: '⚡' }
+            }
+        };
+
+        function openAnimatedInfo(type) {
+            const modal = document.getElementById('infoModal');
+            const title = document.getElementById('infoTitle');
+            const content = document.getElementById('infoContent');
+            
+            const data = attackData[type] || attackData.phishing;
+            
+            title.textContent = data.title;
+            
+            let stepsHtml = data.steps.map((step, index) => `
+                <div style="background:rgba(0,255,65,0.03); border:1px solid rgba(0,255,65,0.1); border-radius:12px; padding:15px; margin-bottom:10px; display:flex; align-items:center; gap:15px;">
+                    <span style="background:#00ff41; color:#000; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold; flex-shrink:0;">${index + 1}</span>
+                    <span style="font-size:30px;">${step.icon}</span>
+                    <span style="color:#b0ffc0;">${step.text}</span>
+                </div>
+            `).join('');
+            
+            let tipsHtml = data.tips.map(tip => `
+                <div style="background:rgba(0,255,65,0.03); border-left:3px solid #00ff41; padding:10px 15px; margin-bottom:8px; border-radius:4px; color:#b0ffc0; font-size:14px;">
+                    ${tip}
+                </div>
+            `).join('');
+            
+            content.innerHTML = `
+                <div style="text-align:center; margin-bottom:20px;">
+                    <span style="font-size:60px;">${data.scene.attacker}</span>
+                    <span style="font-size:40px; color:#ff6b35; margin:0 20px;">${data.scene.arrow}</span>
+                    <span style="font-size:60px;">${data.scene.victim}</span>
+                </div>
+                <div style="background:rgba(0,255,65,0.03); border:1px solid rgba(0,255,65,0.1); border-radius:12px; padding:15px; margin-bottom:20px;">
+                    <p style="color:#e2ffe8; font-size:16px;">${data.description}</p>
+                </div>
+                <h4 style="color:#00ff41; margin:15px 0 10px 0;">⚡ How It Works:</h4>
+                ${stepsHtml}
+                <div style="background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; margin:15px 0; border:1px solid rgba(0,255,65,0.1);">
+                    <div style="display:flex; justify-content:space-between; color:#b0ffc0; font-size:14px; margin-bottom:5px;">
+                        <span>⚠️ ${data.stat}</span>
+                        <span style="color:#00ff41; font-weight:bold;">${data.statValue}%</span>
+                    </div>
+                    <div style="height:8px; background:rgba(0,255,65,0.1); border-radius:10px; overflow:hidden;">
+                        <div style="height:100%; width:${data.statValue}%; background:linear-gradient(90deg, #00ff41, #00cc33); border-radius:10px; animation: fillBar 1.5s ease-out forwards;"></div>
+                    </div>
+                </div>
+                <h4 style="color:#00ff41; margin:15px 0 10px 0;">🛡️ How to Protect Yourself:</h4>
+                ${tipsHtml}
+                <style>
+                    @keyframes fillBar {
+                        from { width: 0; }
+                        to { width: ${data.statValue}%; }
+                    }
+                </style>
+            `;
+            
+            modal.classList.add('active');
+            closeDropdown();
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        document.getElementById('infoModal').addEventListener('click', function(e) {
+            if (e.target === this) closeInfoModal();
+        });
+
+        const originalOpenVideo = openVideo;
+        openVideo = function(type) {
+            if (attackData[type]) {
+                openAnimatedInfo(type);
+            } else {
+                originalOpenVideo(type);
+            }
+        };
+
+        // =============================================================
+        // 8. QUIZ SYSTEM
+        // =============================================================
+        const quizQuestions = [
+            { question: "What is phishing?", options: ["A type of computer virus", "A fraudulent attempt to obtain sensitive information", "A hacking tool for Wi-Fi networks", "A type of firewall"], correct: 1 },
+            { question: "What does MFA stand for?", options: ["Main Frame Access", "Multi-Factor Authentication", "Master File Administrator", "Malware File Analysis"], correct: 1 },
+            { question: "Which malware disguises itself as legitimate software?", options: ["Virus", "Worm", "Trojan Horse", "Ransomware"], correct: 2 },
+            { question: "What is a brute force attack?", options: ["Attacking a server with multiple computers", "Using force to break into a building", "Trying many password combinations", "Attacking a website with DDoS"], correct: 2 },
+            { question: "What to do with suspicious email link?", options: ["Click it", "Reply asking if legitimate", "Hover to check URL, don't click", "Forward to all contacts"], correct: 2 },
+            { question: "What is a RAT in cyber security?", options: ["Remote Access Trojan", "Random Access Tool", "Reverse Attack Technology", "Rapid Antivirus Test"], correct: 0 },
+            { question: "What is social engineering?", options: ["Building social networks", "Creating fake profiles", "Psychological manipulation for information", "Engineering social media"], correct: 2 },
+            { question: "What is a zero-day vulnerability?", options: ["Exists for one day", "No patch available", "In day-old software", "Discovered by beginners"], correct: 1 },
+            { question: "What is ransomware?", options: ["Fixes computer problems", "Encrypts files and demands payment", "Type of antivirus", "Network management tool"], correct: 1 },
+            { question: "Safest password practice?", options: ["Same password for all", "Birthday as password", "Unique complex password each account", "Use 'password'"], correct: 2 },
+            { question: "What does HTTPS provide?", options: ["Speed improvement", "Encrypted communication", "Better color display", "Automatic backup"], correct: 1 },
+            { question: "What is a DDoS attack?", options: ["Distributed Denial of Service", "Direct Database of Security", "Digital Defense System", "Data Destruction Software"], correct: 0 },
+            { question: "What to do if account is hacked?", options: ["Do nothing", "Change password and report", "Delete browser history", "Send angry email"], correct: 1 },
+            { question: "What is MITM attack?", options: ["Attack on city people", "Intercepting communication", "Using middle management", "Type of social engineering"], correct: 1 },
+            { question: "Why use 2FA?", options: ["Makes login slower", "Adds security layer", "Required by law", "Makes password stronger"], correct: 1 },
+            { question: "What is spear phishing?", options: ["Fishing with spear", "Targeted phishing on individuals", "Phishing with images", "Fishing equipment"], correct: 1 },
+            { question: "Best defense against ransomware?", options: ["Expensive antivirus", "Regular offline backups", "Strong password", "All software"], correct: 1 },
+            { question: "What is a botnet?", options: ["Network of compromised computers", "Robot building tool", "Security software", "Security camera network"], correct: 0 },
+            { question: "Why software updates?", options: ["Slows computer", "Patches vulnerabilities", "Changes color", "Deletes files"], correct: 1 },
+            { question: "What to do if phished?", options: ["Ignore it", "Change passwords and report", "Reply to email", "Share with friends"], correct: 1 }
+        ];
+
+        let quizStarted = false;
+
+        function openQuiz() {
+            const modal = document.getElementById('quizModal');
+            const container = document.getElementById('quizContainer');
+            const resultDiv = document.getElementById('quizResult');
+            const submitBtn = document.querySelector('.quiz-submit');
+            
+            resultDiv.style.display = 'none';
+            submitBtn.style.display = 'block';
+            quizStarted = true;
+            
+            let html = '';
+            quizQuestions.forEach((q, index) => {
+                html += `
+                    <div class="question-item">
+                        <div class="q-text">${index + 1}. ${q.question}</div>
+                        <div class="options">
+                            ${q.options.map((opt, optIndex) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${optIndex}">
+                                    ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            modal.classList.add('active');
+            closeDropdown();
+        }
+
+        function submitQuiz() {
+            if (!quizStarted) return;
+            
+            let score = 0;
+            let allAnswered = true;
+            
+            quizQuestions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected) {
+                    if (parseInt(selected.value) === q.correct) score++;
+                } else {
+                    allAnswered = false;
+                }
+            });
+            
+            if (!allAnswered) {
+                alert('⚠️ Please answer all 20 questions before submitting.');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('quizResult');
+            const scoreDisplay = document.getElementById('quizScore');
+            const feedback = document.getElementById('quizFeedback');
+            const submitBtn = document.querySelector('.quiz-submit');
+            
+            submitBtn.style.display = 'none';
+            resultDiv.style.display = 'block';
+            scoreDisplay.textContent = `${score}/${quizQuestions.length}`;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            if (percentage >= 90) feedback.innerHTML = '🏆 EXCELLENT! Expert-level knowledge!';
+            else if (percentage >= 70) feedback.innerHTML = '✅ Great job! Keep learning!';
+            else if (percentage >= 50) feedback.innerHTML = '📚 Good effort! Review the topics above.';
+            else feedback.innerHTML = '📖 Keep learning! Go through the cyber attacks guide.';
+            
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function closeQuiz() {
+            document.getElementById('quizModal').classList.remove('active');
+            document.getElementById('quizContainer').innerHTML = '';
+            document.getElementById('quizResult').style.display = 'none';
+            document.querySelector('.quiz-submit').style.display = 'block';
+            quizStarted = false;
+        }
+
+        document.getElementById('quizModal').addEventListener('click', function(e) {
+            if (e.target === this) closeQuiz();
+        });
+
+        // =============================================================
+        // 9. PDF SYSTEM
+        // =============================================================
+        let pdfFiles = JSON.parse(localStorage.getItem('cyberPdfs') || '[]');
+        
+        function renderPdfs() {
+            const container = document.getElementById('pdfItems');
+            const user = sessionStorage.getItem('cyberUser');
+            
+            if (pdfFiles.length === 0) {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:15px; font-size:13px;">📤 No PDFs uploaded yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            pdfFiles.forEach((file, index) => {
+                const isAdmin = user === 'admin';
+                html += `
+                    <div class="pdf-item">
+                        <div class="pdf-name">
+                            <span class="pdf-icon">📄</span>
+                            <span>${file.name}</span>
+                            <span class="pdf-info">📅 ${new Date(file.uploaded).toLocaleDateString()}</span>
+                        </div>
+                        <div class="pdf-actions">
+                            <button class="pdf-download" onclick="downloadPdf(${index})" title="Download">⬇️</button>
+                            ${isAdmin ? `<button class="pdf-delete" onclick="deletePdf(${index})" title="Delete">✕</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+        
+        function handlePdfUpload(files) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can upload PDFs. Please login as admin.');
+                return;
+            }
+            
+            Array.from(files).forEach(file => {
+                if (file.type === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const pdfData = {
+                            name: file.name,
+                            data: e.target.result,
+                            size: file.size,
+                            uploaded: new Date().toISOString()
+                        };
+                        pdfFiles.push(pdfData);
+                        localStorage.setItem('cyberPdfs', JSON.stringify(pdfFiles));
+                        renderPdfs();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('❌ Please upload only PDF files.');
+                }
+            });
+        }
+        
+        document.getElementById('pdfInput').addEventListener('change', function(e) {
+            handlePdfUpload(e.target.files);
+            this.value = '';
+        });
+        
+        const pdfArea = document.getElementById('pdfUploadArea');
+        if (pdfArea) {
+            pdfArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            pdfArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            pdfArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                handlePdfUpload(e.dataTransfer.files);
+            });
+        }
+        
+        function downloadPdf(index) {
+            const file = pdfFiles[index];
+            if (file) {
+                const link = document.createElement('a');
+                link.href = file.data;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+        
+        function deletePdf(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete PDFs. Please login as admin.');
+                return;
+            }
+            if (confirm('Delete this PDF?')) {
+                pdfFiles.splice(index, 1);
+                localStorage.setItem('cyberPdfs', JSON.stringify(pdfFiles));
+                renderPdfs();
+            }
+        }
+        
+        renderPdfs();
+
+        // =============================================================
+        // 10. GALLERY SYSTEM
+        // =============================================================
+        let galleryImages = JSON.parse(localStorage.getItem('cyberGallery') || '[]');
+        
+        function renderGallery() {
+            const container = document.getElementById('galleryGrid');
+            const user = sessionStorage.getItem('cyberUser');
+            const isAdmin = user === 'admin';
+            
+            if (galleryImages.length === 0) {
+                container.innerHTML = '<p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1;">No images uploaded yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            galleryImages.forEach((img, index) => {
+                html += `
+                    <div class="gallery-item">
+                        <img src="${img.data}" alt="${img.name}">
+                        ${isAdmin ? `<button class="gallery-delete" onclick="deleteGalleryImage(${index})">✕</button>` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+        
+        function handleGalleryUpload(files) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can upload images. Please login as admin.');
+                return;
+            }
+            
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgData = {
+                            name: file.name,
+                            data: e.target.result,
+                            uploaded: new Date().toISOString()
+                        };
+                        galleryImages.push(imgData);
+                        localStorage.setItem('cyberGallery', JSON.stringify(galleryImages));
+                        renderGallery();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('❌ Please upload only image files (JPG, PNG, GIF, WebP).');
+                }
+            });
+        }
+        
+        document.getElementById('galleryInput').addEventListener('change', function(e) {
+            handleGalleryUpload(e.target.files);
+            this.value = '';
+        });
+        
+        const galleryArea = document.getElementById('galleryUploadArea');
+        if (galleryArea) {
+            galleryArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            galleryArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            galleryArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                handleGalleryUpload(e.dataTransfer.files);
+            });
+        }
+        
+        function deleteGalleryImage(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete images. Please login as admin.');
+                return;
+            }
+            if (confirm('Delete this image?')) {
+                galleryImages.splice(index, 1);
+                localStorage.setItem('cyberGallery', JSON.stringify(galleryImages));
+                renderGallery();
+            }
+        }
+        
+        renderGallery();
+
+        // =============================================================
+        // 11. THE COMMUNITY SYSTEM - GLOBAL WITH IMGBB CLOUD
+        // =============================================================
+        let communityPosts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+
+        function renderCommunity() {
+            const container = document.getElementById('communityGrid');
+            const user = sessionStorage.getItem('cyberUser');
+            const isAdmin = user === 'admin';
+            
+            // Update stats
+            document.getElementById('communityCount').textContent = communityPosts.length;
+            const uniqueMembers = new Set(communityPosts.map(p => p.name || 'Anonymous'));
+            document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
+            document.getElementById('communityAnimals').textContent = communityPosts.length * 2;
+            
+            if (communityPosts.length === 0) {
+                container.innerHTML = `
+                    <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                        🌍 No community posts yet. Be the first to share an act of kindness!
+                    </p>
+                `;
+                return;
+            }
+
+            let html = '';
+            communityPosts.forEach((post, index) => {
+                html += `
+                    <div class="community-gallery-item">
+                        <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
+                        <span class="badge">❤️ Community</span>
+                        ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
+                        <div class="overlay">
+                            <div class="cause-title">${post.title || 'Act of Kindness'}</div>
+                            <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
+                            <div class="uploader-info">
+                                <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
+                                <span style="margin:0 6px;">•</span>
+                                <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function openCommunityModal() {
+            document.getElementById('communityModal').classList.add('active');
+            document.getElementById('communityFileInput').value = '';
+            document.getElementById('communityTitleInput').value = '';
+            document.getElementById('communityDescInput').value = '';
+            document.getElementById('communityNameInput').value = '';
+        }
+
+        function closeCommunityModal() {
+            document.getElementById('communityModal').classList.remove('active');
+        }
+
+        document.getElementById('communityModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCommunityModal();
+        });
+
+        // =============================================================
+        // SUBMIT COMMUNITY POST - WITH IMGBB CLOUD UPLOAD
+        // =============================================================
+        function submitCommunityPost() {
+            const fileInput = document.getElementById('communityFileInput');
+            const title = document.getElementById('communityTitleInput').value.trim() || 'Act of Kindness';
+            const description = document.getElementById('communityDescInput').value.trim() || 'Making the world a better place';
+            const name = document.getElementById('communityNameInput').value.trim() || 'Anonymous';
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('📸 Please select a photo to upload.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            if (!file.type.startsWith('image/')) {
+                alert('❌ Please upload an image file (JPG, PNG, GIF, WebP).');
+                return;
+            }
+
+            // Show loading
+            const submitBtn = document.querySelector('.community-modal-box .submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '⏳ Uploading to Cloud...';
+            submitBtn.disabled = true;
+
+            // Upload to ImgBB Cloud
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('key', 'f6a1ce28edf8842171d4241e64c3f963'); // API Key
+
+            fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Cloud se URL aaya - ab yeh globally accessible hai!
+                    const post = {
+                        data: data.data.url,
+                        title: title,
+                        description: description,
+                        name: name,
+                        uploaded: new Date().toISOString()
+                    };
+                    
+                    communityPosts.push(post);
+                    localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                    renderCommunity();
+                    closeCommunityModal();
+                    alert('✅ Photo uploaded to cloud! 🌍 Now everyone can see it!');
+                } else {
+                    alert('❌ Upload failed: ' + (data.error?.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('❌ Upload failed. Please check your internet connection.');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function deleteCommunityPost(index) {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user !== 'admin') {
+                alert('⚠️ Only admin can delete community posts. Please login as admin.');
+                return;
+            }
+            if (confirm('Delete this community post?')) {
+                communityPosts.splice(index, 1);
+                localStorage.setItem('communityPosts', JSON.stringify(communityPosts));
+                renderCommunity();
+            }
+        }
+
+        const communityArea = document.getElementById('communityUploadArea');
+        if (communityArea) {
+            communityArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            communityArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            communityArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                openCommunityModal();
+            });
+        }
+
+        renderCommunity();
+
+        // =============================================================
+        // 12. SMOOTH SCROLLING
+        // =============================================================
+        document.querySelectorAll('.dropdown-menu a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    closeDropdown();
+                }
+            });
+        });
+
+        // =============================================================
+        // 13. CONSOLE WELCOME
+        // =============================================================
+        console.log('%c⚡ CYBER SECURITY HUB ⚡', 'font-size: 30px; color: #00ff41; font-weight: bold; text-shadow: 0 0 20px #00ff41;');
+        console.log('%c🔐 Stay Safe. Stay Secure. 🔐', 'font-size: 16px; color: #b0ffc0;');
+        console.log('%c🌍 The Community - Global sharing with ImgBB Cloud!', 'font-size: 14px; color: #00ff41;');
+        console.log('%c📞 Need Help? Call: +91 96164 01302', 'font-size: 14px; color: #00ff41;');
+        console.log('%c✉️ Email: zaidahmadkhan467@gmail.com', 'font-size: 14px; color: #00ff41;');
+        console.log('%c✅ All systems ready. Happy learning!', 'color: #00ff41; font-size: 14px;');
+
+        // =============================================================
+        // 14. KEYBOARD SHORTCUTS
+        // =============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'l') { e.preventDefault(); if (!sessionStorage.getItem('cyberUser')) openModal(); }
+            if (e.ctrlKey && e.key === 'q') { e.preventDefault(); openQuiz(); }
+            if (e.ctrlKey && e.key === 'g') { e.preventDefault(); openGuidance(); }
+            if (e.ctrlKey && e.key === 'h') { e.preventDefault(); document.getElementById('home').scrollIntoView({ behavior: 'smooth' }); }
+            if (e.ctrlKey && e.key === 'c') { e.preventDefault(); document.getElementById('community').scrollIntoView({ behavior: 'smooth' }); }
+        });
+    </script>
+</body>
+</html>
