@@ -2267,13 +2267,25 @@
             alert('⛔ Logged out successfully.');
             hideAdminControls();
         }
+                // =============================================================
+        // 4. LOGIN SYSTEM (Working)
+        // =============================================================
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userGreeting = document.getElementById('userGreeting');
 
         // Admin Controls Visibility
         function showAdminControls() {
             const pdfUpload = document.getElementById('adminPdfUpload');
             const galleryUpload = document.getElementById('adminGalleryUpload');
-            if (pdfUpload) pdfUpload.style.display = 'block';
-            if (galleryUpload) galleryUpload.style.display = 'block';
+            if (pdfUpload) {
+                pdfUpload.style.display = 'block';
+                console.log('✅ PDF Upload shown');
+            }
+            if (galleryUpload) {
+                galleryUpload.style.display = 'block';
+                console.log('✅ Gallery Upload shown');
+            }
         }
 
         function hideAdminControls() {
@@ -2283,6 +2295,78 @@
             if (galleryUpload) galleryUpload.style.display = 'none';
         }
 
+        // Check session on load
+        (function checkSession() {
+            const user = sessionStorage.getItem('cyberUser');
+            if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                userGreeting.style.display = 'inline-block';
+                userGreeting.textContent = `👤 ${user}`;
+                if (user === 'admin') {
+                    showAdminControls();
+                }
+            } else {
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userGreeting.style.display = 'none';
+                hideAdminControls();
+            }
+        })();
+
+        function openModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            
+            if (username === 'admin' && password === '1234') {
+                sessionStorage.setItem('cyberUser', username);
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                userGreeting.style.display = 'inline-block';
+                userGreeting.textContent = `👤 ${username}`;
+                closeModal();
+                showAdminControls();
+                alert('✅ Access granted. Welcome, Operator.');
+            } else {
+                alert('❌ Access denied. Invalid credentials.\n\nHint: Username: admin | Password: 1234');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('cyberUser');
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+            userGreeting.style.display = 'none';
+            hideAdminControls();
+            alert('⛔ Logged out successfully.');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('loginModal').classList.contains('active')) {
+                handleLogin();
+            }
+            if (e.key === 'Escape') {
+                if (document.getElementById('loginModal').classList.contains('active')) closeModal();
+                if (document.getElementById('videoModal').classList.contains('active')) closeVideo();
+                if (document.getElementById('guidanceModal').classList.contains('active')) closeGuidance();
+                if (document.getElementById('quizModal').classList.contains('active')) closeQuiz();
+                if (document.getElementById('infoModal').classList.contains('active')) closeInfoModal();
+            }
+        });
+
+        document.getElementById('loginModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        
         // Check session on load
         (function checkAdminOnLoad() {
             const user = sessionStorage.getItem('cyberUser');
