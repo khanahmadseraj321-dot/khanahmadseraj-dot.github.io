@@ -2902,49 +2902,49 @@
         // 11. THE COMMUNITY SYSTEM - GLOBAL WITH IMGBB CLOUD
         // =============================================================
         let communityPosts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+         function renderCommunity() {
+    const container = document.getElementById('communityGrid');
+    const user = sessionStorage.getItem('cyberUser');
+    const isAdmin = user === 'admin';
+    
+    let posts = JSON.parse(localStorage.getItem('communityPosts') || '[]');
+    
+    document.getElementById('communityCount').textContent = posts.length;
+    const uniqueMembers = new Set(posts.map(p => p.name || 'Anonymous'));
+    document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
+    document.getElementById('communityAnimals').textContent = posts.length * 2;
+    
+    if (posts.length === 0) {
+        container.innerHTML = `
+            <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
+                🌍 No community posts yet. Be the first to share an act of kindness!
+            </p>
+        `;
+        return;
+    }
 
-        function renderCommunity() {
-            const container = document.getElementById('communityGrid');
-            const user = sessionStorage.getItem('cyberUser');
-            const isAdmin = user === 'admin';
-            
-            // Update stats
-            document.getElementById('communityCount').textContent = communityPosts.length;
-            const uniqueMembers = new Set(communityPosts.map(p => p.name || 'Anonymous'));
-            document.getElementById('communityMembers').textContent = uniqueMembers.size || 0;
-            document.getElementById('communityAnimals').textContent = communityPosts.length * 2;
-            
-            if (communityPosts.length === 0) {
-                container.innerHTML = `
-                    <p style="color:#5a8a5a; text-align:center; padding:40px; grid-column:1/-1; font-size:16px;">
-                        🌍 No community posts yet. Be the first to share an act of kindness!
-                    </p>
-                `;
-                return;
-            }
-
-            let html = '';
-            communityPosts.forEach((post, index) => {
-                html += `
-                    <div class="community-gallery-item">
-                        <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
-                        <span class="badge">❤️ Community</span>
-                        ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
-                        <div class="overlay">
-                            <div class="cause-title">${post.title || 'Act of Kindness'}</div>
-                            <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
-                            <div class="uploader-info">
-                                <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
-                                <span style="margin:0 6px;">•</span>
-                                <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
-                            </div>
-                        </div>
+    let html = '';
+    posts.forEach((post, index) => {
+        html += `
+            <div class="community-gallery-item">
+                <img src="${post.data}" alt="${post.title || 'Community Service'}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0a0f0a/00ff41?text=Image+Not+Found'">
+                <span class="badge">❤️ Community</span>
+                ${isAdmin ? `<button class="delete-community" onclick="deleteCommunityPost(${index})" title="Delete Post">✕</button>` : ''}
+                <div class="overlay">
+                    <div class="cause-title">${post.title || 'Act of Kindness'}</div>
+                    <div class="cause-desc">${post.description || 'Making the world a better place'}</div>
+                    <div class="uploader-info">
+                        <i class="fas fa-user"></i> ${post.name || 'Anonymous'} 
+                        <span style="margin:0 6px;">•</span>
+                        <i class="fas fa-calendar-alt"></i> ${new Date(post.uploaded).toLocaleDateString()}
                     </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+        
         function openCommunityModal() {
             document.getElementById('communityModal').classList.add('active');
             document.getElementById('communityFileInput').value = '';
